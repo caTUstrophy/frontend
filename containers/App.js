@@ -1,8 +1,25 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
+
+// Needed for onTouchTap, info at https://github.com/zilverline/react-tap-event-plugin
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { blueGrey400, red500 } from 'material-ui/styles/colors';
+import AppBar from 'material-ui/AppBar';
+
 import Explore from '../components/Explore'
 import { resetErrorMessage } from '../actions'
+
+const theme = getMuiTheme({
+  palette: {
+    primary1Color: blueGrey400,
+    accent1Color: red500
+  }
+});
 
 class App extends Component {
   constructor(props) {
@@ -39,15 +56,23 @@ class App extends Component {
   }
 
   render() {
-    const { children, inputValue } = this.props
+    const { children, inputValue } = this.props;
+
     return (
-      <div>
-        <Explore value={inputValue}
-                 onChange={this.handleChange} />
-        <hr />
-        {this.renderErrorMessage()}
-        {children}
-      </div>
+      <MuiThemeProvider muiTheme={theme}>
+        <div>
+          <AppBar
+            title="CaTUstrophy"
+            iconElementLeft={<div /> /* todo: remove to make menu-button appear and link to side menu */} />
+          <main style={{margin: '1rem'}}>
+            <Explore value={inputValue}
+                     onChange={this.handleChange} />
+
+            {this.renderErrorMessage()}
+            {children}
+          </main>
+        </div>
+      </MuiThemeProvider>
     )
   }
 }
