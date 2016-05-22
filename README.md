@@ -5,15 +5,19 @@ Frontend part for our catastrophe aid tool.
 
 We assume you run a reasonable sort of Linux or OS X with **node.js 6.x** (use [nvm](https://github.com/creationix/nvm)!) and **npm 3.x**. 
 
-1. Clone this repo 
-`git clone https://github.com/caTUstrophy/frontend.git`
+1. Clone this repo
+
+   `git clone https://github.com/caTUstrophy/frontend.git`
 2. Change into folder
-`cd frontend`
+
+   `cd frontend`
 3. Install packages
-`npm i`
+
+   `npm i`
 4. (Optional: Fire up the [backend](https://github.com/caTUstrophy/backend))
 5. Start development server
-`npm start`
+
+   `npm start`
 6. Open spawned website: http://localhost:3000/
 
 
@@ -43,7 +47,7 @@ All new code should be written in ES7/JSX. And embrace the ecosystem!
 
 
 ## Design
-See https://github.com/caTUstrophy/frontend/issues/3 to discuss how to write and include the styles.
+See [#3](https://github.com/caTUstrophy/frontend/issues/3) to discuss how to write and include the styles.
 
 - Follow the [material design guidelines](https://www.google.com/design/spec/material-design/introduction.html)
     - See [icons](https://design.google.com/icons/)
@@ -51,8 +55,8 @@ See https://github.com/caTUstrophy/frontend/issues/3 to discuss how to write and
     - style with [theming](http://www.material-ui.com/#/customization/themes) (not CSS) where applicable
 
 ## Testing
-*Undecided.
-See https://github.com/caTUstrophy/frontend/issues/2.
+*Undecided.*
+See [#2](https://github.com/caTUstrophy/frontend/issues/2).
 
 ## Resources to familiarize yourself with the technologies
 - [React tutorial](http://facebook.github.io/react/docs/tutorial.html) in the [official docs](http://facebook.github.io/react/docs/top-level-api.html)
