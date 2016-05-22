@@ -20,6 +20,9 @@ We assume you run a reasonable sort of Linux or OS X with **node.js 6.x** (use [
    `npm start`
 6. Open spawned website: http://localhost:3000/
 
+Changes you make to the code are applied immediately and hot-loaded.
+Hit `CTRL`+`H` to show/hide the Redux DevTools and `CTRL`+`M` to move them around.
+
 
 ## Technology overview
 All new code should be written in ES7/JSX. And embrace the ecosystem!
