@@ -1,27 +1,25 @@
 import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 
+import { Card, CardHeader, CardText } from 'material-ui/Card'
+
 export default class User extends Component {
   render() {
-    const { login, avatarUrl, name } = this.props.user
+    const user = this.props.user
 
     return (
-      <div className="User">
-        <Link to={`/${login}`}>
-          <img src={avatarUrl} width="72" height="72" />
-          <h3>
-            {login} {name && <span>({name})</span>}
-          </h3>
-        </Link>
-      </div>
+      <Card>
+        <CardHeader title={`${user.FirstName} ${user.LastName}`} />
+        <CardText>
+          {JSON.stringify(user)}
+        </CardText>
+      </Card>
     )
   }
 }
 
 User.propTypes = {
   user: PropTypes.shape({
-    login: PropTypes.string.isRequired,
-    avatarUrl: PropTypes.string.isRequired,
-    name: PropTypes.string
+    ID: PropTypes.number.isRequired
   }).isRequired
-}
+};
