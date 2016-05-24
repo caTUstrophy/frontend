@@ -66,7 +66,7 @@ class App extends Component {
       <MuiThemeProvider muiTheme={theme}>
         <div>
           <AppBar
-            title="CaTUstrophy"
+            title={<span style={{cursor: 'pointer'}} onTouchTap={() => browserHistory.push('/')}>CaTUstrophy</span>}
             iconElementLeft={<div /> /* todo: remove to make menu-button appear and link to side menu */} />
           <main style={{margin: '1rem'}}>
             <Explore value={userId}
