@@ -4,8 +4,8 @@ import { loadUser } from '../actions'
 import User from '../components/User'
 
 function loadData(props) {
-  const { userId } = props;
-  props.loadUser(userId, [ 'name' ]);
+  const { ID } = props;
+  props.loadUser(ID, [ 'name' ]);
 }
 
 class UserPage extends Component {
@@ -18,21 +18,21 @@ class UserPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.userId !== this.props.userId) {
+    if (nextProps.ID !== this.props.ID) {
       loadData(nextProps)
     }
   }
 
   render() {
-    const { user, userId } = this.props;
+    const { user, ID } = this.props;
     if (!user) {
-      return <h1><i>Loading {userId}’s profile...</i></h1>
+      return <h1><i>Loading {ID}’s profile...</i></h1>
     }
 
     console.dir(user);
 
     return (
-      <div>
+      <div style={{width: '40rem', margin: '0 auto'}}>
         <User user={user} />
       </div>
     )
@@ -40,19 +40,19 @@ class UserPage extends Component {
 }
 
 UserPage.propTypes = {
-  userId: PropTypes.number.isRequired,
+  ID: PropTypes.number.isRequired,
   user: PropTypes.object,
   loadUser: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
-  const userId = parseInt(ownProps.params.userId);
+  const ID = parseInt(ownProps.params.ID);
 
   const { entities: { users } } = state;
 
   return {
-    userId,
-    user: users[userId]
+    ID,
+    user: users[ID]
   }
 }
 

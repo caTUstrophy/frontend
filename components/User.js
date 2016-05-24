@@ -9,9 +9,10 @@ export default class User extends Component {
 
     return (
       <Card>
-        <CardHeader title={`${user.FirstName} ${user.LastName}`} />
+        <CardHeader style={{backgroundColor: 'lightgray'}}
+                    title={`${user.FirstName} ${user.LastName}`} />
         <CardText>
-          {JSON.stringify(user)}
+          <pre>{JSON.stringify(user, null, 2)}</pre>
         </CardText>
       </Card>
     )

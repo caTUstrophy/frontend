@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
+import {Link} from 'react-router'
+
 const GITHUB_REPO = 'https://github.com/reactjs/redux'
 
 export default class Explore extends Component {
@@ -39,7 +41,7 @@ export default class Explore extends Component {
   render() {
     return (
       <div>
-        <p>Type a username or repo full name and hit 'Go':</p>
+        <p>Type a user ID and hit 'Go':</p>
         <input size="45"
                ref="input"
                defaultValue={this.props.value}
@@ -48,7 +50,7 @@ export default class Explore extends Component {
           Go!
         </button>
         <p>
-          Code on <a href={GITHUB_REPO} target="_blank">Github</a>.
+          Or check out <Link to="/users">/users</Link>
         </p>
         <p>
           Move the DevTools with Ctrl+W or hide them with Ctrl+H.

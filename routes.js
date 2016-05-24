@@ -7,7 +7,7 @@ import RepoPage from './containers/RepoPage'
 
 export default (
   <Route path="/" component={App}>
-    <Route path="/user/:userId"
+    <Route path="/user/:ID"
            component={UserPage} />
     <Route path="/users"
            component={UsersPage} />
