@@ -4,7 +4,7 @@ export const USER_REQUEST = 'USER_REQUEST'
 export const USER_SUCCESS = 'USER_SUCCESS'
 export const USER_FAILURE = 'USER_FAILURE'
 
-// Fetches a single user from Github API.
+// Fetches a single user
 // Relies on the custom API middleware defined in ../middleware/api.js.
 function fetchUser(userId) {
   return {
@@ -16,7 +16,7 @@ function fetchUser(userId) {
   }
 }
 
-// Fetches a single user from Github API unless it is cached.
+// Fetches a single user unless it is cached.
 // Relies on Redux Thunk middleware.
 export function loadUser(userId, requiredFields = []) {
   return (dispatch, getState) => {

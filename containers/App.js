@@ -10,6 +10,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { blueGrey400, red500 } from 'material-ui/styles/colors';
 import AppBar from 'material-ui/AppBar';
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+import ContentAdd from 'material-ui/svg-icons/content/add'
 
 import Explore from '../components/Explore'
 import { resetErrorMessage } from '../actions'
@@ -75,6 +77,11 @@ class App extends Component {
             {this.renderErrorMessage()}
             {children}
           </main>
+          <FloatingActionButton style={{position: 'fixed', bottom: '2rem', right: '2rem'}}
+                                secondary={true}
+                                onTouchTap={() => browserHistory.push('/user/create')} >
+            <ContentAdd />
+          </FloatingActionButton>
         </div>
       </MuiThemeProvider>
     )
