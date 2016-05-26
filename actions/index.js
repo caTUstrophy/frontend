@@ -1,5 +1,31 @@
 import { CALL_API, Schemas } from '../middleware/api'
 
+export const CREATE_USERS_REQUEST = 'CREATE_USERS_REQUEST';
+export const CREATE_USERS_SUCCESS = 'CREATE_USERS_SUCCESS';
+export const CREATE_USERS_FAILURE = 'CREATE_USERS_FAILURE';
+
+// Fetches all users
+// Relies on the custom API middleware defined in ../middleware/api.js.
+function sendUser(user) {
+  return {
+    [CALL_API]: {
+      types: [ CREATE_USERS_REQUEST, CREATE_USERS_SUCCESS, CREATE_USERS_FAILURE ],
+      endpoint: `users`,
+      verb: 'POST',
+      schema: Schemas.USER_ARRAY, // todo: no real response schema?
+      payload: user
+    }
+  }
+}
+
+// Fetches all users (unless it is cached)
+// Relies on Redux Thunk middleware.
+export function createUser(user, requiredFields = []) {
+  return (dispatch, getState) => {
+    return dispatch(sendUser(user))
+  }
+}
+
 export const USER_REQUEST = 'USER_REQUEST'
 export const USER_SUCCESS = 'USER_SUCCESS'
 export const USER_FAILURE = 'USER_FAILURE'

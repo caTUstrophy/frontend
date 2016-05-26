@@ -20,10 +20,18 @@ const API_ROOT = 'http://localhost:3001/';
 
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
-function callApi(endpoint, schema) {
+function callApi(verb, endpoint, schema, payload) {
   const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint;
 
-  return fetch(fullUrl)
+  let request = {
+    method: verb
+  };
+  if (payload) {
+    // todo: support non-JSON payload?
+    request.body = JSON.stringify(payload);
+  }
+
+  return fetch(fullUrl, request)
     .then(response =>
       response.json().then(json => ({ json, response }))
     ).then(({ json, response }) => {
@@ -79,21 +87,25 @@ export const CALL_API = Symbol('Call API')
 // A Redux middleware that interprets actions with CALL_API info specified.
 // Performs the call and promises when such actions are dispatched.
 export default store => next => action => {
-  const callAPI = action[CALL_API]
+  const callAPI = action[CALL_API];
   if (typeof callAPI === 'undefined') {
     return next(action)
   }
 
-  let { endpoint } = callAPI
-  const { schema, types } = callAPI
+  let { endpoint, verb, payload } = callAPI;
+  const { schema, types } = callAPI;
 
   if (typeof endpoint === 'function') {
     endpoint = endpoint(store.getState())
   }
-
   if (typeof endpoint !== 'string') {
     throw new Error('Specify a string endpoint URL.')
   }
+
+  if (typeof verb === 'undefined') {
+    verb = 'GET'
+  }
+
   if (!schema) {
     throw new Error('Specify one of the exported Schemas.')
   }
@@ -113,7 +125,7 @@ export default store => next => action => {
   const [ requestType, successType, failureType ] = types
   next(actionWith({ type: requestType }))
 
-  return callApi(endpoint, schema).then(
+  return callApi(verb, endpoint, schema, payload).then(
     response => next(actionWith({
       response,
       type: successType
