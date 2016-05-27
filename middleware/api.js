@@ -65,21 +65,29 @@ const userSchema = new Schema('users', {
   idAttribute: user => user.ID
 });
 
-const repoSchema = new Schema('repos', {
-  idAttribute: repo => repo.fullName.toLowerCase()
-})
+const offerSchema = new Schema('offer', {
+  idAttribute: offer => offer.ID
+});
 
-repoSchema.define({
-  owner: userSchema
-})
+const requestSchema = new Schema('request', {
+  idAttribute: request => request.ID
+});
+
+const matchingSchema = new Schema('matching', {
+  idAttribute: matching => matching.ID
+});
 
 // Schemas for Github API responses.
 export const Schemas = {
   USER: userSchema,
   USER_ARRAY: arrayOf(userSchema),
-  REPO: repoSchema,
-  REPO_ARRAY: arrayOf(repoSchema)
-}
+  OFFER: offerSchema,
+  OFFER_ARRAY: arrayOf(offerSchema),
+  REQUEST: requestSchema,
+  REQUEST_ARRAY: arrayOf(requestSchema),
+  MATCHING: matchingSchema,
+  MATCHING_ARRAY: arrayOf(matchingSchema)
+};
 
 // Action key that carries API call info interpreted by this Redux middleware.
 export const CALL_API = Symbol('Call API')

@@ -48,7 +48,7 @@ UserPage.propTypes = {
 function mapStateToProps(state, ownProps) {
   const ID = parseInt(ownProps.params.ID);
 
-  const { entities: { users } } = state;
+  const users = state.entities.users;
 
   return {
     ID,
