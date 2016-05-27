@@ -8,7 +8,7 @@ import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card'
 
 import toPairsIn from 'lodash/toPairsIn'
 
-const Fields = {
+export const Fields = {
   FirstName : {
     required: true
   },
@@ -49,16 +49,10 @@ const validate = values => {
       }
     }
   });
-  console.dir(errors);
   return errors;
 };
 
-@reduxForm({
-  form: 'user-form',
-  fields: Object.keys(Fields),
-  validate
-})
-class UserForm extends Component {
+export class UserForm extends Component {
   render() {
     const { fields: { FirstName, LastName, Mail, Password }, resetForm, handleSubmit, submitting, invalid, pristine} = this.props;
     const flexBetweenStyle = {display: 'flex', justifyContent: 'space-around'};
@@ -100,4 +94,8 @@ class UserForm extends Component {
   }
 }
 
-export default UserForm;
+export default reduxForm({
+  form: 'user-form',
+  fields: Object.keys(Fields),
+  validate
+})(UserForm);
