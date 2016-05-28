@@ -41,6 +41,10 @@ function callApi(verb, endpoint, schema, payload) {
 
       const nextPageUrl = getNextPageUrl(response);
 
+      if (!schema) {
+        return json;
+      }
+
       return Object.assign({},
         normalize(json, schema),
         { nextPageUrl }
@@ -114,14 +118,13 @@ export default store => next => action => {
     verb = 'GET'
   }
 
-  if (!schema) {
-    throw new Error('Specify one of the exported Schemas.')
-  }
-  if (!Array.isArray(types) || types.length !== 3) {
-    throw new Error('Expected an array of three action types.')
-  }
-  if (!types.every(type => typeof type === 'string')) {
-    throw new Error('Expected action types to be strings.')
+  if (schema) {
+    if (!Array.isArray(types) || types.length !== 3) {
+      throw new Error('Expected an array of three action types.')
+    }
+    if (!types.every(type => typeof type === 'string')) {
+      throw new Error('Expected action types to be strings.')
+    }
   }
 
   function actionWith(data) {

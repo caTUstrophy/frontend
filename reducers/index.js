@@ -5,8 +5,14 @@ import { routerReducer as routing } from 'react-router-redux'
 import { combineReducers } from 'redux'
 import {reducer as formReducer} from 'redux-form';
 
+import { LOGIN_SUCCESS } from '../actions/login'
+
 // Updates an entity cache in response to any action with response.entities.
-function entities(state = { users: {}, repos: {} }, action) {
+function entities(state = { users: {}, repos: {}, login: null }, action) {
+  if (action.type == LOGIN_SUCCESS) {
+    return merge({}, state, { login: action.response });
+  }
+
   if (action.response && action.response.entities) {
     return merge({}, state, action.response.entities)
   }
