@@ -1,8 +1,6 @@
 // must emulate DOM _very first_
 import  '../helpers/emulateDom';
 
-import forOwn from 'lodash/forOwn'
-
 import unexpected from 'unexpected';
 import unexpectedReact from 'unexpected-react';
 import unexpectedSinon from 'unexpected-sinon';
@@ -14,39 +12,17 @@ const expect = unexpected.clone()
 
 import React from 'react'
 import { createRenderer, Simulate, renderIntoDocument, findRenderedDOMComponentWithTag } from 'react-addons-test-utils'
-import stubContext from 'react-stub-context';
 import { Provider } from 'react-redux';
 
 import mockFormStore from '../helpers/mockFormStore';
 import TestCaseFactory from '../helpers/TestCaseFactory';
+import populateForm from '../helpers/populateForm';
 
 import ReduxUserForm, { Fields as UserFormFields, UserForm } from '../../forms/UserForm'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';;
-
-function setup() {
-  let props = generateFormProps(UserFormFields);
-
-  let renderer = createRenderer();
-  renderer.render(<UserForm {...props} />);
-  let output = renderer.getRenderOutput();
-
-  return {
-    props,
-    output,
-    renderer
-  }
-}
-
-function mount(Component, props) {
-  let contextifiedComponent = stubContext(Component, {muiTheme: {}});
-  return renderIntoDocument(
-      <contextifiedComponent { ...props } />
-  );
-}
 
 function generateFormProps(fieldsDescription) {
   let fields = {};
@@ -67,6 +43,47 @@ function generateFormProps(fieldsDescription) {
   };
 }
 
+function setup() {
+  let props = generateFormProps(UserFormFields);
+
+  let renderer = createRenderer();
+  renderer.render(<UserForm {...props} />);
+  let output = renderer.getRenderOutput();
+
+  return {
+    props,
+    output,
+    renderer
+  }
+}
+
+function wrappedTestFactory(component) {
+  return TestCaseFactory.createFromElement(
+    <MuiThemeProvider muiTheme={getMuiTheme()}>
+      <Provider store={mockFormStore()}>
+        {component}
+      </Provider>
+    </MuiThemeProvider>
+  );
+}
+
+function testSubmitable(form, props, expectedState) {
+  // ui testing
+  let submitButton = form.refs['submit'];
+  expect(submitButton.props.disabled, 'to be', !expectedState);
+
+  // form level submit
+  form.props.handleSubmit();
+  expect(props.onSubmit, 'was called times', expectedState ? 1 : 0);
+}
+
+const sampleData = {
+  FirstName: 'first',
+  LastName: 'last',
+  Mail: 'mail@example.com',
+  Password: '#SoPassword!1'
+};
+
 describe('forms', () => {
   describe('UserForm', () => {
     it('should render correctly', () => {
@@ -85,58 +102,23 @@ describe('forms', () => {
       const props = {
         onSubmit: sinon.spy()
       };
-      const testCase = TestCaseFactory.createFromElement(
-        <MuiThemeProvider muiTheme={getMuiTheme()}>
-          <Provider store={mockFormStore()}>
-            <ReduxUserForm {...props} />
-          </Provider>
-        </MuiThemeProvider>
-      );
-
+      const testCase = wrappedTestFactory(<ReduxUserForm {...props} />);
       let form = testCase.firstComponent(UserForm);
 
-      // ui testing
-      let submitButton = form.refs['submit'];
-      expect(submitButton.props.disabled, 'to be', true);
-
-      // form level submit
-      form.props.handleSubmit();
-      expect(props.onSubmit, 'was called times', 0);
+      testSubmitable(form, props, false);
     });
 
     it("should allow to submit when filled", () => {
       const props = {
         onSubmit: sinon.spy()
       };
-      const testCase = TestCaseFactory.createFromElement(
-        <MuiThemeProvider muiTheme={getMuiTheme()}>
-          <Provider store={mockFormStore()}>
-            <ReduxUserForm {...props} />
-          </Provider>
-        </MuiThemeProvider>
-      );
-
+      const testCase = wrappedTestFactory(<ReduxUserForm {...props} />);
       let form = testCase.firstComponent(UserForm);
 
       // fill form
-      const sampleData = {
-        FirstName: 'first',
-        LastName: 'last',
-        Mail: 'mail@example.com',
-        Password: '#SoPassword!1'
-      };
-      forOwn(sampleData, (value, key) => {
-        let input = findRenderedDOMComponentWithTag(form.refs[key], 'input');
-        Simulate.change(input, { target: { value: value }});
-      });
+      populateForm(form, sampleData);
 
-      // ui testing
-      let submitButton = form.refs['submit'];
-      expect(submitButton.props.disabled, 'to be', false);
-
-      // form level submit
-      form.props.handleSubmit();
-      expect(props.onSubmit, 'was called times', 1);
+      testSubmitable(form, props, true);
     });
   })
 });
