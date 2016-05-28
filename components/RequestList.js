@@ -14,8 +14,8 @@ export default class RequestList extends Component {
             <List>
                 {this.props.requests.map(request =>
                     <ListItem key={request.ID}
-                              primaryText={`${request.FirstName} ${request.LastName}`}
-                              secondaryText={request.Mail}
+                              primaryText={`${request.Title}`}
+                              secondaryText={request.Description}
                               onTouchTap={this.navigateToRequestPage.bind(this, request.ID)} />
                 )}
             </List>

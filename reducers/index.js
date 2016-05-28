@@ -6,7 +6,7 @@ import { combineReducers } from 'redux'
 import {reducer as formReducer} from 'redux-form';
 
 // Updates an entity cache in response to any action with response.entities.
-function entities(state = { users: {}, repos: {} }, action) {
+function entities(state = { users: {}, offers: {}, requests: {}, matchings: {} }, action) {
   if (action.response && action.response.entities) {
     return merge({}, state, action.response.entities)
   }

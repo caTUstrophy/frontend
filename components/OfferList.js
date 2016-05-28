@@ -14,8 +14,8 @@ export default class OfferList extends Component {
       <List>
         {this.props.offers.map(offer =>
           <ListItem key={offer.ID}
-                    primaryText={`${offer.FirstName} ${offer.LastName}`}
-                    secondaryText={offer.Mail}
+                    primaryText={`${offer.Title}`}
+                    secondaryText={offer.Description}
                     onTouchTap={this.navigateToOfferPage.bind(this, offer.ID)} />
         )}
       </List>

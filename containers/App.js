@@ -58,11 +58,7 @@ class App extends Component {
   }
 
   render() {
-    const { children, inputValue } = this.props;
-    let userId;
-    if (inputValue.includes('user/')) {
-      userId = inputValue.replace('user/', '');
-    }
+    const { children } = this.props;
 
     return (
       <MuiThemeProvider muiTheme={theme}>
@@ -71,8 +67,6 @@ class App extends Component {
             title={<span style={{cursor: 'pointer'}} onTouchTap={() => browserHistory.push('/')}>CaTUstrophy</span>}
             iconElementLeft={<div /> /* todo: remove to make menu-button appear and link to side menu */} />
           <main style={{margin: '1rem'}}>
-            <Explore value={userId}
-                     onChange={this.handleChange} />
 
             {this.renderErrorMessage()}
             {children}
