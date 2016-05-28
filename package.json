@@ -4,8 +4,7 @@
   "description": "Redux real-world example",
   "scripts": {
     "start": "node server.js",
-    "test": "mocha --compilers js:babel-register --recursive",
-    "test:watch": "npm test -- --watch"
+    "test": "mocha-webpack --webpack-config webpack.config.js --recursive test"
   },
   "repository": {
     "type": "git",
