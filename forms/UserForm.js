@@ -64,18 +64,22 @@ export class UserForm extends Component {
           <CardText>
             <div style={flexBetweenStyle}>
               <TextField {...FirstName}
+                  ref="FirstName"
                   floatingLabelText="First Name"
                   errorText={FirstName.touched && FirstName.error} />
               <TextField {...LastName}
+                  ref="LastName"
                   floatingLabelText="Last Name"
                   errorText={LastName.touched && LastName.error} />
             </div>
             <div style={flexBetweenStyle}>
               <TextField {...Mail}
+                  ref="Mail"
                   type="email"
                   floatingLabelText="Email"
                   errorText={Mail.touched && Mail.error} />
               <TextField {...Password}
+                  ref="Password"
                   type="password"
                   floatingLabelText="Password"
                   errorText={Password.touched && Password.error}/>
@@ -84,7 +88,7 @@ export class UserForm extends Component {
 
           <CardActions style={{display: 'flex', flexDirection: 'row-reverse'}}>
             {/* everything is revered with flex-direction, because the submit button should come first (in DOM) */}
-            <FlatButton label="Submit" disabled={invalid || submitting} style={{marginLeft: 'auto'}} type="submit" />
+            <FlatButton ref="submit" label="Submit" disabled={invalid || submitting} style={{marginLeft: 'auto'}} type="submit" />
             <FlatButton label="Reset" disabled={pristine || submitting} onTouchTap={resetForm} />
             <FlatButton label="Cancel" disabled={submitting} onTouchTap={() => browserHistory.push('/users')} />
           </CardActions>

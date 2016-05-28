@@ -1,14 +1,31 @@
-import jsdom from 'jsdom-global'
+// must emulate DOM _very first_
+import  '../helpers/emulateDom';
 
-import expect from 'expect'
-import expectJSX from 'expect-jsx'
-expect.extend(expectJSX);
+import forOwn from 'lodash/forOwn'
+
+import unexpected from 'unexpected';
+import unexpectedReact from 'unexpected-react';
+import unexpectedSinon from 'unexpected-sinon';
+import sinon from 'sinon';
+
+const expect = unexpected.clone()
+  .use(unexpectedReact)
+  .use(unexpectedSinon);
 
 import React from 'react'
-import { createRenderer, Simulate, renderIntoDocument } from 'react-addons-test-utils'
-import { Fields as UserFormFields, UserForm } from '../../forms/UserForm'
+import { createRenderer, Simulate, renderIntoDocument, findRenderedDOMComponentWithTag } from 'react-addons-test-utils'
+import stubContext from 'react-stub-context';
+import { Provider } from 'react-redux';
 
-import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card'
+import { mockFormStore, TestCaseFactory } from 'react-test-kit';
+// import mockFormStore from 'react-test-kit/src/mockFormStore';
+
+import ReduxUserForm, { Fields as UserFormFields, UserForm } from '../../forms/UserForm'
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';;
 
 function setup() {
   let props = generateFormProps(UserFormFields);
@@ -25,7 +42,10 @@ function setup() {
 }
 
 function mount(Component, props) {
-  return renderIntoDocument(<Component { ...props } />);
+  let contextifiedComponent = stubContext(Component, {muiTheme: {}});
+  return renderIntoDocument(
+      <contextifiedComponent { ...props } />
+  );
 }
 
 function generateFormProps(fieldsDescription) {
@@ -41,57 +61,82 @@ function generateFormProps(fieldsDescription) {
   return {
     submitting: false,
     handleSubmit: fn => fn,
-    onSubmit: expect.createSpy(),
-    resetForm: expect.createSpy(),
+    onSubmit: sinon.spy(),
+    resetForm: sinon.spy(),
     fields
   };
 }
 
-console.dir(jsdom());
-
 describe('forms', () => {
   describe('UserForm', () => {
-    before(function () {
-      this.jsdom = jsdom();
-      console.dir(this);
-      // console.dir(document);
-    });
-
-    after(function () {
-      this.jsdom()
-    });
-
     it('should render correctly', () => {
       const { output } = setup();
 
-      expect(output.type).toBe('form');
-
-      let card = output.props.children;
-      expect(card.type).toBe(Card);
-
-      let [ cardHeader, cardText, cardActions ] = card.props.children;
-      expect(cardHeader.type).toBe(CardHeader);
-      expect(cardText.type).toBe(CardText);
-      expect(cardActions.type).toBe(CardActions);
+      expect(output, 'to have rendered', <form>
+        <Card>
+          <CardHeader title="Create user" />
+          <CardText />
+          <CardActions />
+        </Card>
+      </form>);
     });
 
     it("shouldn't allow to submit empty", () => {
-      const { output, props } = setup();
-      const app = mount(output);
-      Simulate.submit(app);
-      // output.simulate('submit');
-      expect(props.onSubmit).toNotHaveBeenCalled();
-      console.dir(output);
-    })
+      const props = {
+        onSubmit: sinon.spy()
+      };
+      const testCase = TestCaseFactory.createFromElement(
+        <MuiThemeProvider muiTheme={getMuiTheme()}>
+          <Provider store={mockFormStore()}>
+            <ReduxUserForm {...props} />
+          </Provider>
+        </MuiThemeProvider>
+      );
 
-    it('should call onSubmit if all fields are filled', () => {
-      const { output, props } = setup();
-      console.dir(output);
-      let input = output.props.children[1]
-      input.props.onSave('')
-      expect(props.addTodo.calls.length).toBe(0)
-      input.props.onSave('Use Redux')
-      expect(props.addTodo.calls.length).toBe(1)
-    })
+      let form = testCase.firstComponent(UserForm);
+
+      // ui testing
+      let submitButton = form.refs['submit'];
+      expect(submitButton.props.disabled, 'to be', true);
+
+      // form level submit
+      form.props.handleSubmit();
+      expect(props.onSubmit, 'was called times', 0);
+    });
+
+    it("should allow to submit when filled", () => {
+      const props = {
+        onSubmit: sinon.spy()
+      };
+      const testCase = TestCaseFactory.createFromElement(
+        <MuiThemeProvider muiTheme={getMuiTheme()}>
+          <Provider store={mockFormStore()}>
+            <ReduxUserForm {...props} />
+          </Provider>
+        </MuiThemeProvider>
+      );
+
+      let form = testCase.firstComponent(UserForm);
+
+      // fill form
+      const sampleData = {
+        FirstName: 'first',
+        LastName: 'last',
+        Mail: 'mail@example.com',
+        Password: '#SoPassword!1'
+      };
+      forOwn(sampleData, (value, key) => {
+        let input = findRenderedDOMComponentWithTag(form.refs[key], 'input');
+        Simulate.change(input, { target: { value: value }});
+      });
+
+      // ui testing
+      let submitButton = form.refs['submit'];
+      expect(submitButton.props.disabled, 'to be', false);
+
+      // form level submit
+      form.props.handleSubmit();
+      expect(props.onSubmit, 'was called times', 1);
+    });
   })
 });

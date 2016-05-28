@@ -19,6 +19,10 @@ module.exports = {
   module: {
     loaders: [
       {
+        test: /sinon\/pkg\/sinon\.js/,
+        loader: 'imports?define=>false,require=>false'
+      },
+      {
         test: /\.js$/,
         loader: 'babel',
         exclude: /node_modules/,
@@ -32,7 +36,23 @@ module.exports = {
             }
           }
         }
+      },
+      {
+        test: /react-test-kit/,
+        loader: 'babel',
+        query: {
+          "presets": ["es2015", "react"]
+        }
+      },
+      {
+        test: /\.json$/,
+        loader: 'json'
       }
     ]
+  },
+  resolve: {
+    alias: {
+      'sinon': 'sinon/pkg/sinon'
+    }
   }
-}
+};
