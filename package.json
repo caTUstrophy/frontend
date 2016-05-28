@@ -1,20 +1,20 @@
 {
-  "name": "redux-real-world-example",
-  "version": "0.0.0",
-  "description": "Redux real-world example",
+  "name": "catustrophy-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Frontend part for our catastrophe aid tool",
   "scripts": {
     "start": "node server.js",
     "test": "mocha-webpack --webpack-config webpack.config.js --recursive test"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/reactjs/redux.git"
+    "url": "https://github.com/caTUstrophy/frontend.git"
   },
-  "license": "MIT",
+  "license": "GPLv3",
   "bugs": {
-    "url": "https://github.com/reactjs/redux/issues"
+    "url": "https://github.com/caTUstrophy/frontend/issues"
   },
-  "homepage": "http://redux.js.org",
   "dependencies": {
     "autobind-decorator": "^1.3.3",
     "babel-polyfill": "^6.9.0",
