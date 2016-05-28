@@ -120,5 +120,54 @@ describe('forms', () => {
 
       testSubmitable(form, props, true);
     });
+
+    it("shouldn't allow to submit when data partial", () => {
+      for (let key of Object.keys(sampleData)) {
+        const props = {
+          onSubmit: sinon.spy()
+        };
+        const testCase = wrappedTestFactory(<ReduxUserForm {...props} />);
+        let form = testCase.firstComponent(UserForm);
+
+        // fill form, but omit one property
+        let partialSampleData = Object.assign({}, sampleData, {[key]: ''});
+        populateForm(form, partialSampleData);
+
+        testSubmitable(form, props, false);
+      }
+    });
+
+    it("should show errors when values are missing", () => {
+      for (let key of Object.keys(sampleData)) {
+        const props = {
+          onSubmit: sinon.spy()
+        };
+        const testCase = wrappedTestFactory(<ReduxUserForm {...props} />);
+        let form = testCase.firstComponent(UserForm);
+
+        // fill form, but omit one property
+        let partialSampleData = Object.assign({}, sampleData, {[key]: ''});
+        populateForm(form, partialSampleData);
+
+        expect(form.refs[key].props.error, 'not to be', undefined);
+        expect(form.refs[key].props.error, 'to be', 'Required');
+      }
+    });
+
+    it("shouldn't allow to submit when email is invalid and show an error", () => {
+      const props = {
+        onSubmit: sinon.spy()
+      };
+      const testCase = wrappedTestFactory(<ReduxUserForm {...props} />);
+      let form = testCase.firstComponent(UserForm);
+
+      // fill form, but omit one property
+      let partialSampleData = Object.assign({}, sampleData, {Mail: 'not an email address'});
+      populateForm(form, partialSampleData);
+
+      expect(form.refs['Mail'].props.error, 'not to be', undefined);
+      expect(form.refs['Mail'].props.error, 'to be', 'Not a valid e-mail address');
+      testSubmitable(form, props, false);
+    });
   })
 });
