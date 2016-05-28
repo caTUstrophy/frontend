@@ -17,8 +17,8 @@ import { createRenderer, Simulate, renderIntoDocument, findRenderedDOMComponentW
 import stubContext from 'react-stub-context';
 import { Provider } from 'react-redux';
 
-import { mockFormStore, TestCaseFactory } from 'react-test-kit';
-// import mockFormStore from 'react-test-kit/src/mockFormStore';
+import mockFormStore from '../helpers/mockFormStore';
+import TestCaseFactory from '../helpers/TestCaseFactory';
 
 import ReduxUserForm, { Fields as UserFormFields, UserForm } from '../../forms/UserForm'
 
