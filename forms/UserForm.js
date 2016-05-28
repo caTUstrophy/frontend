@@ -9,11 +9,11 @@ import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card'
 import toPairsIn from 'lodash/toPairsIn'
 
 export const Fields = {
-  FirstName : {
+  Name : {
     required: true
   },
-  LastName : {
-    required: true
+  PreferredName : {
+    required: false
   },
   Mail: {
     required: true,
@@ -54,7 +54,7 @@ const validate = values => {
 
 export class UserForm extends Component {
   render() {
-    const { fields: { FirstName, LastName, Mail, Password }, resetForm, handleSubmit, submitting, invalid, pristine} = this.props;
+    const { fields: { Name, PreferredName, Mail, Password }, resetForm, handleSubmit, submitting, invalid, pristine} = this.props;
     const flexBetweenStyle = {display: 'flex', justifyContent: 'space-around'};
     return (
       <form onSubmit={handleSubmit}>
@@ -63,14 +63,15 @@ export class UserForm extends Component {
                       title="Create user" />
           <CardText>
             <div style={flexBetweenStyle}>
-              <TextField {...FirstName}
+              <TextField {...Name}
                   ref="FirstName"
-                  floatingLabelText="First Name"
-                  errorText={FirstName.touched && FirstName.error} />
-              <TextField {...LastName}
-                  ref="LastName"
-                  floatingLabelText="Last Name"
-                  errorText={LastName.touched && LastName.error} />
+                  floatingLabelText="Full Name"
+                  errorText={Name.touched && Name.error} />
+              <TextField {...PreferredName}
+                  ref="PreferredName"
+                  floatingLabelText="Preferred Name"
+                  placeholder="Preferred Name (optional)"
+                  errorText={PreferredName.touched && PreferredName.error} />
             </div>
             <div style={flexBetweenStyle}>
               <TextField {...Mail}

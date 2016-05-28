@@ -12,9 +12,6 @@ class UserPage extends Component {
 
   @autobind
   handleSubmit(user) {
-    user.ID = Math.round(Math.random() * 10000);
-    user.PasswordHash = 'hash' + Math.random();
-    user.PasswordSalt = 'salt' + Math.random();
     let userCreation = this.props.createUser(user);
     userCreation.then(e => {
       alert("Success.");
