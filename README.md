@@ -58,8 +58,22 @@ See [#3](https://github.com/caTUstrophy/frontend/issues/3) to discuss how to wri
     - style with [theming](http://www.material-ui.com/#/customization/themes) (not CSS) where applicable
 
 ## Testing
-*Undecided.*
-See [#2](https://github.com/caTUstrophy/frontend/issues/2).
+- Write tests for everything. 
+- Put your tests in `test/`.
+    - Put them in a matching subfolder, replicating the project structure. (E.g. forms located in `forms/` are to be tested in `test/forms/`)
+- Start the tests with `npm test` (calls `mocha-webpack --webpack-config webpack.config.js --recursive test` internally)
+- Configure your IDE to run tests while you develop.
+
+### Tooling
+
+- [mocha](http://mochajs.org/) (test framework) via [mocha-webpack](https://github.com/zinserjan/mocha-webpack)
+- [unexpected](http://unexpected.js.org/) (assertions)
+    - [unexpected-react](http://bruderstein.github.io/unexpected-react/) (JSX assertions)
+    - [sinon](http://sinonjs.org/) (spies) and [unexpected-sinon](http://unexpected.js.org/unexpected-sinon/) (spy assertions)
+- [ReactTestUtils](https://facebook.github.io/react/docs/test-utils.html) (official react testing utilities)
+- [domino](https://github.com/fgnass/domino) (fast fake DOM)
+- Some `test/helpers` (mostly copied from [smaato/react-test-kit](https://github.com/smaato/react-test-kit))
+- Travis *(coming soon)*
 
 ## Resources to familiarize yourself with the technologies
 - [React tutorial](http://facebook.github.io/react/docs/tutorial.html) in the [official docs](http://facebook.github.io/react/docs/top-level-api.html)

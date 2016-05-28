@@ -19,11 +19,33 @@ module.exports = {
   module: {
     loaders: [
       {
+        test: /sinon\/pkg\/sinon\.js/,
+        loader: 'imports?define=>false,require=>false'
+      },
+      {
         test: /\.js$/,
-        loaders: [ 'babel' ],
+        loader: 'babel',
         exclude: /node_modules/,
-        include: __dirname
+        include: __dirname,
+        query: {
+          "presets": ["es2015", "react"],
+          "plugins": ["transform-decorators-legacy", "transform-object-rest-spread"],
+          "env": {
+            "development": {
+              "presets": ["react-hmre"]
+            }
+          }
+        }
+      },
+      {
+        test: /\.json$/,
+        loader: 'json'
       }
     ]
+  },
+  resolve: {
+    alias: {
+      'sinon': 'sinon/pkg/sinon'
+    }
   }
-}
+};

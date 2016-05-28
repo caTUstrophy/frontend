@@ -8,7 +8,7 @@ import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card'
 
 import toPairsIn from 'lodash/toPairsIn'
 
-const Fields = {
+export const Fields = {
   FirstName : {
     required: true
   },
@@ -49,16 +49,10 @@ const validate = values => {
       }
     }
   });
-  console.dir(errors);
   return errors;
 };
 
-@reduxForm({
-  form: 'user-form',
-  fields: Object.keys(Fields),
-  validate
-})
-class UserForm extends Component {
+export class UserForm extends Component {
   render() {
     const { fields: { FirstName, LastName, Mail, Password }, resetForm, handleSubmit, submitting, invalid, pristine} = this.props;
     const flexBetweenStyle = {display: 'flex', justifyContent: 'space-around'};
@@ -70,18 +64,22 @@ class UserForm extends Component {
           <CardText>
             <div style={flexBetweenStyle}>
               <TextField {...FirstName}
+                  ref="FirstName"
                   floatingLabelText="First Name"
                   errorText={FirstName.touched && FirstName.error} />
               <TextField {...LastName}
+                  ref="LastName"
                   floatingLabelText="Last Name"
                   errorText={LastName.touched && LastName.error} />
             </div>
             <div style={flexBetweenStyle}>
               <TextField {...Mail}
+                  ref="Mail"
                   type="email"
                   floatingLabelText="Email"
                   errorText={Mail.touched && Mail.error} />
               <TextField {...Password}
+                  ref="Password"
                   type="password"
                   floatingLabelText="Password"
                   errorText={Password.touched && Password.error}/>
@@ -90,7 +88,7 @@ class UserForm extends Component {
 
           <CardActions style={{display: 'flex', flexDirection: 'row-reverse'}}>
             {/* everything is revered with flex-direction, because the submit button should come first (in DOM) */}
-            <FlatButton label="Submit" disabled={invalid || submitting} style={{marginLeft: 'auto'}} type="submit" />
+            <FlatButton ref="submit" label="Submit" disabled={invalid || submitting} style={{marginLeft: 'auto'}} type="submit" />
             <FlatButton label="Reset" disabled={pristine || submitting} onTouchTap={resetForm} />
             <FlatButton label="Cancel" disabled={submitting} onTouchTap={() => browserHistory.push('/users')} />
           </CardActions>
@@ -100,4 +98,8 @@ class UserForm extends Component {
   }
 }
 
-export default UserForm;
+export default reduxForm({
+  form: 'user-form',
+  fields: Object.keys(Fields),
+  validate
+})(UserForm);
