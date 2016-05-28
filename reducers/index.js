@@ -7,12 +7,17 @@ import {reducer as formReducer} from 'redux-form';
 
 import { LOGIN_SUCCESS } from '../actions/login'
 
-// Updates an entity cache in response to any action with response.entities.
-function entities(state = { users: {}, repos: {}, login: null }, action) {
+// login reducer
+function login(state = null, action) {
   if (action.type == LOGIN_SUCCESS) {
-    return merge({}, state, { login: action.response });
+    return action.response;
   }
 
+  return state;
+}
+
+// Updates an entity cache in response to any action with response.entities.
+function entities(state = { users: {}, repos: {}, login: null }, action) {
   if (action.response && action.response.entities) {
     return merge({}, state, action.response.entities)
   }
@@ -38,6 +43,7 @@ const pagination = combineReducers({
 })
 
 const rootReducer = combineReducers({
+  login,
   entities,
   // pagination,
   errorMessage,
