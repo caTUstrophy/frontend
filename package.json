@@ -5,7 +5,8 @@
   "description": "Frontend part for our catastrophe aid tool",
   "scripts": {
     "start": "node server.js",
-    "test": "mocha-webpack --webpack-config webpack.config.js --recursive test"
+    "test": "mocha-webpack --webpack-config webpack.config.js --recursive test",
+    "bundle": "webpack -p --progress "
   },
   "repository": {
     "type": "git",
