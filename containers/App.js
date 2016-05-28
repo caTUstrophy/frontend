@@ -12,6 +12,7 @@ import { blueGrey400, red500 } from 'material-ui/styles/colors';
 import AppBar from 'material-ui/AppBar';
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
+import Snackbar from 'material-ui/Snackbar';
 
 import Explore from '../components/Explore'
 import LoginPage from './LoginPage'
@@ -41,21 +42,14 @@ class App extends Component {
   }
 
   renderErrorMessage() {
-    const { errorMessage } = this.props
-    if (!errorMessage) {
-      return null
-    }
+    const { errorMessage } = this.props;
 
-    return (
-      <p style={{ backgroundColor: '#e99', padding: 10 }}>
-        <b>{errorMessage}</b>
-        {' '}
-        (<a href="#"
-            onClick={this.handleDismissClick}>
-          Dismiss
-        </a>)
-      </p>
-    )
+    console.log("em", errorMessage);
+
+    return <Snackbar
+          open={!!errorMessage}
+          message={errorMessage || " " }
+          onRequestClose={this.handleDismissClick} />;
   }
 
   renderDefaultContent(children) {
