@@ -17,6 +17,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add'
 
 import LoginPage from './LoginPage'
 import { resetErrorMessage } from '../actions'
+import { tryRestoreLogin } from '../actions/login'
 
 const theme = getMuiTheme({
   palette: {
@@ -28,6 +29,10 @@ const theme = getMuiTheme({
 class App extends Component {
   constructor(props) {
     super(props);
+  }
+
+  componentWillMount() {
+    this.props.tryRestoreLogin();
   }
 
   @autobind
@@ -75,7 +80,8 @@ class App extends Component {
   render() {
     const { children, login, url } = this.props;
 
-    let loginValid = !!login || /^\/?signup/i.test(url);
+    let isSignUpPage = /^\/?signup/i.test(url);
+    let loginValid = login && login.expires > new Date();
 
     return (
       <MuiThemeProvider muiTheme={theme}>
@@ -84,7 +90,7 @@ class App extends Component {
             title={<span style={{cursor: 'pointer'}} onTouchTap={() => browserHistory.push('/')}>CaTUstrophy</span>}
             iconElementLeft={<div /> /* todo: remove to make menu-button appear and link to side menu */} />
           <main style={{margin: '1rem'}}>
-            {loginValid ? this.renderDefaultContent(children) : this.renderLogin()}
+            {loginValid || isSignUpPage ? this.renderDefaultContent(children) : this.renderLogin()}
           </main>
         </div>
       </MuiThemeProvider>
@@ -111,5 +117,6 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  resetErrorMessage
+  resetErrorMessage,
+  tryRestoreLogin
 })(App)
