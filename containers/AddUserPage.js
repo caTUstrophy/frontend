@@ -12,14 +12,13 @@ class UserPage extends Component {
 
   @autobind
   handleSubmit(user) {
-    let userCreation = this.props.createUser(user);
-    userCreation.then(e => {
-      alert("Success.");
-      console.dir(e);
-    }).catch(e =>  {
-      alert("Failure.");
-      console.dir(e);
-    });
+    this.props.createUser(user)
+      .then(e => {
+        console.log("Then", e);
+        // todo: on actual success transfer to a relevant page
+      }).catch(e => {
+        console.log("Catch", e);
+      });
   }
 
   render() {

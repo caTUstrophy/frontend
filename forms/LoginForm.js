@@ -4,6 +4,7 @@ import { browserHistory } from 'react-router';
 
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card'
 
 import toPairsIn from 'lodash/toPairsIn'
@@ -73,7 +74,7 @@ export class LoginForm extends Component {
                     <CardActions style={{display: 'flex', flexDirection: 'row-reverse'}}>
                         {/* everything is revered with flex-direction, because the submit button should come first (in DOM) */}
                         <FlatButton ref="submit" label="Submit" disabled={invalid || submitting} style={{marginLeft: 'auto'}} type="submit" />
-                        <FlatButton label="Sign up" secondary={true} onTouchTap={() => browserHistory.push('/signup')} />
+                        <RaisedButton label="Sign up" secondary={true} onTouchTap={() => browserHistory.push('/signup')} />
                     </CardActions>
                 </Card>
             </form>

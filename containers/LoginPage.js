@@ -12,15 +12,7 @@ class LoginPage extends Component {
 
   @autobind
   handleSubmit(loginData) {
-    console.dir(loginData);
-    this.props.login(loginData)
-      .then(e => {
-        alert("Success.");
-        console.dir(e);
-      }).catch(e =>  {
-        alert("Failure.");
-        console.dir(e);
-      });
+    this.props.login(loginData);
   }
 
   render() {
