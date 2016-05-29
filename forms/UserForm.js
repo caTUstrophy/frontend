@@ -64,7 +64,7 @@ export class UserForm extends Component {
           <CardText>
             <div style={flexBetweenStyle}>
               <TextField {...Name}
-                  ref="FirstName"
+                  ref="Name"
                   floatingLabelText="Full Name"
                   errorText={Name.touched && Name.error} />
               <TextField {...PreferredName}
