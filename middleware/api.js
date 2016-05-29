@@ -69,15 +69,15 @@ const userSchema = new Schema('users', {
   idAttribute: user => user.ID
 });
 
-const offerSchema = new Schema('offer', {
+const offerSchema = new Schema('offers', {
   idAttribute: offer => offer.ID
 });
 
-const requestSchema = new Schema('request', {
+const requestSchema = new Schema('requests', {
   idAttribute: request => request.ID
 });
 
-const matchingSchema = new Schema('matching', {
+const matchingSchema = new Schema('matchings', {
   idAttribute: matching => matching.ID
 });
 

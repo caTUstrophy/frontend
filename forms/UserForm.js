@@ -91,7 +91,7 @@ export class UserForm extends Component {
             {/* everything is revered with flex-direction, because the submit button should come first (in DOM) */}
             <FlatButton ref="submit" label="Submit" disabled={invalid || submitting} style={{marginLeft: 'auto'}} type="submit" />
             <FlatButton label="Reset" disabled={pristine || submitting} onTouchTap={resetForm} />
-            <FlatButton label="Cancel" disabled={submitting} onTouchTap={() => browserHistory.push('/users')} />
+            <FlatButton label="Cancel" disabled={submitting} onTouchTap={() => browserHistory.goBack()} />
           </CardActions>
         </Card>
       </form>

@@ -35,6 +35,7 @@ OffersPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { entities: { offers } } = state;
+  console.dir(state.entities);
 
   return {
     offers: Object.values(offers)

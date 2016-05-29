@@ -73,3 +73,6 @@ fabric.properties
 
 # mocha/webpack test files
 .tmp/
+
+# build files
+dist/

@@ -6,6 +6,8 @@ import { browserHistory } from 'react-router'
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
+import autobind from 'autobind-decorator';
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { blueGrey400, red500 } from 'material-ui/styles/colors';
@@ -14,9 +16,9 @@ import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 import Snackbar from 'material-ui/Snackbar';
 
-import Explore from '../components/Explore'
 import LoginPage from './LoginPage'
 import { resetErrorMessage } from '../actions'
+import { tryRestoreLogin } from '../actions/login'
 
 const theme = getMuiTheme({
   palette: {
@@ -27,18 +29,17 @@ const theme = getMuiTheme({
 
 class App extends Component {
   constructor(props) {
-    super(props)
-    this.handleChange = this.handleChange.bind(this)
-    this.handleDismissClick = this.handleDismissClick.bind(this)
+    super(props);
   }
 
+  componentWillMount() {
+    this.props.tryRestoreLogin();
+  }
+
+  @autobind
   handleDismissClick(e) {
     this.props.resetErrorMessage()
     e.preventDefault()
-  }
-
-  handleChange(nextValue) {
-    browserHistory.push(`/user/${nextValue}`)
   }
 
   renderErrorMessage() {
@@ -55,7 +56,6 @@ class App extends Component {
   renderDefaultContent(children) {
     return (
       <div>
-        {this.renderErrorMessage()}
         {children}
         <FloatingActionButton style={{position: 'fixed', bottom: '2rem', right: '2rem'}}
                               secondary={true}
@@ -71,9 +71,10 @@ class App extends Component {
   }
 
   render() {
-    const { children, login } = this.props;
+    const { children, login, url } = this.props;
 
-    let loginValid = !!login;
+    let isSignUpPage = /^\/?signup/i.test(url);
+    let loginValid = login && login.expires > new Date();
 
     return (
       <MuiThemeProvider muiTheme={theme}>
@@ -82,7 +83,8 @@ class App extends Component {
             title={<span style={{cursor: 'pointer'}} onTouchTap={() => browserHistory.push('/')}>CaTUstrophy</span>}
             iconElementLeft={<div /> /* todo: remove to make menu-button appear and link to side menu */} />
           <main style={{margin: '1rem'}}>
-            {loginValid ? this.renderDefaultContent(children) : this.renderLogin()}
+        	{this.renderErrorMessage()}
+            {loginValid || isSignUpPage ? this.renderDefaultContent(children) : this.renderLogin()}
           </main>
         </div>
       </MuiThemeProvider>
@@ -94,20 +96,21 @@ App.propTypes = {
   // Injected by React Redux
   errorMessage: PropTypes.string,
   resetErrorMessage: PropTypes.func.isRequired,
-  inputValue: PropTypes.string.isRequired,
   // Injected by React Router
   children: PropTypes.node,
+
   login: PropTypes.object
 };
 
 function mapStateToProps(state, ownProps) {
-  console.log('state', state);
   return {
+    url: ownProps.location.pathname,
     login: state.login,
     errorMessage: state.errorMessage
   }
 }
 
 export default connect(mapStateToProps, {
-  resetErrorMessage
+  resetErrorMessage,
+  tryRestoreLogin
 })(App)

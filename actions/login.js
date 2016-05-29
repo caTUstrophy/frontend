@@ -1,4 +1,7 @@
-import { CALL_API, Schemas } from '../middleware/api'
+import { CALL_API } from '../middleware/api';
+import LocalStorage from '../helpers/LocalStorage';
+
+export const LOGIN_LOCAL_STORAGE_KEY = 'login';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -21,5 +24,18 @@ function sendLogin(login) {
 export function login(login, requiredFields = []) {
   return (dispatch, getState) => {
     return dispatch(sendLogin(login))
+  }
+}
+
+export function tryRestoreLogin() {
+  const jwt = LocalStorage.getItem(LOGIN_LOCAL_STORAGE_KEY);
+  if (jwt) {
+    return (dispatch, getState) => {
+      return dispatch({ type: LOGIN_SUCCESS, jwt });
+    }
+  } else {
+    return (dispatch, getState) => {
+      return dispatch({ type: 'NOOP' });
+    }
   }
 }
