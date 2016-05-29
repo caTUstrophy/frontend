@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
+import { browserHistory } from 'react-router';
 
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
@@ -72,7 +73,7 @@ export class LoginForm extends Component {
                     <CardActions style={{display: 'flex', flexDirection: 'row-reverse'}}>
                         {/* everything is revered with flex-direction, because the submit button should come first (in DOM) */}
                         <FlatButton ref="submit" label="Submit" disabled={invalid || submitting} style={{marginLeft: 'auto'}} type="submit" />
-                        {/* <FlatButton label="Cancel" disabled={submitting} onTouchTap={() => browserHistory.push('/users')} /> */}
+                        <FlatButton label="Sign up" secondary={true} onTouchTap={() => browserHistory.push('/signup')} />
                     </CardActions>
                 </Card>
             </form>

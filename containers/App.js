@@ -6,6 +6,8 @@ import { browserHistory } from 'react-router'
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
+import autobind from 'autobind-decorator';
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { blueGrey400, red500 } from 'material-ui/styles/colors';
@@ -13,7 +15,6 @@ import AppBar from 'material-ui/AppBar';
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 
-import Explore from '../components/Explore'
 import LoginPage from './LoginPage'
 import { resetErrorMessage } from '../actions'
 
@@ -26,18 +27,13 @@ const theme = getMuiTheme({
 
 class App extends Component {
   constructor(props) {
-    super(props)
-    this.handleChange = this.handleChange.bind(this)
-    this.handleDismissClick = this.handleDismissClick.bind(this)
+    super(props);
   }
 
+  @autobind
   handleDismissClick(e) {
     this.props.resetErrorMessage()
     e.preventDefault()
-  }
-
-  handleChange(nextValue) {
-    browserHistory.push(`/user/${nextValue}`)
   }
 
   renderErrorMessage() {
@@ -77,9 +73,9 @@ class App extends Component {
   }
 
   render() {
-    const { children, login } = this.props;
+    const { children, login, url } = this.props;
 
-    let loginValid = !!login;
+    let loginValid = !!login || /^\/?signup/i.test(url);
 
     return (
       <MuiThemeProvider muiTheme={theme}>
@@ -100,15 +96,15 @@ App.propTypes = {
   // Injected by React Redux
   errorMessage: PropTypes.string,
   resetErrorMessage: PropTypes.func.isRequired,
-  inputValue: PropTypes.string.isRequired,
   // Injected by React Router
   children: PropTypes.node,
+
   login: PropTypes.object
 };
 
 function mapStateToProps(state, ownProps) {
-  console.log('state', state);
   return {
+    url: ownProps.location.pathname,
     login: state.login,
     errorMessage: state.errorMessage
   }
