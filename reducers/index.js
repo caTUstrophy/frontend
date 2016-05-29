@@ -10,7 +10,11 @@ import { LOGIN_SUCCESS } from '../actions/login'
 // login reducer
 function login(state = null, action) {
   if (action.type == LOGIN_SUCCESS) {
-    return action.response;
+    const { AccessToken, Expires } = action.response;
+    return {
+      token: AccessToken,
+      expires: new Date(new Date().getTime() + Expires)
+    };
   }
 
   return state;
