@@ -15,13 +15,19 @@ import { LOGIN_SUCCESS, LOGIN_LOCAL_STORAGE_KEY } from '../actions/login'
 function login(state = null, action) {
   if (action.type == LOGIN_SUCCESS) {
     let jwt = action.jwt || action.response.AccessToken;
-    
+
     const token = jwtDecode(jwt);
     LocalStorage.setItem(LOGIN_LOCAL_STORAGE_KEY, jwt);
+    const expires = new Date(new Date().getTime() + token.exp / 1000);
+
+    if (expires < new Date()) {
+      return state;
+    }
+
     return {
       jwt,
       token,
-      expires: new Date(new Date().getTime() + token.exp / 1000)
+      expires
     };
   }
 
