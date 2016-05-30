@@ -8,7 +8,7 @@ import OffersPage from './containers/OffersPage'
 import RequestsPage from './containers/RequestsPage'
 import NotFoundPage from './containers/NotFoundPage'
 
-export default (
+export default [
   <Route path="/" component={App}>
     <Route path="/signup"
            component={AddUserPage} />
@@ -20,7 +20,6 @@ export default (
            component={OffersPage} />
     <Route path="/requests"
            component={RequestsPage} />
-
-    <Route path="*" component={NotFoundPage} />
-  </Route>
-);
+  </Route>,
+  <Route path="*" component={NotFoundPage} />
+];
