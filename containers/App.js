@@ -37,15 +37,12 @@ class App extends Component {
           bodyStyle={{backgroundColor: 'darkred', fontFamily: this.props.muiTheme.fontFamily}} />;
   }
 
-  renderLogin() {
-    return <LoginPage />;
-  }
-
   render() {
     const { children, login, url } = this.props;
-
-    let isSignUpPage = /^\/?signup/i.test(url);
-    let loginValid = login && login.expires > new Date();
+    
+    if (!login || login.expires < new Date()) {
+      return <LoginPage />;
+    }
 
     return (
       <div>
@@ -54,7 +51,7 @@ class App extends Component {
           iconElementLeft={<div /> /* todo: remove to make menu-button appear and link to side menu */} />
         <main style={{margin: '1rem'}}>
           {this.renderErrorMessage()}
-          {loginValid || isSignUpPage ? children : this.renderLogin()}
+          {children}
         </main>
       </div>
     )

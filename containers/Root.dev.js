@@ -12,7 +12,7 @@ export default class Root extends Component {
     return (
       <Provider store={store}>
         <MaterialProvider>
-          <div>
+          <div style={{height: '100%'}}>
             <Router history={history} routes={routes} />
             <DevTools />
           </div>

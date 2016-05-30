@@ -17,7 +17,7 @@ class LoginPage extends Component {
 
   render() {
     return (
-      <div style={{display: 'flex'}}>
+      <div style={{display: 'flex', height: '100%'}}>
         <div style={{width: '40rem', margin: 'auto'}}>
           <LoginForm onSubmit={this.handleSubmit} />
         </div>
