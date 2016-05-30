@@ -6,6 +6,7 @@ import UsersPage from './containers/UsersPage'
 import AddUserPage from './containers/AddUserPage'
 import OffersPage from './containers/OffersPage'
 import RequestsPage from './containers/RequestsPage'
+import AdminHomePage from './containers/admin/AdminHomePage'
 import NotFoundPage from './containers/NotFoundPage'
 
 export default [
@@ -16,10 +17,12 @@ export default [
            component={UserPage} />
     <Route path="/users"
            component={UsersPage} />
-    <Route path="/offers"
-           component={OffersPage} />
-    <Route path="/requests"
-           component={RequestsPage} />
+    <Route path="admin" component={AdminHomePage}>
+      <Route path="/offers"
+             component={OffersPage} />
+      <Route path="/requests"
+             component={RequestsPage} />
+    </Route>
   </Route>,
   <Route path="*" component={NotFoundPage} />
 ];
