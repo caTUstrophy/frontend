@@ -91,8 +91,8 @@ export class OfferForm extends Component {
                 hintText="Deadline"
                 container="inline"
                 mode="landscape"
-                currentValue={{val: Deadline.value}}
-                thingsChanged={param => Deadline.onChange(param.val)}/>
+                value={Deadline.value}
+                onChange={(event, value) => Deadline.onChange(value)}/>
             </div>
           </CardText>
 
