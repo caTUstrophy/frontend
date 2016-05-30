@@ -4,9 +4,9 @@ import App from './containers/App'
 import UserPage from './containers/UserPage'
 import UsersPage from './containers/UsersPage'
 import AddUserPage from './containers/AddUserPage'
-import LoginPage from './containers/LoginPage'
 import OffersPage from './containers/OffersPage'
 import RequestsPage from './containers/RequestsPage'
+import NotFoundPage from './containers/NotFoundPage'
 
 export default (
   <Route path="/" component={App}>
@@ -20,7 +20,7 @@ export default (
            component={OffersPage} />
     <Route path="/requests"
            component={RequestsPage} />
-    <Route path="/login"
-           component={LoginPage} />
+
+    <Route path="*" component={NotFoundPage} />
   </Route>
-)
+);

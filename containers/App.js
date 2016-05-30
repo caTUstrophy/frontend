@@ -59,19 +59,6 @@ class App extends Component {
     )
   }
 
-  renderDefaultContent(children) {
-    return (
-      <div>
-        {children}
-        <FloatingActionButton style={{position: 'fixed', bottom: '2rem', right: '2rem'}}
-                              secondary={true}
-                              onTouchTap={() => browserHistory.push('/user/create')} >
-          <ContentAdd />
-        </FloatingActionButton>
-      </div>
-    )
-  }
-
   renderLogin() {
     return <LoginPage />;
   }
@@ -90,7 +77,7 @@ class App extends Component {
             iconElementLeft={<div /> /* todo: remove to make menu-button appear and link to side menu */} />
           <main style={{margin: '1rem'}}>
         	{this.renderErrorMessage()}
-            {loginValid || isSignUpPage ? this.renderDefaultContent(children) : this.renderLogin()}
+            {loginValid || isSignUpPage ? children : this.renderLogin()}
           </main>
         </div>
       </MuiThemeProvider>
