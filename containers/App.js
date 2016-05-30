@@ -4,6 +4,7 @@ import { browserHistory } from 'react-router'
 
 import autobind from 'autobind-decorator';
 
+import muiThemeable from 'material-ui/styles/muiThemeable';
 import AppBar from 'material-ui/AppBar';
 import Snackbar from 'material-ui/Snackbar';
 
@@ -11,6 +12,7 @@ import LoginPage from './LoginPage'
 import { resetErrorMessage } from '../actions'
 import { tryRestoreLogin } from '../actions/login'
 
+@muiThemeable()
 class App extends Component {
   constructor(props) {
     super(props);
@@ -21,9 +23,8 @@ class App extends Component {
   }
 
   @autobind
-  handleDismissClick(e) {
-    this.props.resetErrorMessage()
-    e.preventDefault()
+  handleRequestClose() {
+    this.props.resetErrorMessage();
   }
 
   renderErrorMessage() {
@@ -32,7 +33,8 @@ class App extends Component {
     return <Snackbar
           open={!!errorMessage}
           message={errorMessage || " " }
-          onRequestClose={this.handleDismissClick} />;
+          onRequestClose={this.handleRequestClose}
+          bodyStyle={{backgroundColor: 'darkred', fontFamily: this.props.muiTheme.fontFamily}} />;
   }
 
   renderLogin() {
@@ -65,6 +67,8 @@ App.propTypes = {
   resetErrorMessage: PropTypes.func.isRequired,
   // Injected by React Router
   children: PropTypes.node,
+  // Injected by muiThemeable
+  muiTheme: PropTypes.object.isRequired,
 
   login: PropTypes.object
 };
