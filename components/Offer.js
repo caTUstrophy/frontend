@@ -10,7 +10,7 @@ export default class Offer extends Component {
         return (
             <Card>
                 <CardHeader style={{backgroundColor: 'lightgray'}}
-                            title={`${offer.FirstName} ${offer.LastName}`} />
+                            title={`${offer.Title}`} />
                 <CardText>
                     <pre>{JSON.stringify(offer, null, 2)}</pre>
                 </CardText>
