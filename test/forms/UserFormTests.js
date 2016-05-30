@@ -78,11 +78,12 @@ function testSubmitable(form, props, expectedState) {
 }
 
 const sampleData = {
-  FirstName: 'first',
-  LastName: 'last',
+  Name: 'full name',
+  PreferredName: 'preferred',
   Mail: 'mail@example.com',
   Password: '#SoPassword!1'
 };
+const requiredFields = Object.keys(sampleData).filter(key => UserFormFields[key].required);
 
 describe('forms', () => {
   describe('UserForm', () => {
@@ -122,7 +123,7 @@ describe('forms', () => {
     });
 
     it("shouldn't allow to submit when data partial", () => {
-      for (let key of Object.keys(sampleData)) {
+      for (let field of requiredFields) {
         const props = {
           onSubmit: sinon.spy()
         };
@@ -130,7 +131,7 @@ describe('forms', () => {
         let form = testCase.firstComponent(UserForm);
 
         // fill form, but omit one property
-        let partialSampleData = Object.assign({}, sampleData, {[key]: ''});
+        let partialSampleData = Object.assign({}, sampleData, {[field]: ''});
         populateForm(form, partialSampleData);
 
         testSubmitable(form, props, false);
@@ -138,7 +139,7 @@ describe('forms', () => {
     });
 
     it("should show errors when values are missing", () => {
-      for (let key of Object.keys(sampleData)) {
+      for (let field of requiredFields) {
         const props = {
           onSubmit: sinon.spy()
         };
@@ -146,11 +147,11 @@ describe('forms', () => {
         let form = testCase.firstComponent(UserForm);
 
         // fill form, but omit one property
-        let partialSampleData = Object.assign({}, sampleData, {[key]: ''});
+        let partialSampleData = Object.assign({}, sampleData, {[field]: ''});
         populateForm(form, partialSampleData);
 
-        expect(form.refs[key].props.error, 'not to be', undefined);
-        expect(form.refs[key].props.error, 'to be', 'Required');
+        expect(form.refs[field].props.error, 'not to be', undefined);
+        expect(form.refs[field].props.error, 'to be', 'Required');
       }
     });
 

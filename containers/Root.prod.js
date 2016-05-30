@@ -3,12 +3,16 @@ import { Provider } from 'react-redux'
 import routes from '../routes'
 import { Router } from 'react-router'
 
+import MaterialProvider from '../containers/MaterialProvider'
+
 export default class Root extends Component {
   render() {
     const { store, history } = this.props
     return (
       <Provider store={store}>
-        <Router history={history} routes={routes} />
+        <MaterialProvider>
+          <Router history={history} routes={routes} />
+        </MaterialProvider>
       </Provider>
     )
   }
