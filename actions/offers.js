@@ -6,12 +6,13 @@ export const OFFERS_FAILURE = 'OFFERS_FAILURE';
 
 // Fetches all offers
 // Relies on the custom API middleware defined in ../middleware/api.js.
-function fetchOffers() {
+function fetchOffers(authorization) {
     return {
         [CALL_API]: {
             types: [ OFFERS_REQUEST, OFFERS_SUCCESS, OFFERS_FAILURE ],
             endpoint: `offers`,
-            schema: Schemas.OFFER_ARRAY
+            schema: Schemas.OFFER_ARRAY,
+            authorization
         }
     }
 }
@@ -20,6 +21,6 @@ function fetchOffers() {
 // Relies on Redux Thunk middleware.
 export function loadOffers(requiredFields = []) {
     return (dispatch, getState) => {
-        return dispatch(fetchOffers())
+        return dispatch(fetchOffers(getState().login.jwt))
     }
 }
