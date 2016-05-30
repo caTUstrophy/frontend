@@ -23,8 +23,6 @@ export default [
       <Route path="/requests"
              component={RequestsPage} />
     </Route>
-    <Route path="/login"
-           component={LoginPage} />
   </Route>,
   <Route path="*" component={NotFoundPage} />
 ];
