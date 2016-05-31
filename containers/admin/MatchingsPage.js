@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { loadMatchings } from '../actions/matchings'
-import MatchingList from '../components/MatchingList'
+import { loadMatchings } from '../../actions/matchings'
+import MatchingList from '../../components/MatchingList'
 
 function loadData(props) {
     props.loadMatchings();

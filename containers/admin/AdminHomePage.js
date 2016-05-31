@@ -51,7 +51,7 @@ class RequestsPage extends Component {
                       title="Requests" />
           <CardText>{this.renderRequests(requests)}</CardText>
           <CardActions style={{display: 'flex'}}>
-            <FlatButton label="See all"  style={{marginLeft: 'auto'}} onTouchTap={() => browserHistory.push('/requests')} />
+            <FlatButton label="See all"  style={{marginLeft: 'auto'}} onTouchTap={() => browserHistory.push('/admin/requests')} />
           </CardActions>
         </Card>
         <Card style={halfWidth}>
@@ -59,7 +59,7 @@ class RequestsPage extends Component {
                       title="Offers" />
           <CardText>{this.renderOffers(offers)}</CardText>
           <CardActions style={{display: 'flex'}}>
-            <FlatButton label="See all"  style={{marginLeft: 'auto'}} onTouchTap={() => browserHistory.push('/offers')} />
+            <FlatButton label="See all"  style={{marginLeft: 'auto'}} onTouchTap={() => browserHistory.push('/admin/offers')} />
           </CardActions>
         </Card>
       </div>

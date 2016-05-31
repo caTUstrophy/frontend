@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { loadUsers } from '../actions'
-import UserList from '../components/UserList'
+import { loadUsers } from '../../actions'
+import UserList from '../../components/UserList'
 
 function loadData(props) {
   props.loadUsers();

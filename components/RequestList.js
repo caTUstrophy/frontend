@@ -10,14 +10,21 @@ export default class RequestList extends Component {
     }
 
     render() {
+        let requestList;
+        if (this.props.requests.length === 0) {
+            requestList = <ListItem key="empty"
+                                    primaryText="No requests"
+                                    disabled={true}/>
+        } else {
+            requestList = this.props.requests.map(request =>
+              <ListItem key={request.ID}
+                        primaryText={`${request.Name}`}
+                        onTouchTap={this.navigateToRequestPage.bind(this, request.ID)} />
+            );
+        }
         return (
             <List>
-                {this.props.requests.map(request =>
-                    <ListItem key={request.ID}
-                              primaryText={`${request.Title}`}
-                              secondaryText={request.Description}
-                              onTouchTap={this.navigateToRequestPage.bind(this, request.ID)} />
-                )}
+                {requestList}
             </List>
         )
     }

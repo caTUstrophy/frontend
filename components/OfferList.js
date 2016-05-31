@@ -10,14 +10,22 @@ export default class OfferList extends Component {
   }
 
   render() {
+    let offerList;
+    if (this.props.offers.length === 0) {
+      offerList = <ListItem key="empty"
+                              primaryText="No offers"
+                              disabled={true}/>
+    } else {
+      offerList = this.props.offers.map(offer =>
+        <ListItem key={offer.ID}
+                  primaryText={`${offer.Title}`}
+                  secondaryText={offer.Description}
+                  onTouchTap={this.navigateToOfferPage.bind(this, offer.ID)} />
+      );
+    }
     return (
       <List>
-        {this.props.offers.map(offer =>
-          <ListItem key={offer.ID}
-                    primaryText={`${offer.Title}`}
-                    secondaryText={offer.Description}
-                    onTouchTap={this.navigateToOfferPage.bind(this, offer.ID)} />
-        )}
+        {offerList}
       </List>
     )
   }

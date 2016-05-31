@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { loadOffers } from '../actions/offers'
-import OfferList from '../components/OfferList'
+import { loadOffers } from '../../actions/offers'
+import OfferList from '../../components/OfferList'
 
 function loadData(props) {
   props.loadOffers();
@@ -23,7 +23,10 @@ class OffersPage extends Component {
     }
 
     return (
-    <OfferList offers={offers} />
+      <div>
+        <h1>Offers</h1>
+        <OfferList offers={offers} />
+      </div>
     )
   }
 }

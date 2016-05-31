@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 
-class DefaultPage extends Component {
+class EmptyPage extends Component {
   render() {
     return (
       <div style={{display: 'flex'}}>
@@ -12,4 +12,4 @@ class DefaultPage extends Component {
   }
 }
 
-export default DefaultPage
+export default EmptyPage

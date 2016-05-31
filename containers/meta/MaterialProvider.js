@@ -19,7 +19,9 @@ class MaterialProvider extends Component {
   render() {
     return (
       <MuiThemeProvider muiTheme={theme}>
-        {this.props.children}
+        <div style={{fontFamily: theme.fontFamily}}>
+          {this.props.children}
+        </div>
       </MuiThemeProvider>
     )
   }

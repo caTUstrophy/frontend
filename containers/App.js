@@ -8,7 +8,7 @@ import muiThemeable from 'material-ui/styles/muiThemeable';
 import AppBar from 'material-ui/AppBar';
 import Snackbar from 'material-ui/Snackbar';
 
-import LoginPage from './LoginPage'
+import LoginPage from './user/LoginPage'
 import { resetErrorMessage } from '../actions'
 import { tryRestoreLogin } from '../actions/login'
 
@@ -64,8 +64,6 @@ App.propTypes = {
   resetErrorMessage: PropTypes.func.isRequired,
   // Injected by React Router
   children: PropTypes.node,
-  // Injected by muiThemeable
-  muiTheme: PropTypes.object.isRequired,
 
   login: PropTypes.object
 };

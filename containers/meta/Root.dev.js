@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react'
 import { Provider } from 'react-redux'
-import routes from '../routes'
+import routes from '../../routes'
+import DevTools from './DevTools'
 import { Router } from 'react-router'
 
-import MaterialProvider from '../containers/MaterialProvider'
+import MaterialProvider from './MaterialProvider'
 
 export default class Root extends Component {
   render() {
@@ -11,7 +12,10 @@ export default class Root extends Component {
     return (
       <Provider store={store}>
         <MaterialProvider>
-          <Router history={history} routes={routes} />
+          <div style={{height: '100%'}}>
+            <Router history={history} routes={routes} />
+            <DevTools />
+          </div>
         </MaterialProvider>
       </Provider>
     )
@@ -21,4 +25,4 @@ export default class Root extends Component {
 Root.propTypes = {
   store: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired
-}
+};

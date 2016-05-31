@@ -1,11 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { loadRequests } from '../actions/requests'
-import RequestList from '../components/RequestList'
-
-function loadData(props) {
-    props.loadRequests();
-}
+import { loadRequests } from '../../actions/requests'
+import RequestList from '../../components/RequestList'
 
 class RequestsPage extends Component {
     constructor(props) {
@@ -13,7 +9,7 @@ class RequestsPage extends Component {
     }
 
     componentWillMount() {
-        loadData(this.props)
+        this.props.loadRequests()
     }
 
     render() {
@@ -23,7 +19,10 @@ class RequestsPage extends Component {
         }
 
         return (
+          <div>
+            <h1>Requests</h1>
             <RequestList requests={requests} />
+          </div>
         )
     }
 }

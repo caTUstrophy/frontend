@@ -39,9 +39,13 @@ function callApi(verb, authorization, endpoint, schema, payload) {
   }
 
   return fetch(fullUrl, request)
-    .then(response =>
-      response.json().then(json => ({ json, response }))
-    ).then(({ json, response }) => {
+    .then(response => {
+      if (response.status === 401) {
+        return Promise.reject({ message: "Unauthorized" });
+      }
+
+      return response.json().then(json => ({ json, response }));
+    }).then(({ json, response }) => {
       if (!response.ok) {
         return Promise.reject(json)
       }
