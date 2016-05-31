@@ -1,9 +1,8 @@
 import React from 'react'
 import { Route, IndexRoute } from 'react-router'
 import App from './containers/App'
+import HomePage from './containers/HomePage'
 import DefaultPage from './containers/misc/EmptyPage'
-import UserPage from './containers/deprecated/UserPage'
-import UsersPage from './containers/deprecated/UsersPage'
 import AddUserPage from './containers/user/SignupPage'
 import OffersPage from './containers/admin/OffersPage'
 import AddOfferPage from './containers/AddOfferPage'
@@ -15,7 +14,7 @@ import AddRequestPage from './containers/AddRequestPage'
 
 export default [
   <Route path="/" component={App}>
-    <IndexRoute component={DefaultPage} />
+    <IndexRoute component={HomePage} />
     <Route path="requests">
       <IndexRoute component={DefaultPage} />
       <Route path="create"
