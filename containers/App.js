@@ -2,30 +2,17 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 
-// Needed for onTouchTap, info at https://github.com/zilverline/react-tap-event-plugin
-import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
-
 import autobind from 'autobind-decorator';
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { blueGrey400, red500 } from 'material-ui/styles/colors';
+import muiThemeable from 'material-ui/styles/muiThemeable';
 import AppBar from 'material-ui/AppBar';
-import FloatingActionButton from 'material-ui/FloatingActionButton'
-import ContentAdd from 'material-ui/svg-icons/content/add'
+import Snackbar from 'material-ui/Snackbar';
 
 import LoginPage from './LoginPage'
 import { resetErrorMessage } from '../actions'
 import { tryRestoreLogin } from '../actions/login'
 
-const theme = getMuiTheme({
-  palette: {
-    primary1Color: blueGrey400,
-    accent1Color: red500
-  }
-});
-
+@muiThemeable()
 class App extends Component {
   constructor(props) {
     super(props);
@@ -36,64 +23,37 @@ class App extends Component {
   }
 
   @autobind
-  handleDismissClick(e) {
-    this.props.resetErrorMessage()
-    e.preventDefault()
+  handleRequestClose() {
+    this.props.resetErrorMessage();
   }
 
   renderErrorMessage() {
-    const { errorMessage } = this.props
-    if (!errorMessage) {
-      return null
-    }
+    const { errorMessage } = this.props;
 
-    return (
-      <p style={{ backgroundColor: '#e99', padding: 10 }}>
-        <b>{errorMessage}</b>
-        {' '}
-        (<a href="#"
-            onClick={this.handleDismissClick}>
-          Dismiss
-        </a>)
-      </p>
-    )
-  }
-
-  renderDefaultContent(children) {
-    return (
-      <div>
-        {children}
-        <FloatingActionButton style={{position: 'fixed', bottom: '2rem', right: '2rem'}}
-                              secondary={true}
-                              onTouchTap={() => browserHistory.push('/user/create')} >
-          <ContentAdd />
-        </FloatingActionButton>
-      </div>
-    )
-  }
-
-  renderLogin() {
-    return <LoginPage />;
+    return <Snackbar
+          open={!!errorMessage}
+          message={errorMessage || " " }
+          onRequestClose={this.handleRequestClose}
+          bodyStyle={{backgroundColor: 'darkred', fontFamily: this.props.muiTheme.fontFamily}} />;
   }
 
   render() {
     const { children, login, url } = this.props;
-
-    let isSignUpPage = /^\/?signup/i.test(url);
-    let loginValid = login && login.expires > new Date();
+    
+    if (!login || login.expires < new Date()) {
+      return <LoginPage />;
+    }
 
     return (
-      <MuiThemeProvider muiTheme={theme}>
-        <div>
-          <AppBar
-            title={<span style={{cursor: 'pointer'}} onTouchTap={() => browserHistory.push('/')}>CaTUstrophy</span>}
-            iconElementLeft={<div /> /* todo: remove to make menu-button appear and link to side menu */} />
-          <main style={{margin: '1rem'}}>
-        	{this.renderErrorMessage()}
-            {loginValid || isSignUpPage ? this.renderDefaultContent(children) : this.renderLogin()}
-          </main>
-        </div>
-      </MuiThemeProvider>
+      <div>
+        <AppBar
+          title={<span style={{cursor: 'pointer'}} onTouchTap={() => browserHistory.push('/')}>CaTUstrophy</span>}
+          iconElementLeft={<div /> /* todo: remove to make menu-button appear and link to side menu */} />
+        <main style={{margin: '1rem'}}>
+          {this.renderErrorMessage()}
+          {children}
+        </main>
+      </div>
     )
   }
 }
@@ -104,6 +64,8 @@ App.propTypes = {
   resetErrorMessage: PropTypes.func.isRequired,
   // Injected by React Router
   children: PropTypes.node,
+  // Injected by muiThemeable
+  muiTheme: PropTypes.object.isRequired,
 
   login: PropTypes.object
 };

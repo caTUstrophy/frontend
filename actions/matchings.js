@@ -6,12 +6,13 @@ export const MATCHINGS_FAILURE = 'MATCHINGS_FAILURE';
 
 // Fetches all matchings
 // Relies on the custom API middleware defined in ../middleware/api.js.
-function fetchMatchings() {
+function fetchMatchings(authorization) {
     return {
         [CALL_API]: {
             types: [ MATCHINGS_MATCHING, MATCHINGS_SUCCESS, MATCHINGS_FAILURE ],
             endpoint: `matchings`,
-            schema: Schemas.MATCHING_ARRAY
+            schema: Schemas.MATCHING_ARRAY,
+            authorization
         }
     }
 }
@@ -20,6 +21,6 @@ function fetchMatchings() {
 // Relies on Redux Thunk middleware.
 export function loadMatchings(requiredFields = []) {
     return (dispatch, getState) => {
-        return dispatch(fetchMatchings())
+        return dispatch(fetchMatchings(getState().login.jwt))
     }
 }

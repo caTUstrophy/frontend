@@ -20,12 +20,19 @@ const API_ROOT = 'http://localhost:3001/';
 
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
-function callApi(verb, endpoint, schema, payload) {
+function callApi(verb, authorization, endpoint, schema, payload) {
   const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint;
 
   let request = {
-    method: verb
+    method: verb,
+    headers: { }
   };
+
+  if (authorization) {
+    request.mode = 'cors';
+    request.headers['Authorization'] = `Bearer ${authorization}`;
+  }
+
   if (payload) {
     // todo: support non-JSON payload?
     request.body = JSON.stringify(payload);
@@ -105,7 +112,7 @@ export default store => next => action => {
   }
 
   let { endpoint, verb, payload } = callAPI;
-  const { schema, types } = callAPI;
+  const { schema, types, authorization } = callAPI;
 
   if (typeof endpoint === 'function') {
     endpoint = endpoint(store.getState())
@@ -136,7 +143,7 @@ export default store => next => action => {
   const [ requestType, successType, failureType ] = types
   next(actionWith({ type: requestType }))
 
-  return callApi(verb, endpoint, schema, payload).then(
+  return callApi(verb, authorization, endpoint, schema, payload).then(
     response => next(actionWith({
       response,
       type: successType

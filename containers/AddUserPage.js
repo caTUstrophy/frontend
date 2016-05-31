@@ -23,8 +23,10 @@ class UserPage extends Component {
 
   render() {
     return (
-      <div style={{width: '40rem', margin: '0 auto'}}>
-        <UserForm onSubmit={this.handleSubmit} />
+      <div style={{display: 'flex', height: '100%'}}>
+        <div style={{width: '40rem', margin: 'auto'}}>
+          <UserForm onSubmit={this.handleSubmit} />
+        </div>
       </div>
     )
   }

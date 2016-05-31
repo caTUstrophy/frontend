@@ -4,15 +4,19 @@ import routes from '../routes'
 import DevTools from './DevTools'
 import { Router } from 'react-router'
 
+import MaterialProvider from '../containers/MaterialProvider'
+
 export default class Root extends Component {
   render() {
     const { store, history } = this.props
     return (
       <Provider store={store}>
-        <div>
-          <Router history={history} routes={routes} />
-          <DevTools />
-        </div>
+        <MaterialProvider>
+          <div style={{height: '100%'}}>
+            <Router history={history} routes={routes} />
+            <DevTools />
+          </div>
+        </MaterialProvider>
       </Provider>
     )
   }
@@ -21,4 +25,4 @@ export default class Root extends Component {
 Root.propTypes = {
   store: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired
-}
+};
