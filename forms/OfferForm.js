@@ -41,7 +41,7 @@ export const Fields = {
 
 export class OfferForm extends Component {
   render() {
-    const {fields: {Name, Tags, Location, ValidityPeriod}, handleSubmit, submitting, invalid} = this.props;
+    const {fields: {Name, Tags, Location, ValidityPeriod}, handleSubmit, submitting, invalid, pristine, resetForm} = this.props;
     return (
       <form onSubmit={handleSubmit}>
         <Card>
@@ -84,6 +84,8 @@ export class OfferForm extends Component {
             {/* everything is reversed with flex-direction, because the submit button should come first (in DOM) */}
             <FlatButton ref="submit" label="Create offer" disabled={invalid || submitting} style={{marginLeft: 'auto'}}
                         type="submit"/>
+            <FlatButton label="Reset" disabled={pristine || submitting} onTouchTap={resetForm} />
+            <FlatButton label="Cancel" disabled={submitting} onTouchTap={() => browserHistory.goBack()} />
           </CardActions>
         </Card>
       </form>
