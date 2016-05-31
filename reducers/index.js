@@ -45,7 +45,7 @@ function entities(state = { users: {}, offers: {}, requests: {}, matchings: {}, 
 
 // Updates error message to notify about the failed fetches.
 function errorMessage(state = null, action) {
-  const { type, error } = action
+  const { type, error } = action;
 
   if (type === ActionTypes.RESET_ERROR_MESSAGE) {
     return null
@@ -54,6 +54,15 @@ function errorMessage(state = null, action) {
   }
 
   return state
+}
+
+// Toggle user menu
+function toggleUserMenu(state = null, action) {
+
+  if (action.type == ActionTypes.TOGGLE_USER_MENU) {
+    return !(action.openMenu);
+  }
+  return state;
 }
 
 // Updates the pagination data for different actions.
@@ -65,6 +74,7 @@ const rootReducer = combineReducers({
   entities,
   // pagination,
   errorMessage,
+  toggleUserMenu,
   routing,
   form: formReducer
 })
