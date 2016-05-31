@@ -6,7 +6,7 @@ import { browserHistory } from 'react-router'
 
 export default class RequestList extends Component {
     navigateToRequestPage(id) {
-        browserHistory.push(`/request/${ id }`);
+        browserHistory.push(`/admin/requests/${ id }`);
     }
 
     render() {

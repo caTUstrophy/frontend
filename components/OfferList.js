@@ -6,7 +6,7 @@ import { browserHistory } from 'react-router'
 
 export default class OfferList extends Component {
   navigateToOfferPage(id) {
-    browserHistory.push(`/offer/${ id }`);
+    browserHistory.push(`/admin/offers/${ id }`);
   }
 
   render() {

@@ -8,23 +8,52 @@ export const CREATE_OFFERS_FAILURE = 'CREATE_OFFERS_FAILURE';
 // Fetches all offers
 // Relies on the custom API middleware defined in ../middleware/api.js.
 function sendOffer(offer) {
-    return {
-        [CALL_API]: {
-            types: [ CREATE_OFFERS_REQUEST, CREATE_OFFERS_SUCCESS, CREATE_OFFERS_FAILURE ],
-            endpoint: `offers`,
-            verb: 'POST',
-            schema: Schemas.OFFER_ARRAY, // todo: no real response schema?
-            payload: offer
-        }
+  return {
+    [CALL_API]: {
+      types: [ CREATE_OFFERS_REQUEST, CREATE_OFFERS_SUCCESS, CREATE_OFFERS_FAILURE ],
+      endpoint: `offers`,
+      verb: 'POST',
+      schema: Schemas.OFFER_ARRAY, // todo: no real response schema?
+      payload: offer
     }
+  }
 }
 
 // Fetches all offers (unless it is cached)
 // Relies on Redux Thunk middleware.
 export function createOffer(offer, requiredFields = []) {
-    return (dispatch, getState) => {
-        return dispatch(authorized(getState().login.jwt)(sendOffer(offer)))
+  return (dispatch, getState) => {
+    return dispatch(authorized(getState().login.jwt)(sendOffer(offer)))
+  }
+}
+
+export const OFFER_REQUEST = 'OFFER_REQUEST';
+export const OFFER_SUCCESS = 'OFFER_SUCCESS';
+export const OFFER_FAILURE = 'OFFER_FAILURE';
+
+// Fetches a single offer
+// Relies on the custom API middleware defined in ../middleware/api.js.
+function fetchOffer(offerId) {
+  return {
+    [CALL_API]: {
+      types: [ OFFER_REQUEST, OFFER_SUCCESS, OFFER_FAILURE ],
+      endpoint: `offers/${offerId}`,
+      schema: Schemas.OFFER
     }
+  }
+}
+
+// Fetches a single offer unless it is cached.
+// Relies on Redux Thunk middleware.
+export function loadOffer(offerId, requiredFields = []) {
+  return (dispatch, getState) => {
+    const offer = getState().entities.offers[offerId];
+    if (offer && requiredFields.every(key => offer.hasOwnProperty(key))) {
+      return null;
+    }
+
+    return dispatch(authorized(getState().login.jwt)(fetchOffer(offerId)));
+  }
 }
 
 export const OFFERS_REQUEST = 'OFFERS_REQUEST';
@@ -34,19 +63,19 @@ export const OFFERS_FAILURE = 'OFFERS_FAILURE';
 // Fetches all offers
 // Relies on the custom API middleware defined in ../middleware/api.js.
 function fetchOffers() {
-    return {
-        [CALL_API]: {
-            types: [ OFFERS_REQUEST, OFFERS_SUCCESS, OFFERS_FAILURE ],
-            endpoint: `offers/worldwide`,
-            schema: Schemas.OFFER_ARRAY
-        }
+  return {
+    [CALL_API]: {
+      types: [ OFFERS_REQUEST, OFFERS_SUCCESS, OFFERS_FAILURE ],
+      endpoint: `offers/worldwide`,
+      schema: Schemas.OFFER_ARRAY
     }
+  }
 }
 
 // Fetches all offers (unless it is cached)
 // Relies on Redux Thunk middleware.
 export function loadOffers(requiredFields = []) {
-    return (dispatch, getState) => {
-        return dispatch(authorized(getState().login.jwt)(fetchOffers()))
-    }
+  return (dispatch, getState) => {
+    return dispatch(authorized(getState().login.jwt)(fetchOffers()))
+  }
 }

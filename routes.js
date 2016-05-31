@@ -1,15 +1,25 @@
 import React from 'react'
 import { Route, IndexRoute } from 'react-router'
 import App from './containers/App'
+
+// regular users
 import HomePage from './containers/HomePage'
-import DefaultPage from './containers/misc/EmptyPage'
-import AddUserPage from './containers/user/SignupPage'
-import OffersPage from './containers/admin/OffersPage'
 import AddOfferPage from './containers/AddOfferPage'
-import RequestsPage from './containers/admin/RequestsPage'
-import AdminHomePage from './containers/admin/AdminHomePage'
-import NotFoundPage from './containers/misc/NotFoundPage'
 import AddRequestPage from './containers/AddRequestPage'
+
+// admin
+import AdminHomePage from './containers/admin/AdminHomePage'
+import OffersPage from './containers/admin/OffersPage'
+import OfferPage from './containers/admin/OfferPage'
+import RequestsPage from './containers/admin/RequestsPage'
+import RequestPage from './containers/admin/RequestPage'
+
+// user
+import SignupPage from './containers/user/SignupPage'
+
+// other
+import DefaultPage from './containers/misc/EmptyPage'
+import NotFoundPage from './containers/misc/NotFoundPage'
 
 
 export default [
@@ -29,13 +39,15 @@ export default [
       <IndexRoute component={AdminHomePage} />
       <Route path="offers">
         <IndexRoute component={OffersPage} />
+        <Route path=":ID" component={OfferPage} />
       </Route>
       <Route path="requests">
         <IndexRoute component={RequestsPage} />
+        <Route path=":ID" component={RequestPage} />
       </Route>
     </Route>
   </Route>,
   <Route path="/signup"
-         component={AddUserPage} />,
+         component={SignupPage} />,
   <Route path="*" component={NotFoundPage} />
 ];
