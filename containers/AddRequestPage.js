@@ -15,9 +15,9 @@ class AddRequestPage extends Component {
   handleSubmit(request) {
     request.ValidityPeriod = request.ValidityPeriod.getTime();
     this.props.createRequest(request)
-      .then(e => {
-        if (e.type == CREATE_REQUESTS_SUCCESS) {
-          browserHistory.push('/admin/requests'); // todo: improve this
+      .then(response => {
+        if (response.type == CREATE_REQUESTS_SUCCESS) {
+          browserHistory.push('/requests'); // todo: improve this
         }
       }).catch(e => {
         console.log("Catch", e);
