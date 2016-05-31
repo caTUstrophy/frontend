@@ -2,14 +2,14 @@ import React, {Component} from 'react';
 import {reduxForm} from 'redux-form';
 import {browserHistory} from 'react-router';
 
+import Validation from './helpers/Validation';
+
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import DatePicker from 'material-ui/DatePicker';
 
 import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card'
-
-import toPairsIn from 'lodash/toPairsIn'
 
 export const Fields = {
   Name: {
@@ -31,30 +31,13 @@ export const Fields = {
     },
     error: "Missing location"
   },
-  ValidityPeriod: { // Not working
-    required: false,
-    error: "Please choose a validityPeriod"
+  ValidityPeriod: {
+    required: true,
+    error: "Please choose a validity period"
   }
 };
 
-const validate = values => {
-  const errors = {};
-  toPairsIn(Fields).forEach(([key, validations]) => {
-    if (validations.required && !values[key]) {
-      errors[key] = 'Required';
-    } else if (validations.regExp && !validations.regExp.pattern.test(values[key])) {
-      errors[key] = validations.regExp.error;
-    } else if (validations.custom) {
-      for (let customValidation of validations.custom) {
-        if (!customValidation.test(values[key])) {
-          errors[key] = customValidation.error;
-          break;
-        }
-      }
-    }
-  });
-  return errors;
-};
+
 
 export class OfferForm extends Component {
   render() {
@@ -111,5 +94,5 @@ export class OfferForm extends Component {
 export default reduxForm({
   form: 'offer-form',
   fields: Object.keys(Fields),
-  validate
+  validate: Validation(Fields)
 })(OfferForm);
