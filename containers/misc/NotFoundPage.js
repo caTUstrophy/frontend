@@ -8,7 +8,7 @@ import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card'
 class NotFoundPage extends Component {
   render() {
     return (
-      <div style={{display: 'flex'}}>
+      <div style={{display: 'flex', height: '100%'}}>
         <div style={{width: '40rem', margin: 'auto'}}>
           <Card>
             <CardHeader style={{backgroundColor: 'lightgray'}}
