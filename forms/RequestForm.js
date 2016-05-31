@@ -63,7 +63,7 @@ export class RequestForm extends Component {
       <form onSubmit={handleSubmit}>
         <Card>
           <CardHeader style={{backgroundColor: 'lightgray'}}
-                      name="Create request"/>
+                      title="Create request"/>
           <CardText>
             <div>
               <TextField {...Name}

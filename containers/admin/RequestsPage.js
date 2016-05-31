@@ -23,7 +23,10 @@ class RequestsPage extends Component {
         }
 
         return (
+          <div>
+            <h1>Requests</h1>
             <RequestList requests={requests} />
+          </div>
         )
     }
 }

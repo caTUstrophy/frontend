@@ -63,7 +63,7 @@ export class OfferForm extends Component {
       <form onSubmit={handleSubmit}>
         <Card>
           <CardHeader style={{backgroundColor: 'lightgray'}}
-                      name="Create offer"/>
+                      title="Create offer"/>
           <CardText>
             <div>
               <TextField {...Name}

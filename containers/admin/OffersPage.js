@@ -23,7 +23,10 @@ class OffersPage extends Component {
     }
 
     return (
-    <OfferList offers={offers} />
+      <div>
+        <h1>Offers</h1>
+        <OfferList offers={offers} />
+      </div>
     )
   }
 }
