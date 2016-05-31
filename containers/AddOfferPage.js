@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { createOffer } from '../actions/offers'
 import OfferForm from '../forms/OfferForm'
-
+import {browserHistory} from 'react-router'
+import {createOffer, CREATE_OFFERS_SUCCESS} from '../actions/offers'
 import autobind from 'autobind-decorator'
 
 class OfferPage extends Component {
@@ -12,11 +13,12 @@ class OfferPage extends Component {
 
   @autobind
   handleSubmit(offer) {
-    offer.Deadline = offer.Deadline.getTime();
+    offer.ValidityPeriod = offer.ValidityPeriod.getTime();
     this.props.createOffer(offer)
       .then(e => {
-        console.log("Then", e);
-        // todo: on actual success transfer to a relevant page
+        if (e.type == CREATE_OFFERS_SUCCESS) {
+          browserHistory.push('/admin/offers'); // todo: improve this
+        }
       }).catch(e => {
       console.log("Catch", e);
     });

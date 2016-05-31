@@ -6,14 +6,15 @@ export const CREATE_REQUESTS_FAILURE = 'CREATE_REQUESTS_FAILURE';
 
 // Fetches all requests
 // Relies on the custom API middleware defined in ../middleware/api.js.
-function sendRequest(request) {
+function sendRequest(request, authorization) {
     return {
         [CALL_API]: {
             types: [ CREATE_REQUESTS_REQUEST, CREATE_REQUESTS_SUCCESS, CREATE_REQUESTS_FAILURE ],
             endpoint: `requests`,
             verb: 'POST',
             schema: Schemas.REQUEST_ARRAY, // todo: no real response schema?
-            payload: request
+            payload: request,
+            authorization: authorization
         }
     }
 }
@@ -22,7 +23,7 @@ function sendRequest(request) {
 // Relies on Redux Thunk middleware.
 export function createRequest(request, requiredFields = []) {
     return (dispatch, getState) => {
-        return dispatch(sendRequest(request))
+        return dispatch(sendRequest(request, getState().login.jwt))
     }
 }
 export const REQUESTS_REQUEST = 'REQUESTS_REQUEST';
@@ -37,7 +38,7 @@ function fetchRequests(authorization) {
             types: [ REQUESTS_REQUEST, REQUESTS_SUCCESS, REQUESTS_FAILURE ],
             endpoint: `requests`,
             schema: Schemas.REQUEST_ARRAY,
-            authorization
+            authorization: authorization
         }
     }
 }

@@ -12,9 +12,9 @@ import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card'
 import toPairsIn from 'lodash/toPairsIn'
 
 export const Fields = {
-  Title: {
+  Name: {
     required: true,
-    error: "Please provide a title"
+    error: "Please provide a name"
   },
   Tags: {
     required: false,
@@ -31,9 +31,9 @@ export const Fields = {
     },
     error: "Missing location"
   },
-  Deadline: { // Not working
+  ValidityPeriod: { // Not working
     required: false,
-    error: "Please choose a deadline"
+    error: "Please choose a validityPeriod"
   }
 };
 
@@ -58,19 +58,19 @@ const validate = values => {
 
 export class OfferForm extends Component {
   render() {
-    const {fields: {Title, Tags, Location, Deadline}, handleSubmit, submitting, invalid} = this.props;
+    const {fields: {Name, Tags, Location, ValidityPeriod}, handleSubmit, submitting, invalid} = this.props;
     return (
       <form onSubmit={handleSubmit}>
         <Card>
           <CardHeader style={{backgroundColor: 'lightgray'}}
-                      title="Create offer"/>
+                      name="Create offer"/>
           <CardText>
             <div>
-              <TextField {...Title}
-                ref="Title"
+              <TextField {...Name}
+                ref="Name"
                 type="text"
                 floatingLabelText="What are you offering?"
-                errorText={Title.touched && Title.error}/>
+                errorText={Name.touched && Name.error}/>
             </div>
             <div>
               <TextField {...Tags}
@@ -88,12 +88,12 @@ export class OfferForm extends Component {
                 errorText={Location.touched && Location.error}/>
             </div>
             <div>
-              <DatePicker {...Deadline}
-                hintText="Deadline"
+              <DatePicker {...ValidityPeriod}
+                hintText="ValidityPeriod"
                 container="inline"
                 mode="landscape"
                 autoOk="true"
-                onChange={(event, value) => Deadline.onChange(value)}/>
+                onChange={(event, value) => ValidityPeriod.onChange(value)}/>
             </div>
           </CardText>
 

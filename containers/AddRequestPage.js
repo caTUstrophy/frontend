@@ -1,6 +1,7 @@
-import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
-import { createRequest } from '../actions/requests'
+import React, {Component, PropTypes} from 'react'
+import {connect} from 'react-redux'
+import {browserHistory} from 'react-router'
+import {createRequest, CREATE_REQUESTS_SUCCESS} from '../actions/requests'
 import RequestForm from '../forms/RequestForm'
 
 import autobind from 'autobind-decorator'
@@ -12,20 +13,21 @@ class RequestPage extends Component {
 
   @autobind
   handleSubmit(request) {
-    request.Deadline = request.Deadline.getTime();
+    request.ValidityPeriod = request.ValidityPeriod.getTime();
     this.props.createRequest(request)
       .then(e => {
-        console.log("Then", e);
-        // todo: on actual success transfer to a relevant page
+        if (e.type == CREATE_REQUESTS_SUCCESS) {
+          browserHistory.push('/admin/requests'); // todo: improve this
+        }
       }).catch(e => {
-      console.log("Catch", e);
-    });
+        console.log("Catch", e);
+      });
   }
 
   render() {
     return (
       <div style={{width: '40rem', margin: '0 auto'}}>
-        <RequestForm onSubmit={this.handleSubmit} />
+        <RequestForm onSubmit={this.handleSubmit}/>
       </div>
     )
   }

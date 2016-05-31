@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route } from 'react-router'
+import { Route, IndexRoute } from 'react-router'
 import App from './containers/App'
 import DefaultPage from './containers/DefaultPage'
 import UserPage from './containers/UserPage'
@@ -18,14 +18,16 @@ export default [
     <IndexRoute component={DefaultPage} />
     <Route path="admin">
       <IndexRoute component={AdminHomePage} />
-      <Route path="/offers"
-             component={OffersPage} />
-      <Route path="/offers/create"
-             component={AddOfferPage}/>
-      <Route path="/requests"
-             component={RequestsPage} />
-      <Route path="/requests/create"
-             component={AddRequestPage}/>
+      <Route path="offers">
+        <IndexRoute component={OffersPage} />
+        <Route path="create"
+               component={AddOfferPage}/>
+      </Route>
+      <Route path="requests">
+        <IndexRoute component={RequestsPage} />
+        <Route path="create"
+               component={AddRequestPage}/>
+      </Route>
     </Route>
   </Route>,
   <Route path="/signup"
