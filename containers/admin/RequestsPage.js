@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { loadRequests } from '../actions/requests'
-import RequestList from '../components/RequestList'
+import { loadRequests } from '../../actions/requests'
+import RequestList from '../../components/RequestList'
 
 function loadData(props) {
     props.loadRequests();

@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { createOffer } from '../actions/offers'
-import OfferForm from '../forms/OfferForm'
+import { createOffer } from '../../actions/offers'
+import OfferForm from '../../forms/OfferForm'
 import {browserHistory} from 'react-router'
-import {createOffer, CREATE_OFFERS_SUCCESS} from '../actions/offers'
+import {createOffer, CREATE_OFFERS_SUCCESS} from '../../actions/offers'
 import autobind from 'autobind-decorator'
 
 class OfferPage extends Component {
