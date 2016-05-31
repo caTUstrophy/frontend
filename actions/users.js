@@ -1,15 +1,15 @@
 import { CALL_API, Schemas } from '../middleware/api'
 
-export const CREATE_USERS_REQUEST = 'CREATE_USERS_REQUEST';
-export const CREATE_USERS_SUCCESS = 'CREATE_USERS_SUCCESS';
-export const CREATE_USERS_FAILURE = 'CREATE_USERS_FAILURE';
+export const CREATE_USER_REQUEST = 'CREATE_USER_REQUEST';
+export const CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS';
+export const CREATE_USER_FAILURE = 'CREATE_USER_FAILURE';
 
 // Fetches all users
 // Relies on the custom API middleware defined in ../middleware/api.js.
 function sendUser(user) {
   return {
     [CALL_API]: {
-      types: [ CREATE_USERS_REQUEST, CREATE_USERS_SUCCESS, CREATE_USERS_FAILURE ],
+      types: [ CREATE_USER_REQUEST, CREATE_USER_SUCCESS, CREATE_USER_FAILURE ],
       endpoint: `users`,
       verb: 'POST',
       schema: Schemas.USER_ARRAY, // todo: no real response schema?

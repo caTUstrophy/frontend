@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { createUser } from '../../actions'
+import { browserHistory } from 'react-router'
+
+import { createUser, CREATE_USER_SUCCESS } from '../../actions'
 import UserForm from '../../forms/UserForm'
 
 import autobind from 'autobind-decorator'
@@ -13,12 +15,11 @@ class SignupPage extends Component {
   @autobind
   handleSubmit(user) {
     this.props.createUser(user)
-      .then(e => {
-        console.log("Then", e);
-        // todo: on actual success transfer to a relevant page
-      }).catch(e => {
-        console.log("Catch", e);
-      });
+      .then(result => {
+        if (result.type == CREATE_USER_SUCCESS) {
+          browserHistory.goBack()
+        }
+      })
   }
 
   render() {
