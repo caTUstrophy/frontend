@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { createUser } from '../actions'
-import UserForm from '../../forms/UserForm'
+import UserForm from '../forms/UserForm'
 
 import autobind from 'autobind-decorator'
 
-class UserPage extends Component {
+class SignupPage extends Component {
   constructor(props) {
     super(props);
   }
@@ -32,7 +32,7 @@ class UserPage extends Component {
   }
 }
 
-UserPage.propTypes = {
+SignupPage.propTypes = {
   ID: PropTypes.number.isRequired,
   user: PropTypes.object,
   loadUser: PropTypes.func.isRequired
@@ -40,4 +40,4 @@ UserPage.propTypes = {
 
 export default connect(null, {
   createUser
-})(UserPage)
+})(SignupPage)
