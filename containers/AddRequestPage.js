@@ -1,19 +1,19 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { createOffer } from '../actions/offers'
-import OfferForm from '../forms/OfferForm'
+import { createRequest } from '../actions/requests'
+import RequestForm from '../forms/RequestForm'
 
 import autobind from 'autobind-decorator'
 
-class OfferPage extends Component {
+class RequestPage extends Component {
   constructor(props) {
     super(props);
   }
 
   @autobind
-  handleSubmit(offer) {
-    offer.Deadline = offer.Deadline.getTime();
-    this.props.createOffer(offer)
+  handleSubmit(request) {
+    request.Deadline = request.Deadline.getTime();
+    this.props.createRequest(request)
       .then(e => {
         console.log("Then", e);
         // todo: on actual success transfer to a relevant page
@@ -25,18 +25,18 @@ class OfferPage extends Component {
   render() {
     return (
       <div style={{width: '40rem', margin: '0 auto'}}>
-        <OfferForm onSubmit={this.handleSubmit} />
+        <RequestForm onSubmit={this.handleSubmit} />
       </div>
     )
   }
 }
 
-OfferPage.propTypes = {
+RequestPage.propTypes = {
   ID: PropTypes.number.isRequired,
-  offer: PropTypes.object,
-  loadOffer: PropTypes.func.isRequired
+  request: PropTypes.object,
+  loadRequest: PropTypes.func.isRequired
 };
 
 export default connect(null, {
-  createOffer
-})(OfferPage)
+  createRequest
+})(RequestPage)

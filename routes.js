@@ -8,6 +8,7 @@ import LoginPage from './containers/LoginPage'
 import OffersPage from './containers/OffersPage'
 import AddOfferPage from './containers/AddOfferPage'
 import RequestsPage from './containers/RequestsPage'
+import AddRequestPage from './containers/AddRequestPage'
 
 export default (
   <Route path="/" component={App}>
@@ -23,6 +24,8 @@ export default (
            component={AddOfferPage}/>
     <Route path="/requests"
            component={RequestsPage}/>
+    <Route path="/requests/create"
+           component={AddRequestPage}/>
     <Route path="/login"
            component={LoginPage}/>
   </Route>
