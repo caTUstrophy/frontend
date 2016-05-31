@@ -3,7 +3,7 @@ import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 import api from '../middleware/api'
 import rootReducer from '../reducers'
-import DevTools from '../containers/DevTools'
+import DevTools from '../containers/meta/DevTools'
 
 export default function configureStore(initialState) {
   const store = createStore(

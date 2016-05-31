@@ -8,7 +8,7 @@ import muiThemeable from 'material-ui/styles/muiThemeable';
 import AppBar from 'material-ui/AppBar';
 import Snackbar from 'material-ui/Snackbar';
 
-import LoginPage from './LoginPage'
+import LoginPage from './user/LoginPage'
 import { resetErrorMessage } from '../actions'
 import { tryRestoreLogin } from '../actions/login'
 

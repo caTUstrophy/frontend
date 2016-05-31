@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { createUser } from '../actions'
-import UserForm from '../forms/UserForm'
+import { createUser } from '../../actions'
+import UserForm from '../../forms/UserForm'
 
 import autobind from 'autobind-decorator'
 

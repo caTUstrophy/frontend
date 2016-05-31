@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { login } from '../actions/login'
-import LoginForm from '../forms/LoginForm'
+import { login } from '../../actions/login'
+import LoginForm from '../../forms/LoginForm'
 
 import autobind from 'autobind-decorator'
 

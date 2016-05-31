@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {browserHistory} from 'react-router'
-import {createRequest, CREATE_REQUESTS_SUCCESS} from '../../actions/requests'
-import RequestForm from '../../forms/RequestForm'
+import {createRequest, CREATE_REQUESTS_SUCCESS} from '../actions/requests'
+import RequestForm from '../forms/RequestForm'
 
 import autobind from 'autobind-decorator'
 

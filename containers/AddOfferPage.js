@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import OfferForm from '../../forms/OfferForm'
+import OfferForm from '../forms/OfferForm'
 import {browserHistory} from 'react-router'
-import { createOffer, CREATE_OFFERS_SUCCESS } from '../../actions/offers'
+import { createOffer, CREATE_OFFERS_SUCCESS } from '../actions/offers'
 import autobind from 'autobind-decorator'
 
 class AddOfferPage extends Component {
@@ -14,9 +14,9 @@ class AddOfferPage extends Component {
   handleSubmit(offer) {
     offer.ValidityPeriod = offer.ValidityPeriod.getTime();
     this.props.createOffer(offer)
-      .then(e => {
-        if (e.type == CREATE_OFFERS_SUCCESS) {
-          browserHistory.push('/admin/offers'); // todo: improve this
+      .then(result => {
+        if (result.type == CREATE_OFFERS_SUCCESS) {
+          browserHistory.push('/offers'); // todo: improve this
         }
       }).catch(e => {
       console.log("Catch", e);
