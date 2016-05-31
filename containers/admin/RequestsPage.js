@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { loadRequests } from '../../actions/requests'
 import RequestList from '../../components/RequestList'
 
-function loadData(props) {
+function loadData() {
     props.loadRequests();
 }
 

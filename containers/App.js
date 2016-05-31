@@ -64,8 +64,6 @@ App.propTypes = {
   resetErrorMessage: PropTypes.func.isRequired,
   // Injected by React Router
   children: PropTypes.node,
-  // Injected by muiThemeable
-  muiTheme: PropTypes.object.isRequired,
 
   login: PropTypes.object
 };

@@ -92,7 +92,7 @@ export class RequestForm extends Component {
                 hintText="ValidityPeriod"
                 container="inline"
                 mode="landscape"
-                autoOk="true"
+                autoOk={true}
                 onChange={(event, value) => ValidityPeriod.onChange(value)}/>
             </div>
           </CardText>

@@ -5,7 +5,7 @@ import { Card, CardHeader, CardText } from 'material-ui/Card'
 
 export default class User extends Component {
   render() {
-    const user = this.props.user
+    const user = this.props.user;
 
     return (
       <Card>

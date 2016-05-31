@@ -6,7 +6,7 @@ import RequestForm from '../../forms/RequestForm'
 
 import autobind from 'autobind-decorator'
 
-class RequestPage extends Component {
+class AddRequestPage extends Component {
   constructor(props) {
     super(props);
   }
@@ -33,12 +33,10 @@ class RequestPage extends Component {
   }
 }
 
-RequestPage.propTypes = {
-  ID: PropTypes.number.isRequired,
-  request: PropTypes.object,
-  loadRequest: PropTypes.func.isRequired
+AddRequestPage.propTypes = {
+  request: PropTypes.object
 };
 
 export default connect(null, {
   createRequest
-})(RequestPage)
+})(AddRequestPage)

@@ -5,7 +5,7 @@ import {browserHistory} from 'react-router'
 import { createOffer, CREATE_OFFERS_SUCCESS } from '../../actions/offers'
 import autobind from 'autobind-decorator'
 
-class OfferPage extends Component {
+class AddOfferPage extends Component {
   constructor(props) {
     super(props);
   }
@@ -32,12 +32,10 @@ class OfferPage extends Component {
   }
 }
 
-OfferPage.propTypes = {
-  ID: PropTypes.number.isRequired,
-  offer: PropTypes.object,
-  loadOffer: PropTypes.func.isRequired
+AddOfferPage.propTypes = {
+  offer: PropTypes.object
 };
 
 export default connect(null, {
   createOffer
-})(OfferPage)
+})(AddOfferPage)
