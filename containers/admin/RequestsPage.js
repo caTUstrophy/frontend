@@ -3,17 +3,13 @@ import { connect } from 'react-redux'
 import { loadRequests } from '../../actions/requests'
 import RequestList from '../../components/RequestList'
 
-function loadData() {
-    props.loadRequests();
-}
-
 class RequestsPage extends Component {
     constructor(props) {
         super(props);
     }
 
     componentWillMount() {
-        loadData(this.props)
+        this.props.loadRequests()
     }
 
     render() {
