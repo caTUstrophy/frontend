@@ -18,7 +18,7 @@ export default class OfferList extends Component {
     } else {
       offerList = this.props.offers.map(offer =>
         <ListItem key={offer.ID}
-                  primaryText={`${offer.Title}`}
+                  primaryText={`${offer.Name}`}
                   secondaryText={offer.Description}
                   onTouchTap={this.navigateToOfferPage.bind(this, offer.ID)} />
       );
