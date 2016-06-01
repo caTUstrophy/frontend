@@ -9,11 +9,12 @@ import {reducer as formReducer} from 'redux-form';
 
 import LocalStorage from '../helpers/LocalStorage'
 
-import { LOGIN_SUCCESS, LOGIN_LOCAL_STORAGE_KEY } from '../actions/login'
+import { LOGIN_SUCCESS, LOGOUT_SUCCESS, LOGIN_LOCAL_STORAGE_KEY } from '../actions/login'
 
 // login reducer
 function login(state = null, action) {
   if (action.type == LOGIN_SUCCESS) {
+    // todo: pure function violation?
     let jwt = action.jwt || action.response.AccessToken;
 
     const token = jwtDecode(jwt);
@@ -29,6 +30,9 @@ function login(state = null, action) {
       token,
       expires
     };
+  } else if (action.type == LOGOUT_SUCCESS) {
+    LocalStorage.removeItem(LOGIN_LOCAL_STORAGE_KEY);
+    return null;
   }
 
   return state;
@@ -57,10 +61,10 @@ function errorMessage(state = null, action) {
 }
 
 // Toggle user menu
-function toggleUserMenu(state = null, action) {
+function toggleUserMenu(state = false, action) {
 
   if (action.type == ActionTypes.TOGGLE_USER_MENU) {
-    return !(action.openMenu);
+    return !state;
   }
   return state;
 }
@@ -74,7 +78,7 @@ const rootReducer = combineReducers({
   entities,
   // pagination,
   errorMessage,
-  toggleUserMenu,
+  openMenu: toggleUserMenu,
   routing,
   form: formReducer
 })

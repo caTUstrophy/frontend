@@ -14,7 +14,7 @@ import IconButton from 'material-ui/IconButton/IconButton';
 
 import LoginPage from './user/LoginPage'
 import { resetErrorMessage, toggleUserMenu } from '../actions'
-import { tryRestoreLogin } from '../actions/login'
+import { tryRestoreLogin, logout } from '../actions/login'
 
 @muiThemeable()
 class App extends Component {
@@ -42,24 +42,33 @@ class App extends Component {
   }
 
   @autobind
-  handleRequestToggle() {
+  handleRequestToggle(event, value) {
+    console.log("Change requested", event, value)
     this.props.toggleUserMenu();
   }
+
+  @autobind
+  handleLogoutTap() {
+    this.props.logout();
+  }
+
   renderUserMenu() {
+    const { openMenu, login } = this.props;
+    const isAdmin = login.token.iss == "admin@example.org";
 
-    const {openMenu } = this.props;
-
-    return <IconMenu
-          open={!!openMenu}
-          onRequestChange={this.handleRequestToggle()}
+    return (
+      <IconMenu
+          open={openMenu}
+          onRequestChange={this.handleRequestToggle}
           iconButtonElement={<IconButton><AccountIcon /></IconButton>}
           anchorOrigin={{horizontal: 'right', vertical: 'top'}}
           targetOrigin={{horizontal: 'right', vertical: 'top'}}>
-          <MenuItem primaryText="Username"/>
-          <MenuItem primaryText="Admin area"/> /* change to link */
-          <MenuItem primaryText="Profile" />
-          <MenuItem primaryText="Logout" /> /* change to link */
-    </IconMenu>
+            {/* <MenuItem value="username" primaryText="Username"/> */}
+            {isAdmin ? <MenuItem value="admin-area" primaryText="Admin area" onTouchTap={() => browserHistory.push('/admin')}/> : null}
+            <MenuItem value="profile" disabled={true} primaryText="Profile" />
+            <MenuItem value="logout" primaryText="Logout" onTouchTap={this.handleLogoutTap} />
+      </IconMenu>
+    );
   }
 
   render() {
@@ -109,5 +118,6 @@ function mapStateToProps(state, ownProps) {
 export default connect(mapStateToProps, {
   resetErrorMessage,
   tryRestoreLogin,
-  toggleUserMenu
+  toggleUserMenu,
+  logout
 })(App)
