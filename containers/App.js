@@ -7,10 +7,16 @@ import autobind from 'autobind-decorator';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import AppBar from 'material-ui/AppBar';
 import Snackbar from 'material-ui/Snackbar';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import AccountIcon from 'material-ui/svg-icons/action/account-circle';
+import IconButton from 'material-ui/IconButton/IconButton';
 
 import LoginPage from './user/LoginPage'
-import { resetErrorMessage } from '../actions'
-import { tryRestoreLogin } from '../actions/login'
+import UserMenu from './user/UserMenu'
+
+import { resetErrorMessage, toggleUserMenu } from '../actions'
+import { tryRestoreLogin, logout } from '../actions/login'
 
 @muiThemeable()
 class App extends Component {
@@ -39,7 +45,7 @@ class App extends Component {
 
   render() {
     const { children, login, url } = this.props;
-    
+
     if (!login || login.expires < new Date()) {
       return <LoginPage />;
     }
@@ -48,7 +54,9 @@ class App extends Component {
       <div>
         <AppBar
           title={<span style={{cursor: 'pointer'}} onTouchTap={() => browserHistory.push('/')}>CaTUstrophy</span>}
-          iconElementLeft={<div /> /* todo: remove to make menu-button appear and link to side menu */} />
+          iconElementLeft={<div /> /* todo: remove to make menu-button appear and link to side menu */}
+          iconElementRight={<UserMenu />}
+        />
         <main style={{margin: '1rem'}}>
           {this.renderErrorMessage()}
           {children}
@@ -69,10 +77,11 @@ App.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
+  const { login, userInterface: { errorMessage }} = state;
   return {
     url: ownProps.location.pathname,
-    login: state.login,
-    errorMessage: state.errorMessage
+    login,
+    errorMessage
   }
 }
 

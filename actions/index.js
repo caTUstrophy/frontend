@@ -2,12 +2,4 @@ export * from './users'
 export * from './offers'
 export * from './requests'
 export * from './matchings'
-
-export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE'
-
-// Resets the currently visible error message.
-export function resetErrorMessage() {
-  return {
-    type: RESET_ERROR_MESSAGE
-  }
-}
+export * from './userInterface'

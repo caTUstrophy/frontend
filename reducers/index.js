@@ -3,17 +3,19 @@ import merge from 'lodash/merge'
 import jwtDecode from 'jwt-decode';
 
 import paginate from './paginate'
+import userInterface from './userInterface'
 import { routerReducer as routing } from 'react-router-redux'
 import { combineReducers } from 'redux'
 import {reducer as formReducer} from 'redux-form';
 
 import LocalStorage from '../helpers/LocalStorage'
 
-import { LOGIN_SUCCESS, LOGIN_LOCAL_STORAGE_KEY } from '../actions/login'
+import { LOGIN_SUCCESS, LOGOUT_SUCCESS, LOGIN_LOCAL_STORAGE_KEY } from '../actions/login'
 
 // login reducer
 function login(state = null, action) {
   if (action.type == LOGIN_SUCCESS) {
+    // todo: pure function violation?
     let jwt = action.jwt || action.response.AccessToken;
 
     const token = jwtDecode(jwt);
@@ -29,6 +31,9 @@ function login(state = null, action) {
       token,
       expires
     };
+  } else if (action.type == LOGOUT_SUCCESS) {
+    LocalStorage.removeItem(LOGIN_LOCAL_STORAGE_KEY);
+    return null;
   }
 
   return state;
@@ -43,19 +48,6 @@ function entities(state = { users: {}, offers: {}, requests: {}, matchings: {}, 
   return state
 }
 
-// Updates error message to notify about the failed fetches.
-function errorMessage(state = null, action) {
-  const { type, error } = action
-
-  if (type === ActionTypes.RESET_ERROR_MESSAGE) {
-    return null
-  } else if (error) {
-    return action.error
-  }
-
-  return state
-}
-
 // Updates the pagination data for different actions.
 const pagination = combineReducers({
 })
@@ -64,7 +56,7 @@ const rootReducer = combineReducers({
   login,
   entities,
   // pagination,
-  errorMessage,
+  userInterface,
   routing,
   form: formReducer
 })
