@@ -53,12 +53,12 @@ class App extends Component {
   }
 
   renderUserMenu() {
-    const { openMenu, login } = this.props;
+    const { userMenuOpen, login } = this.props;
     const isAdmin = login.token.iss == "admin@example.org";
 
     return (
       <IconMenu
-          open={openMenu}
+          open={userMenuOpen}
           onRequestChange={this.handleRequestToggle}
           iconButtonElement={<IconButton><AccountIcon /></IconButton>}
           anchorOrigin={{horizontal: 'right', vertical: 'top'}}
@@ -98,7 +98,7 @@ App.propTypes = {
   // Injected by React Redux
   errorMessage: PropTypes.string,
   resetErrorMessage: PropTypes.func.isRequired,
-  openMenu: PropTypes.bool,
+  userMenuOpen: PropTypes.bool,
   toggleUserMenu: PropTypes.func.isRequired,
   // Injected by React Router
   children: PropTypes.node,
@@ -107,11 +107,12 @@ App.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
+  const { login, userInterface: { errorMessage, userMenuOpen }} = state;
   return {
     url: ownProps.location.pathname,
-    login: state.login,
-    errorMessage: state.errorMessage,
-    openMenu: state.openMenu
+    login,
+    errorMessage,
+    userMenuOpen
   }
 }
 

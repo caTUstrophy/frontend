@@ -3,6 +3,7 @@ import merge from 'lodash/merge'
 import jwtDecode from 'jwt-decode';
 
 import paginate from './paginate'
+import userInterface from './userInterface'
 import { routerReducer as routing } from 'react-router-redux'
 import { combineReducers } from 'redux'
 import {reducer as formReducer} from 'redux-form';
@@ -47,28 +48,6 @@ function entities(state = { users: {}, offers: {}, requests: {}, matchings: {}, 
   return state
 }
 
-// Updates error message to notify about the failed fetches.
-function errorMessage(state = null, action) {
-  const { type, error } = action;
-
-  if (type === ActionTypes.RESET_ERROR_MESSAGE) {
-    return null
-  } else if (error) {
-    return action.error
-  }
-
-  return state
-}
-
-// Toggle user menu
-function toggleUserMenu(state = false, action) {
-
-  if (action.type == ActionTypes.TOGGLE_USER_MENU) {
-    return !state;
-  }
-  return state;
-}
-
 // Updates the pagination data for different actions.
 const pagination = combineReducers({
 })
@@ -77,8 +56,7 @@ const rootReducer = combineReducers({
   login,
   entities,
   // pagination,
-  errorMessage,
-  openMenu: toggleUserMenu,
+  userInterface,
   routing,
   form: formReducer
 })
