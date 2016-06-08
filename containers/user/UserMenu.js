@@ -35,7 +35,7 @@ class UserMenu extends Component {
       <IconMenu
         open={userMenuOpen}
         onRequestChange={this.handleRequestToggle}
-        iconButtonElement={<IconButton><AccountIcon style={{color: 'white'}} /></IconButton>}
+        iconButtonElement={<IconButton><AccountIcon color="white" /></IconButton>}
         anchorOrigin={{horizontal: 'right', vertical: 'top'}}
         targetOrigin={{horizontal: 'right', vertical: 'top'}}>
         {/* <MenuItem value="username" primaryText="Username"/> */}
