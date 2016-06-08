@@ -13,6 +13,8 @@ import AccountIcon from 'material-ui/svg-icons/action/account-circle';
 import IconButton from 'material-ui/IconButton/IconButton';
 
 import LoginPage from './user/LoginPage'
+import UserMenu from './user/UserMenu'
+
 import { resetErrorMessage, toggleUserMenu } from '../actions'
 import { tryRestoreLogin, logout } from '../actions/login'
 
@@ -41,36 +43,6 @@ class App extends Component {
           bodyStyle={{backgroundColor: 'darkred', fontFamily: this.props.muiTheme.fontFamily}} />;
   }
 
-  @autobind
-  handleRequestToggle(event, value) {
-    console.log("Change requested", event, value)
-    this.props.toggleUserMenu();
-  }
-
-  @autobind
-  handleLogoutTap() {
-    this.props.logout();
-  }
-
-  renderUserMenu() {
-    const { userMenuOpen, login } = this.props;
-    const isAdmin = login.token.iss == "admin@example.org";
-
-    return (
-      <IconMenu
-          open={userMenuOpen}
-          onRequestChange={this.handleRequestToggle}
-          iconButtonElement={<IconButton><AccountIcon /></IconButton>}
-          anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-          targetOrigin={{horizontal: 'right', vertical: 'top'}}>
-            {/* <MenuItem value="username" primaryText="Username"/> */}
-            {isAdmin ? <MenuItem value="admin-area" primaryText="Admin area" onTouchTap={() => browserHistory.push('/admin')}/> : null}
-            <MenuItem value="profile" disabled={true} primaryText="Profile" />
-            <MenuItem value="logout" primaryText="Logout" onTouchTap={this.handleLogoutTap} />
-      </IconMenu>
-    );
-  }
-
   render() {
     const { children, login, url } = this.props;
 
@@ -83,7 +55,7 @@ class App extends Component {
         <AppBar
           title={<span style={{cursor: 'pointer'}} onTouchTap={() => browserHistory.push('/')}>CaTUstrophy</span>}
           iconElementLeft={<div /> /* todo: remove to make menu-button appear and link to side menu */}
-          iconElementRight={this.renderUserMenu()}
+          iconElementRight={<UserMenu />}
         />
         <main style={{margin: '1rem'}}>
           {this.renderErrorMessage()}
@@ -98,8 +70,6 @@ App.propTypes = {
   // Injected by React Redux
   errorMessage: PropTypes.string,
   resetErrorMessage: PropTypes.func.isRequired,
-  userMenuOpen: PropTypes.bool,
-  toggleUserMenu: PropTypes.func.isRequired,
   // Injected by React Router
   children: PropTypes.node,
 
@@ -107,18 +77,15 @@ App.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  const { login, userInterface: { errorMessage, userMenuOpen }} = state;
+  const { login, userInterface: { errorMessage }} = state;
   return {
     url: ownProps.location.pathname,
     login,
-    errorMessage,
-    userMenuOpen
+    errorMessage
   }
 }
 
 export default connect(mapStateToProps, {
   resetErrorMessage,
-  tryRestoreLogin,
-  toggleUserMenu,
-  logout
+  tryRestoreLogin
 })(App)
