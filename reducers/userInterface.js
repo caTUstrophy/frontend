@@ -1,7 +1,7 @@
 import merge from 'lodash/merge';
 import * as ActionTypes from '../actions/userInterface'
 
-export function userInterface(state = { userMenuOpen: false, errorMessage: null }, action) {
+export function userInterface(state = { userMenuOpen: false, sideMenuOpen: false, errorMessage: null }, action) {
   if (action.error) { // todo: bad style? intercepts all actions
     return merge({}, state, { errorMessage: action.error });
   }
@@ -10,6 +10,9 @@ export function userInterface(state = { userMenuOpen: false, errorMessage: null 
   }
   if (action.type == ActionTypes.TOGGLE_USER_MENU) {
     return merge({}, state, { userMenuOpen: !state.userMenuOpen });
+  }
+  if (action.type == ActionTypes.TOGGLE_SIDE_MENU) {
+    return merge({}, state, { sideMenuOpen: !state.sideMenuOpen });
   }
   return state;
 }
