@@ -10,7 +10,8 @@ class HomePage extends Component {
   render() {
     return (
       <div style={{display: 'flex'}}>
-        <div style={{width: '40rem', margin: 'auto'}}>
+        <div style={{width: '40rem', margin: 'auto', textAlign: 'center'}}>
+          <img src="../images/logo.svg" alt="CaTUstrophy" width="200rem" height="200rem"/>
           <h1>Welcome to CaTUstrophy</h1>
 
 
