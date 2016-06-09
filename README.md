@@ -75,6 +75,17 @@ See [#3](https://github.com/caTUstrophy/frontend/issues/3) to discuss how to wri
 - Some `test/helpers` (mostly copied from [smaato/react-test-kit](https://github.com/smaato/react-test-kit))
 - Travis runs `npm test` automatically, current status: [![Build Status](https://travis-ci.org/caTUstrophy/frontend.svg?branch=master)](https://travis-ci.org/caTUstrophy/frontend)
 
+## Deploying
+
+Run `npm run-script bundle` to create a webpack build in `dist/`.
+The command internally runs
+
+    webpack -p --progress --config webpack.production.config.js
+    
+Read `webpack.production.config.js` for the details.
+
+Currently there is no HTML or CSS generated, an `index.html` should be derived manually.
+
 ## Resources to familiarize yourself with the technologies
 - [React tutorial](http://facebook.github.io/react/docs/tutorial.html) in the [official docs](http://facebook.github.io/react/docs/top-level-api.html)
     - the official docs have many *guides* and *tips*.
