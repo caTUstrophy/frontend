@@ -1,5 +1,4 @@
 import { Schema, arrayOf, normalize } from 'normalizr'
-import 'isomorphic-fetch'
 
 // Extracts the next page URL from Github API response.
 function getNextPageUrl(response) {

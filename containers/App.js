@@ -8,19 +8,14 @@ import autobind from 'autobind-decorator';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import AppBar from 'material-ui/AppBar';
 import Snackbar from 'material-ui/Snackbar';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
-import AccountIcon from 'material-ui/svg-icons/action/account-circle';
-import IconButton from 'material-ui/IconButton/IconButton';
 
 import LoginPage from './user/LoginPage'
 import UserMenu from './user/UserMenu'
 
-import { resetErrorMessage, toggleUserMenu } from '../actions'
+import { resetErrorMessage } from '../actions/userInterface'
 import { tryRestoreLogin, logout, refreshLogin } from '../actions/login'
 
-@muiThemeable()
-class App extends Component {
+export class App extends Component {
   constructor(props) {
     super(props);
   }
@@ -91,11 +86,18 @@ class App extends Component {
 App.propTypes = {
   // Injected by React Redux
   errorMessage: PropTypes.string,
+  login: PropTypes.object,
+
   resetErrorMessage: PropTypes.func.isRequired,
+  refreshLogin: PropTypes.func.isRequired,
+  tryRestoreLogin: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
+
   // Injected by React Router
   children: PropTypes.node,
+  // Injected by muiThemeable
+  muiTheme: PropTypes.object.isRequired
 
-  login: PropTypes.object
 };
 
 function mapStateToProps(state, ownProps) {
@@ -107,9 +109,9 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
-export default connect(mapStateToProps, {
+export default muiThemeable()(connect(mapStateToProps, {
   resetErrorMessage,
   tryRestoreLogin,
   refreshLogin,
   logout
-})(App)
+})(App))
