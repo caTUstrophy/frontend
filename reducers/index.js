@@ -1,43 +1,12 @@
 import * as ActionTypes from '../actions'
 import merge from 'lodash/merge'
-import jwtDecode from 'jwt-decode';
 
 import paginate from './paginate'
 import userInterface from './userInterface'
+import login from './login'
 import { routerReducer as routing } from 'react-router-redux'
 import { combineReducers } from 'redux'
-import {reducer as formReducer} from 'redux-form';
-
-import LocalStorage from '../helpers/LocalStorage'
-
-import { LOGIN_SUCCESS, LOGOUT_SUCCESS, LOGIN_LOCAL_STORAGE_KEY } from '../actions/login'
-
-// login reducer
-function login(state = null, action) {
-  if (action.type == LOGIN_SUCCESS) {
-    // todo: pure function violation?
-    let jwt = action.jwt || action.response.AccessToken;
-    LocalStorage.setItem(LOGIN_LOCAL_STORAGE_KEY, jwt);
-
-    const token = jwtDecode(jwt);
-    const expires = new Date(token.exp);
-
-    if (expires < new Date()) {
-      return null;
-    }
-
-    return {
-      jwt,
-      token,
-      expires
-    };
-  } else if (action.type == LOGOUT_SUCCESS) {
-    LocalStorage.removeItem(LOGIN_LOCAL_STORAGE_KEY);
-    return null;
-  }
-
-  return state;
-}
+import { reducer as formReducer } from 'redux-form';
 
 // Updates an entity cache in response to any action with response.entities.
 function entities(state = { users: {}, offers: {}, requests: {}, matchings: {}, login: null }, action) {
@@ -50,7 +19,7 @@ function entities(state = { users: {}, offers: {}, requests: {}, matchings: {}, 
 
 // Updates the pagination data for different actions.
 const pagination = combineReducers({
-})
+});
 
 const rootReducer = combineReducers({
   login,
@@ -59,6 +28,6 @@ const rootReducer = combineReducers({
   userInterface,
   routing,
   form: formReducer
-})
+});
 
 export default rootReducer

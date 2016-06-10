@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 
+import Moment from 'moment';
 import autobind from 'autobind-decorator';
 
 import muiThemeable from 'material-ui/styles/muiThemeable';
@@ -16,7 +17,7 @@ import LoginPage from './user/LoginPage'
 import UserMenu from './user/UserMenu'
 
 import { resetErrorMessage, toggleUserMenu } from '../actions'
-import { tryRestoreLogin, logout } from '../actions/login'
+import { tryRestoreLogin, logout, refreshLogin } from '../actions/login'
 
 @muiThemeable()
 class App extends Component {
@@ -26,6 +27,19 @@ class App extends Component {
 
   componentWillMount() {
     this.props.tryRestoreLogin();
+
+    setInterval(() => {
+      const { login, logout, refreshLogin } = this.props;
+
+      if (login.expires < new Date()) {
+        logout();
+      }
+
+      let refreshTarget = new Moment(login.expires).subtract(5, 'minutes');
+      if (refreshTarget.toDate() < new Date()) {
+        refreshLogin();
+      }
+    }, 1000);
   }
 
   @autobind
@@ -87,5 +101,7 @@ function mapStateToProps(state, ownProps) {
 
 export default connect(mapStateToProps, {
   resetErrorMessage,
-  tryRestoreLogin
+  tryRestoreLogin,
+  refreshLogin,
+  logout
 })(App)
