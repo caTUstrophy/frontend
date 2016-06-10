@@ -28,8 +28,12 @@ class App extends Component {
   componentWillMount() {
     this.props.tryRestoreLogin();
 
-    setInterval(() => {
+    this.loginRefreshFunction = setInterval(() => {
       const { login, logout, refreshLogin } = this.props;
+
+      if (!login) {
+        return;
+      }
 
       if (login.expires < new Date()) {
         logout();
@@ -40,6 +44,10 @@ class App extends Component {
         refreshLogin();
       }
     }, 1000);
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.loginRefreshFunction);
   }
 
   @autobind
