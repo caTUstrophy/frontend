@@ -17,13 +17,13 @@ function login(state = null, action) {
   if (action.type == LOGIN_SUCCESS) {
     // todo: pure function violation?
     let jwt = action.jwt || action.response.AccessToken;
+    LocalStorage.setItem(LOGIN_LOCAL_STORAGE_KEY, jwt);
 
     const token = jwtDecode(jwt);
-    LocalStorage.setItem(LOGIN_LOCAL_STORAGE_KEY, jwt);
-    const expires = new Date(new Date().getTime() + token.exp / 1000);
+    const expires = new Date(token.exp);
 
     if (expires < new Date()) {
-      return state;
+      return null;
     }
 
     return {
