@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "mocha-webpack --webpack-config webpack.config.js --recursive test",
-    "bundle": "webpack -p --progress "
+    "bundle": "webpack -p --progress --config webpack.production.config.js"
   },
   "repository": {
     "type": "git",

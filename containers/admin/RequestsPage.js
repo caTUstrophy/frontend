@@ -21,7 +21,7 @@ class RequestsPage extends Component {
         return (
           <div>
             <h1>Requests</h1>
-            <RequestList requests={requests} />
+            <RequestList requests={requests} onTouchTapItem={(request) => browserHistory.push(`/admin/requests/${ request.ID }`)} />
           </div>
         )
     }
