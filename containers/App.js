@@ -4,6 +4,7 @@ import { browserHistory } from 'react-router'
 
 import Moment from 'moment';
 import autobind from 'autobind-decorator';
+import LocalStorage from '../helpers/LocalStorage';
 
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import AppBar from 'material-ui/AppBar';
@@ -14,6 +15,7 @@ import UserMenu from './user/UserMenu'
 
 import { resetErrorMessage } from '../actions/userInterface'
 import { tryRestoreLogin, logout, refreshLogin } from '../actions/login'
+import {LOGIN_LOCAL_STORAGE_KEY} from "../actions/login";
 
 export class App extends Component {
   constructor(props) {
@@ -31,7 +33,8 @@ export class App extends Component {
       }
 
       if (login.expires < new Date()) {
-        logout();
+        LocalStorage.removeItem(LOGIN_LOCAL_STORAGE_KEY);
+        // todo: modify state!
       }
 
       let refreshTarget = new Moment(login.expires).subtract(5, 'minutes');
