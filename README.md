@@ -84,7 +84,9 @@ The command internally runs
     
 Read `webpack.production.config.js` for the details.
 
-Currently there is no HTML or CSS generated, an `index.html` should be derived manually.
+Currently there is no HTML generated, an `index.html` should be derived manually.
+
+There are no CSS files anyway, see [#3](https://github.com/caTUstrophy/frontend/issues/3).
 
 ## Resources to familiarize yourself with the technologies
 - [React tutorial](http://facebook.github.io/react/docs/tutorial.html) in the [official docs](http://facebook.github.io/react/docs/top-level-api.html)
