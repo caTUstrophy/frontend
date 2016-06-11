@@ -91,6 +91,10 @@ const matchingSchema = new Schema('matchings', {
   idAttribute: matching => matching.ID
 });
 
+const regionSchema = new Schema('regions', {
+  idAttribute: matching => matching.ID
+});
+
 // Schemas for Github API responses.
 export const Schemas = {
   USER: userSchema,
@@ -100,7 +104,9 @@ export const Schemas = {
   REQUEST: requestSchema,
   REQUEST_ARRAY: arrayOf(requestSchema),
   MATCHING: matchingSchema,
-  MATCHING_ARRAY: arrayOf(matchingSchema)
+  MATCHING_ARRAY: arrayOf(matchingSchema),
+  REGION: regionSchema,
+  REGION_ARRAY: arrayOf(regionSchema)
 };
 
 // Action key that carries API call info interpreted by this Redux middleware.
