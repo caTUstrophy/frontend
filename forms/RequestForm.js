@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {reduxForm} from 'redux-form';
 import {browserHistory} from 'react-router';
 
+import autobind from 'autobind-decorator';
+import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
+
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -9,7 +12,6 @@ import DatePicker from 'material-ui/DatePicker';
 
 import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card'
 
-import toPairsIn from 'lodash/toPairsIn'
 import Validation from "./helpers/Validation";
 
 export const Fields = {
@@ -23,6 +25,9 @@ export const Fields = {
       pattern: /^[a-zA-Z0-9,. ]+$/,
       error: ("Invalid tag")
     }
+  },
+  Position: {
+    // todo: define position
   },
   Location: {
     required: true,
@@ -39,8 +44,14 @@ export const Fields = {
 };
 
 export class RequestForm extends Component {
+  @autobind
+  handleMapClick(event) {
+    this.props.fields.Position.onChange([event.latlng.lat, event.latlng.lng]);
+  }
+
   render() {
-    const {fields: {Name, Tags, Location, ValidityPeriod}, handleSubmit, submitting, invalid, resetForm, pristine} = this.props;
+    const {fields: {Name, Tags, Location, Position, ValidityPeriod}, handleSubmit, submitting, invalid, resetForm, pristine} = this.props;
+
     return (
       <form onSubmit={handleSubmit}>
         <Card>
@@ -79,6 +90,14 @@ export class RequestForm extends Component {
             </div>
           </CardText>
 
+          <Map center={Position.initialValue} zoom={13} style={{height: '200px'}} onClick={this.handleMapClick}>
+            <TileLayer
+              url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            />
+            <Marker position={Position.value} />
+          </Map>
+
           <CardActions style={{display: 'flex', flexDirection: 'row-reverse'}}>
             {/* everything is reversed with flex-direction, because the submit button should come first (in DOM) */}
             <FlatButton ref="submit" label="Create request" disabled={invalid || submitting} style={{marginLeft: 'auto'}}
@@ -92,8 +111,18 @@ export class RequestForm extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    initialValues: {
+      Position: [52.512, 13.322]
+    }
+  }
+};
+
 export default reduxForm({
   form: 'request-form',
   fields: Object.keys(Fields),
   validate: Validation(Fields)
-})(RequestForm);
+},
+mapStateToProps
+)(RequestForm);

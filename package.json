@@ -21,11 +21,14 @@
     "babel-polyfill": "^6.9.0",
     "humps": "^1.1.0",
     "jwt-decode": "^2.0.1",
+    "leaflet": "^0.7.7",
     "lodash": "^4.13.1",
     "material-ui": "^0.15.0",
+    "moment": "latest",
     "normalizr": "^2.1.0",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
+    "react-leaflet": "^0.11.6",
     "react-redux": "^4.4.5",
     "react-router": "2.4.1",
     "react-router-redux": "^4.0.4",
@@ -34,8 +37,7 @@
     "redux": "^3.5.2",
     "redux-form": "^5.2.4",
     "redux-logger": "^2.6.1",
-    "redux-thunk": "^2.1.0",
-    "moment": "latest"
+    "redux-thunk": "^2.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.9.0",
