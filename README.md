@@ -1,4 +1,8 @@
-# CaTUstrophy frontend [![Build Status](https://travis-ci.org/caTUstrophy/frontend.svg?branch=master)](https://travis-ci.org/caTUstrophy/frontend) [![Dependency Status](https://www.versioneye.com/user/projects/575d2d507757a00041b3b7fc//badge.svg?style=plastic)](https://www.versioneye.com/user/projects/575d2d507757a00041b3b7fc/)
+[![Build Status](https://travis-ci.org/caTUstrophy/frontend.svg?branch=master)](https://travis-ci.org/caTUstrophy/frontend) 
+[![Dependency Status](https://www.versioneye.com/user/projects/575d2d507757a00041b3b7fc//badge.svg?style=plastic)](https://www.versioneye.com/user/projects/575d2d507757a00041b3b7fc/)
+[![Coverage Status](https://coveralls.io/repos/github/caTUstrophy/frontend/badge.svg?branch=master)](https://coveralls.io/github/caTUstrophy/frontend?branch=master)
+
+# CaTUstrophy frontend
 Frontend part for our catastrophe aid tool. 
 
 ## Setup
