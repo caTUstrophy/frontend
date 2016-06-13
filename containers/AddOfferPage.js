@@ -12,7 +12,7 @@ class AddOfferPage extends Component {
 
   @autobind
   handleSubmit(offer) {
-    offer.ValidityPeriod = offer.ValidityPeriod.getTime();
+    offer.ValidityPeriod = offer.ValidityPeriod.toISOString();
     this.props.createOffer(offer)
       .then(result => {
         if (result.type == CREATE_OFFERS_SUCCESS) {
