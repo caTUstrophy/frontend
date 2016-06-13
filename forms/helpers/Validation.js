@@ -1,7 +1,9 @@
 import toPairsIn from 'lodash/toPairsIn'
 
 export default function Validation(fields) {
-  return (values) => {
+  return (values, props) => {
+    console.log("Server error passed to Validate", props.serverError);
+
     const errors = {};
     toPairsIn(fields).forEach(([key, validations]) => {
       if (validations.required && !values[key]) {
@@ -17,6 +19,8 @@ export default function Validation(fields) {
         }
       }
     });
-    return errors;
+
+    // todo: must clear server error after field has been modified
+    return Object.assign(errors, props.serverError);
   };
 }

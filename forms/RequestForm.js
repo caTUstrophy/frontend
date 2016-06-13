@@ -9,6 +9,7 @@ import DatePicker from 'material-ui/DatePicker';
 import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card'
 
 import Validation from "./helpers/Validation";
+import serverErrorToProps from "./helpers/serverErrorToProps";
 
 export const Fields = {
   Name: {
@@ -74,7 +75,8 @@ export class RequestForm extends Component {
                 mode="landscape"
                 autoOk={true}
                 minDate={new Date()}
-                onChange={(event, value) => ValidityPeriod.onChange(value)}/>
+                onChange={(event, value) => ValidityPeriod.onChange(value)}
+                errorText={ValidityPeriod.touched && ValidityPeriod.error} />
             </div>
           </CardText>
 
@@ -95,4 +97,4 @@ export default reduxForm({
   form: 'request-form',
   fields: Object.keys(Fields),
   validate: Validation(Fields)
-})(RequestForm);
+}, serverErrorToProps)(RequestForm);
