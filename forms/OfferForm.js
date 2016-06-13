@@ -3,6 +3,7 @@ import {reduxForm} from 'redux-form';
 import {browserHistory} from 'react-router';
 
 import Validation from './helpers/Validation';
+import serverErrorToProps from "./helpers/serverErrorToProps";
 
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
@@ -76,7 +77,8 @@ export class OfferForm extends Component {
                 mode="landscape"
                 autoOk={true}
                 minDate={new Date()}
-                onChange={(event, value) => ValidityPeriod.onChange(value)}/>
+                onChange={(event, value) => ValidityPeriod.onChange(value)}
+                errorText={ValidityPeriod.touched && ValidityPeriod.error} />
             </div>
           </CardText>
 
@@ -97,4 +99,4 @@ export default reduxForm({
   form: 'offer-form',
   fields: Object.keys(Fields),
   validate: Validation(Fields)
-})(OfferForm);
+}, serverErrorToProps)(OfferForm);
