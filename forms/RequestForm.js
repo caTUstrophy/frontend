@@ -3,7 +3,6 @@ import {reduxForm} from 'redux-form';
 import {browserHistory} from 'react-router';
 
 import autobind from 'autobind-decorator';
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
@@ -12,6 +11,8 @@ import DatePicker from 'material-ui/DatePicker';
 import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card'
 
 import Validation from "./helpers/Validation";
+
+import SimpleMap from '../components/maps/SimpleMap'
 
 export const Fields = {
   Name: {
@@ -90,13 +91,10 @@ export class RequestForm extends Component {
             </div>
           </CardText>
 
-          <Map center={Position.initialValue} zoom={13} style={{height: '200px'}} onClick={this.handleMapClick}>
-            <TileLayer
-              url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            />
-            <Marker position={Position.value} />
-          </Map>
+          <SimpleMap style={{height: '200px'}}
+                     onClick={this.handleMapClick}
+                     center={Position.initialValue}
+                     marker={Position.value} />
 
           <CardActions style={{display: 'flex', flexDirection: 'row-reverse'}}>
             {/* everything is reversed with flex-direction, because the submit button should come first (in DOM) */}
