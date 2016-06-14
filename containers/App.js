@@ -9,6 +9,9 @@ import LocalStorage from '../helpers/LocalStorage';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import AppBar from 'material-ui/AppBar';
 import Snackbar from 'material-ui/Snackbar';
+import MenuIcon from 'material-ui/svg-icons/navigation/menu';
+import CloseIcon from 'material-ui/svg-icons/navigation/close';
+import IconButton from 'material-ui/IconButton/IconButton';
 
 import LoginPage from './user/LoginPage'
 import UserMenu from './user/UserMenu'
@@ -102,7 +105,7 @@ App.propTypes = {
   // Injected by React Redux
   errorMessage: PropTypes.string,
   login: PropTypes.object,
-
+  toggleSideMenu: PropTypes.func.isRequired,
   resetErrorMessage: PropTypes.func.isRequired,
   refreshLogin: PropTypes.func.isRequired,
   tryRestoreLogin: PropTypes.func.isRequired,
@@ -112,9 +115,6 @@ App.propTypes = {
   children: PropTypes.node,
   // Injected by muiThemeable
   muiTheme: PropTypes.object.isRequired
-
-  toggleSideMenu: PropTypes.func.isRequired,
-  login: PropTypes.object
 };
 
 function mapStateToProps(state, ownProps) {

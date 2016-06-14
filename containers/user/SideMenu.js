@@ -6,7 +6,7 @@ import autobind from 'autobind-decorator';
 
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
-import RaisedButton from 'material-ui/RaisedButton';
+import Subheader from 'material-ui/Subheader';
 
 import { toggleSideMenu } from '../../actions'
 import { logout } from '../../actions/login'
@@ -21,8 +21,14 @@ class UserMenu extends Component {
     this.props.toggleSideMenu();
   }
 
+  handleMenuClick(event, value, endpoint) {
+    browserHistory.push(`/me/${ endpoint }`);
+    this.handleRequestToggle(event, value);
+  }
+
   render() {
-    const { sideMenuOpen } = this.props;
+    const { login, sideMenuOpen } = this.props;
+    const isAdmin = login.token.iss == "admin@example.org";
 
     return (
       <div>
@@ -30,8 +36,10 @@ class UserMenu extends Component {
                 docked={false}
                 containerStyle={{paddingTop: 70}}
                 onRequestChange={this.handleRequestToggle}>
-          <MenuItem>Menu Item</MenuItem>
-          <MenuItem>Menu Item 2</MenuItem>
+          <Subheader>MY OBJECTS</Subheader>
+          <MenuItem value="my-offers" primaryText="Offers" onTouchTap={this.handleMenuClick.bind(this, undefined, undefined, "offers")} />
+          <MenuItem value="my-requests" primaryText="Requests" onTouchTap={this.handleMenuClick.bind(this, undefined, undefined, "requests")} />
+          { isAdmin ? <Subheader>ADMIN</Subheader> : null }
         </Drawer>
       </div>
     );
