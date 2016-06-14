@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-
 import { loadUserRequests } from '../../actions/requests'
 import RequestList from '../../components/RequestList'
 

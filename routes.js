@@ -58,6 +58,9 @@ export default [
         <IndexRoute component={MyRequestsPage} />
         <Route path=":ID" component={RequestPage} />
       </Route>
+      <Route path="requests">
+        <IndexRoute component={MyRequestsPage} />
+      </Route>
     </Route>
   </Route>,
   <Route path="/signup"
