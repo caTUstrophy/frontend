@@ -2,8 +2,6 @@ import React, { Component, PropTypes } from 'react'
 
 import { List, ListItem } from 'material-ui/List'
 
-import { browserHistory } from 'react-router'
-
 export default class OfferList extends Component {
   render() {
     let offerList;
