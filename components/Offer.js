@@ -38,6 +38,6 @@ export default class Offer extends Component {
 
 Offer.propTypes = {
     offer: PropTypes.shape({
-        ID: PropTypes.number.isRequired
+        ID: PropTypes.string.isRequired
     }).isRequired
 };

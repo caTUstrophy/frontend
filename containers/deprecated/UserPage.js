@@ -29,8 +29,6 @@ class UserPage extends Component {
       return <h1><i>Loading {ID}’s profile...</i></h1>
     }
 
-    console.dir(user);
-
     return (
       <div style={{width: '40rem', margin: '0 auto'}}>
         <User user={user} />
@@ -40,14 +38,13 @@ class UserPage extends Component {
 }
 
 UserPage.propTypes = {
-  ID: PropTypes.number.isRequired,
+  ID: PropTypes.string.isRequired,
   user: PropTypes.object,
   loadUser: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
-  const ID = parseInt(ownProps.params.ID);
-
+  const { ID } = ownProps.params;
   const users = state.entities.users;
 
   return {

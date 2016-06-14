@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
+import { browserHistory } from 'react-router'
+
+import autobind from 'autobind-decorator'
+
 import { loadOffers } from '../../actions/offers'
 import OfferList from '../../components/OfferList'
-
-function loadData(props) {
-  props.loadOffers();
-}
 
 class OffersPage extends Component {
   constructor(props) {
@@ -13,7 +13,12 @@ class OffersPage extends Component {
   }
 
   componentWillMount() {
-    loadData(this.props)
+    this.props.loadOffers();
+  }
+
+  @autobind
+  handleTouchTapItem(offer) {
+    browserHistory.push(`/admin/offers/${ offer.ID }`);
   }
 
   render() {
@@ -25,7 +30,7 @@ class OffersPage extends Component {
     return (
       <div>
         <h1>Offers</h1>
-        <OfferList offers={offers} />
+        <OfferList offers={offers} onTouchTapItem={this.handleTouchTapItem} />
       </div>
     )
   }

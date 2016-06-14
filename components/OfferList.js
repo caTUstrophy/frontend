@@ -2,13 +2,7 @@ import React, { Component, PropTypes } from 'react'
 
 import { List, ListItem } from 'material-ui/List'
 
-import { browserHistory } from 'react-router'
-
 export default class OfferList extends Component {
-  navigateToOfferPage(id) {
-    browserHistory.push(`/admin/offers/${ id }`);
-  }
-
   render() {
     let offerList;
     if (this.props.offers.length === 0) {
@@ -20,7 +14,7 @@ export default class OfferList extends Component {
         <ListItem key={offer.ID}
                   primaryText={`${offer.Name}`}
                   secondaryText={offer.Description}
-                  onTouchTap={this.navigateToOfferPage.bind(this, offer.ID)} />
+                  onTouchTap={this.props.onTouchTapItem.bind(this, offer)} />
       );
     }
     return (
@@ -32,5 +26,9 @@ export default class OfferList extends Component {
 }
 
 OfferList.propTypes = {
-  offers: PropTypes.array.isRequired // todo: specify more detailed schema?
+  offers: PropTypes.arrayOf(PropTypes.shape({
+    ID: PropTypes.string.isRequired,
+    Name: PropTypes.string.isRequired
+  })).isRequired,
+  onTouchTapItem: PropTypes.func.isRequired
 };
