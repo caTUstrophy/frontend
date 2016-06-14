@@ -15,3 +15,12 @@ export function toggleUserMenu() {
     type: TOGGLE_USER_MENU
   }
 }
+
+export const TOGGLE_SIDE_MENU = 'TOGGLE_SIDE_MENU';
+
+// Opens user menu
+export function toggleSideMenu() {
+  return {
+    type: TOGGLE_SIDE_MENU
+  }
+}
