@@ -2,33 +2,51 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 
+import Moment from 'moment';
 import autobind from 'autobind-decorator';
+import LocalStorage from '../helpers/LocalStorage';
 
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import AppBar from 'material-ui/AppBar';
 import Snackbar from 'material-ui/Snackbar';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
-import AccountIcon from 'material-ui/svg-icons/action/account-circle';
-import MenuIcon from 'material-ui/svg-icons/navigation/menu';
-import CloseIcon from 'material-ui/svg-icons/navigation/close';
-import IconButton from 'material-ui/IconButton/IconButton';
 
 import LoginPage from './user/LoginPage'
 import UserMenu from './user/UserMenu'
 import SideMenu from './user/SideMenu'
 
-import { resetErrorMessage, toggleSideMenu } from '../actions'
-import { tryRestoreLogin, logout } from '../actions/login'
+import { resetErrorMessage, toggleSideMenu } from '../actions/userInterface'
+import { tryRestoreLogin, logout, refreshLogin } from '../actions/login'
+import {LOGIN_LOCAL_STORAGE_KEY} from "../actions/login";
 
-@muiThemeable()
-class App extends Component {
+export class App extends Component {
   constructor(props) {
     super(props);
   }
 
   componentWillMount() {
     this.props.tryRestoreLogin();
+
+    this.loginRefreshFunction = setInterval(() => {
+      const { login, logout, refreshLogin } = this.props;
+
+      if (!login) {
+        return;
+      }
+
+      if (login.expires < new Date()) {
+        LocalStorage.removeItem(LOGIN_LOCAL_STORAGE_KEY);
+        // todo: modify state!
+      }
+
+      let refreshTarget = new Moment(login.expires).subtract(5, 'minutes');
+      if (refreshTarget.toDate() < new Date()) {
+        refreshLogin();
+      }
+    }, 1000);
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.loginRefreshFunction);
   }
 
   @autobind
@@ -83,9 +101,18 @@ class App extends Component {
 App.propTypes = {
   // Injected by React Redux
   errorMessage: PropTypes.string,
+  login: PropTypes.object,
+
   resetErrorMessage: PropTypes.func.isRequired,
+  refreshLogin: PropTypes.func.isRequired,
+  tryRestoreLogin: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
+
   // Injected by React Router
   children: PropTypes.node,
+  // Injected by muiThemeable
+  muiTheme: PropTypes.object.isRequired
+
   toggleSideMenu: PropTypes.func.isRequired,
   login: PropTypes.object
 };
@@ -99,9 +126,11 @@ function mapStateToProps(state, ownProps) {
     sideMenuOpen
   }
 }
-
-export default connect(mapStateToProps, {
+ 
+export default muiThemeable()(connect(mapStateToProps, {
   toggleSideMenu,
   resetErrorMessage,
-  tryRestoreLogin
-})(App)
+  tryRestoreLogin,
+  refreshLogin,
+  logout
+})(App))

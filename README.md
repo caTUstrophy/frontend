@@ -1,4 +1,4 @@
-# CaTUstrophy frontend [![Build Status](https://travis-ci.org/caTUstrophy/frontend.svg?branch=master)](https://travis-ci.org/caTUstrophy/frontend)
+# CaTUstrophy frontend [![Build Status](https://travis-ci.org/caTUstrophy/frontend.svg?branch=master)](https://travis-ci.org/caTUstrophy/frontend) [![Dependency Status](https://www.versioneye.com/user/projects/575d2d507757a00041b3b7fc//badge.svg?style=plastic)](https://www.versioneye.com/user/projects/575d2d507757a00041b3b7fc/)
 Frontend part for our catastrophe aid tool. 
 
 ## Setup
@@ -74,6 +74,19 @@ See [#3](https://github.com/caTUstrophy/frontend/issues/3) to discuss how to wri
 - [domino](https://github.com/fgnass/domino) (fast fake DOM)
 - Some `test/helpers` (mostly copied from [smaato/react-test-kit](https://github.com/smaato/react-test-kit))
 - Travis runs `npm test` automatically, current status: [![Build Status](https://travis-ci.org/caTUstrophy/frontend.svg?branch=master)](https://travis-ci.org/caTUstrophy/frontend)
+
+## Deploying
+
+Run `npm run-script bundle` to create a webpack build in `dist/`.
+The command internally runs
+
+    webpack -p --progress --config webpack.production.config.js
+    
+Read `webpack.production.config.js` for the details.
+
+Currently there is no HTML generated, an `index.html` should be derived manually.
+
+There are no CSS files anyway, see [#3](https://github.com/caTUstrophy/frontend/issues/3).
 
 ## Resources to familiarize yourself with the technologies
 - [React tutorial](http://facebook.github.io/react/docs/tutorial.html) in the [official docs](http://facebook.github.io/react/docs/top-level-api.html)

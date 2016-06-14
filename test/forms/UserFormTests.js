@@ -12,16 +12,12 @@ const expect = unexpected.clone()
 
 import React from 'react'
 import { createRenderer, Simulate, renderIntoDocument, findRenderedDOMComponentWithTag } from 'react-addons-test-utils'
-import { Provider } from 'react-redux';
 
-import mockFormStore from '../helpers/mockFormStore';
-import TestCaseFactory from '../helpers/TestCaseFactory';
 import populateForm from '../helpers/populateForm';
+import wrappedTestFactory from '../helpers/wrappedTestFactory';
 
 import ReduxUserForm, { Fields as UserFormFields, UserForm } from '../../forms/UserForm'
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card';
 
 function generateFormProps(fieldsDescription) {
@@ -57,17 +53,7 @@ function setup() {
   }
 }
 
-function wrappedTestFactory(component) {
-  return TestCaseFactory.createFromElement(
-    <MuiThemeProvider muiTheme={getMuiTheme()}>
-      <Provider store={mockFormStore()}>
-        {component}
-      </Provider>
-    </MuiThemeProvider>
-  );
-}
-
-function testSubmitable(form, props, expectedState) {
+function testSubmittable(form, props, expectedState) {
   // ui testing
   let submitButton = form.refs['submit'];
   expect(submitButton.props.disabled, 'to be', !expectedState);
@@ -106,7 +92,7 @@ describe('forms', () => {
       const testCase = wrappedTestFactory(<ReduxUserForm {...props} />);
       let form = testCase.firstComponent(UserForm);
 
-      testSubmitable(form, props, false);
+      testSubmittable(form, props, false);
     });
 
     it("should allow to submit when filled", () => {
@@ -119,7 +105,7 @@ describe('forms', () => {
       // fill form
       populateForm(form, sampleData);
 
-      testSubmitable(form, props, true);
+      testSubmittable(form, props, true);
     });
 
     it("shouldn't allow to submit when data partial", () => {
@@ -134,7 +120,7 @@ describe('forms', () => {
         let partialSampleData = Object.assign({}, sampleData, {[field]: ''});
         populateForm(form, partialSampleData);
 
-        testSubmitable(form, props, false);
+        testSubmittable(form, props, false);
       }
     });
 
@@ -168,7 +154,7 @@ describe('forms', () => {
 
       expect(form.refs['Mail'].props.error, 'not to be', undefined);
       expect(form.refs['Mail'].props.error, 'to be', 'Not a valid e-mail address');
-      testSubmitable(form, props, false);
+      testSubmittable(form, props, false);
     });
   })
 });

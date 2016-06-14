@@ -1,5 +1,4 @@
 import { Schema, arrayOf, normalize } from 'normalizr'
-import 'isomorphic-fetch'
 
 // Extracts the next page URL from Github API response.
 function getNextPageUrl(response) {
@@ -152,9 +151,15 @@ export default store => next => action => {
       response,
       type: successType
     })),
-    error => next(actionWith({
-      type: failureType,
-      error: error.message || 'Something bad happened'
-    }))
+    error => {
+      let failureDescription = {
+        type: failureType
+      };
+      failureDescription.errorMessage = error.message || 'Something bad happened: ' + JSON.stringify(error);
+      if (! error.message) {
+        failureDescription.error = error;
+      }
+      return next(actionWith(failureDescription))
+    }
   )
 }

@@ -5,10 +5,6 @@ import { List, ListItem } from 'material-ui/List'
 import { browserHistory } from 'react-router'
 
 export default class RequestList extends Component {
-    navigateToRequestPage(id) {
-        browserHistory.push(`/admin/requests/${ id }`);
-    }
-
     render() {
         let requestList;
         if (this.props.requests.length === 0) {
@@ -19,7 +15,7 @@ export default class RequestList extends Component {
             requestList = this.props.requests.map(request =>
               <ListItem key={request.ID}
                         primaryText={`${request.Name}`}
-                        onTouchTap={this.navigateToRequestPage.bind(this, request.ID)} />
+                        onTouchTap={this.props.onTouchTapItem.bind(this, request)} />
             );
         }
         return (
@@ -31,5 +27,6 @@ export default class RequestList extends Component {
 }
 
 RequestList.propTypes = {
-    requests: PropTypes.array.isRequired // todo: specify more detailed schema?
+    requests: PropTypes.array.isRequired, // todo: specify more detailed schema?
+    onTouchTapItem: PropTypes.func.isRequired
 };

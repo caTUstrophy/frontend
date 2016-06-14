@@ -28,6 +28,27 @@ export function login(login, requiredFields = []) {
   }
 }
 
+export const REFRESH_LOGIN_REQUEST = 'REFRESH_LOGIN_REQUEST';
+export const REFRESH_LOGIN_SUCCESS = 'REFRESH_LOGIN_SUCCESS';
+export const REFRESH_LOGIN_FAILURE = 'REFRESH_LOGIN_FAILURE';
+
+// Relies on the custom API middleware defined in ../middleware/api.js.
+function sendRefreshLogin() {
+  return {
+    [CALL_API]: {
+      types: [ REFRESH_LOGIN_REQUEST, REFRESH_LOGIN_SUCCESS, REFRESH_LOGIN_FAILURE ],
+      endpoint: `auth`,
+      verb: 'GET',
+      schema: null // don't normalize the result
+    }
+  }
+}
+// Relies on Redux Thunk middleware.
+export function refreshLogin() {
+  return (dispatch, getState) => {
+    return dispatch(authorized(getState().login.jwt)(sendRefreshLogin()))
+  }
+}
 
 export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
@@ -51,11 +72,13 @@ export function logout() {
   }
 }
 
+export const RESTORE_LOGIN_SUCCESS = 'RESTORE_LOGIN_SUCCESS';
+
 export function tryRestoreLogin() {
   const jwt = LocalStorage.getItem(LOGIN_LOCAL_STORAGE_KEY);
   if (jwt) {
     return (dispatch, getState) => {
-      return dispatch({ type: LOGIN_SUCCESS, jwt });
+      return dispatch({ type: RESTORE_LOGIN_SUCCESS, jwt });
     }
   } else {
     return (dispatch, getState) => {
