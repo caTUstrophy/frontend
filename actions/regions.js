@@ -11,7 +11,7 @@ function sendRegion(region) {
   return {
     [CALL_API]: {
       types: [ CREATE_REGION_REQUEST, CREATE_REGION_SUCCESS, CREATE_REGION_FAILURE ],
-      endpoint: `regions`,
+      endpoint: `areas`,
       verb: 'POST',
       schema: Schemas.REGION_ARRAY,
       payload: region
@@ -37,7 +37,7 @@ function fetchRegion(regionId) {
   return {
     [CALL_API]: {
       types: [ REGION_REQUEST, REGION_SUCCESS, REGION_FAILURE ],
-      endpoint: `regions/${regionId}`,
+      endpoint: `areas/${regionId}`,
       schema: Schemas.REGION
     }
   }
@@ -66,7 +66,7 @@ function fetchRegions() {
   return {
     [CALL_API]: {
       types: [ REGIONS_REQUEST, REGIONS_SUCCESS, REGIONS_FAILURE ],
-      endpoint: `regions/worldwide`,
+      endpoint: `areas`,
       schema: Schemas.REGION_ARRAY
     }
   }

@@ -14,6 +14,7 @@ import OfferPage from './containers/admin/OfferPage'
 import RequestsPage from './containers/admin/RequestsPage'
 import RequestPage from './containers/admin/RequestPage'
 import AddRegionPage from './containers/admin/region/AddRegionPage'
+import RegionsPage from './containers/admin/region/RegionsPage'
 
 // user
 import SignupPage from './containers/user/SignupPage'
@@ -47,7 +48,7 @@ export default [
         <Route path=":ID" component={RequestPage} />
       </Route>
       <Route path="regions">
-        <IndexRoute component={DefaultPage} />
+        <IndexRoute component={RegionsPage} />
         <Route path="create"
                component={AddRegionPage}/>
       </Route>
