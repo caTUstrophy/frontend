@@ -1,6 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
+
+import autobind from 'autobind-decorator'
+
 import { loadUserRequests } from '../../actions/requests'
 import RequestList from '../../components/RequestList'
 
@@ -13,6 +16,11 @@ class MyRequestsPage extends Component {
     this.props.loadUserRequests()
   }
 
+  @autobind
+  handleTouchTapItem(request) {
+    browserHistory.push(`/me/requests/${ request.ID }`)
+  }
+
   render() {
     const { requests } = this.props;
     if (!requests) {
@@ -22,7 +30,7 @@ class MyRequestsPage extends Component {
     return (
       <div>
         <h1>Your Requests</h1>
-        <RequestList requests={requests} onTouchTapItem={(request) => browserHistory.push(`/me/requests/${ request.ID }`)} />
+        <RequestList requests={requests} onTouchTapItem={this.handleTouchTapItem} />
       </div>
     )
   }
