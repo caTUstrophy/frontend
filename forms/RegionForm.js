@@ -4,15 +4,15 @@ import {browserHistory} from 'react-router';
 
 import autobind from 'autobind-decorator';
 
-import { Map, TileLayer } from 'react-leaflet';
-import FreeDraw from '../components/maps/FreeDraw';
-
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 
 import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card'
 
 import Validation from "./helpers/Validation";
+
+import FreeDraw from '../components/maps/FreeDraw';
+import SimpleMap from '../components/maps/SimpleMap';
 
 export const Fields = {
   Name: {
@@ -50,13 +50,9 @@ export class RegionForm extends Component {
             </div>
           </CardText>
 
-          <Map center={position} zoom={13} style={{height: 400}}>
+          <SimpleMap center={position} style={{height: 400}}>
             <FreeDraw onMarkers={this.handleMarkers} />
-            <TileLayer
-              url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            />
-          </Map>
+          </SimpleMap>
           <pre>{JSON.stringify(Area.value, null, 2)}</pre>
 
           <CardActions style={{display: 'flex', flexDirection: 'row-reverse'}}>
