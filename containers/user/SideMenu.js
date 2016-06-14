@@ -34,8 +34,9 @@ class UserMenu extends Component {
       <div>
         <Drawer open={sideMenuOpen}
                 docked={false}
-                containerStyle={{paddingTop: 70}}
-                onRequestChange={this.handleRequestToggle}>
+                containerStyle={{paddingTop: 70, zIndex: 1001}}
+                onRequestChange={this.handleRequestToggle}
+                overlayStyle={{zIndex: 1000}}>
           <Subheader>MY OBJECTS</Subheader>
           <MenuItem value="my-offers" primaryText="Offers" onTouchTap={this.handleMenuClick.bind(this, undefined, undefined, "offers")} />
           <MenuItem value="my-requests" primaryText="Requests" onTouchTap={this.handleMenuClick.bind(this, undefined, undefined, "requests")} />

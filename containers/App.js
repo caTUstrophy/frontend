@@ -89,7 +89,6 @@ export class App extends Component {
           title={<span style={{cursor: 'pointer'}} onTouchTap={() => browserHistory.push('/')}>CaTUstrophy</span>}
           iconElementLeft={sideMenuButton}
           iconElementRight={<UserMenu />}
-          style={{zIndex: 3000}}
         />
         <main style={{margin: '1rem'}}>
           {<SideMenu />}
