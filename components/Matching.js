@@ -5,7 +5,7 @@ import { Card, CardHeader, CardText } from 'material-ui/Card'
 
 export default class Matching extends Component {
     render() {
-        const matching = this.props.matching
+        const matching = this.props.matching;
 
         return (
             <Card>
@@ -21,6 +21,6 @@ export default class Matching extends Component {
 
 Matching.propTypes = {
     matching: PropTypes.shape({
-        ID: PropTypes.number.isRequired
+        ID: PropTypes.string.isRequired
     }).isRequired
 };

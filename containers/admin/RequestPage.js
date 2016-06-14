@@ -38,16 +38,14 @@ class RequestPage extends Component {
 }
 
 RequestPage.propTypes = {
-  ID: PropTypes.number.isRequired,
+  ID: PropTypes.string.isRequired,
   request: PropTypes.object,
   loadRequest: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
-  const ID = parseInt(ownProps.params.ID);
-
+  const { ID } = ownProps.params;
   const requests = state.entities.requests;
-  console.dir(requests);
 
   return {
     ID,
