@@ -6,7 +6,6 @@ import Validation from './helpers/Validation';
 
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import DatePicker from 'material-ui/DatePicker';
 
 import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card'
@@ -76,6 +75,7 @@ export class OfferForm extends Component {
                 container="inline"
                 mode="landscape"
                 autoOk={true}
+                minDate={new Date()}
                 onChange={(event, value) => ValidityPeriod.onChange(value)}/>
             </div>
           </CardText>

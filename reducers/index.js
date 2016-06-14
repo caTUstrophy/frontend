@@ -4,6 +4,7 @@ import merge from 'lodash/merge'
 import paginate from './paginate'
 import userInterface from './userInterface'
 import login from './login'
+import error from './error'
 import { routerReducer as routing } from 'react-router-redux'
 import { combineReducers } from 'redux'
 import { reducer as formReducer } from 'redux-form';
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   entities,
   // pagination,
   userInterface,
+  error,
   routing,
   form: formReducer
 });

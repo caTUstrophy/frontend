@@ -13,7 +13,7 @@ class AddRequestPage extends Component {
 
   @autobind
   handleSubmit(request) {
-    request.ValidityPeriod = request.ValidityPeriod.getTime();
+    request.ValidityPeriod = request.ValidityPeriod.toISOString();
     this.props.createRequest(request)
       .then(response => {
         if (response.type == CREATE_REQUESTS_SUCCESS) {
