@@ -23,7 +23,7 @@ class SimpleMap extends Component {
 
     let content = [].concat(this.props.children);
     if (this.props.marker) {
-      content.push(<Marker position={this.props.marker} />);
+      content.push(<Marker position={this.props.marker} key="marker" />);
     }
 
     let center = this.props.center;
