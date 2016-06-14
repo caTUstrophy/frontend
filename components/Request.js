@@ -37,6 +37,6 @@ export default class Request extends Component {
 
 Request.propTypes = {
     request: PropTypes.shape({
-        ID: PropTypes.number.isRequired
+        ID: PropTypes.string.isRequired
     }).isRequired
 };
