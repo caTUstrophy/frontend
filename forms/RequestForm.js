@@ -12,7 +12,9 @@ import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card'
 
 import Validation from "./helpers/Validation";
 
-import SimpleMap from '../components/maps/SimpleMap'
+import SimpleMap from '../components/maps/SimpleMap';
+
+import { LocationPropType, autolocation } from "../helpers/Location";
 
 export const Fields = {
   Name: {
@@ -44,9 +46,16 @@ export const Fields = {
 };
 
 export class RequestForm extends Component {
+  static propTypes = {
+    defaultLocation: LocationPropType
+  };
+
   @autobind
   handleMapClick(event) {
-    this.props.fields.Position.onChange([event.latlng.lat, event.latlng.lng]);
+    this.props.fields.Position.onChange({
+      Latitude: event.latlng.lat,
+      Longitude: event.latlng.lng
+    });
   }
 
   render() {
@@ -93,8 +102,8 @@ export class RequestForm extends Component {
 
           <SimpleMap style={{height: '200px'}}
                      onClick={this.handleMapClick}
-                     center={Position.initialValue}
-                     marker={Position.value} />
+                     center={this.props.defaultLocation}
+                     marker={Position.value || null} />
 
           <CardActions style={{display: 'flex', flexDirection: 'row-reverse'}}>
             {/* everything is reversed with flex-direction, because the submit button should come first (in DOM) */}
@@ -109,18 +118,8 @@ export class RequestForm extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    initialValues: {
-      Position: [52.512, 13.322]
-    }
-  }
-};
-
 export default reduxForm({
   form: 'request-form',
   fields: Object.keys(Fields),
   validate: Validation(Fields)
-},
-mapStateToProps
-)(RequestForm);
+})(RequestForm);

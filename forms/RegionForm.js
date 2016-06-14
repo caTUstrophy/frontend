@@ -14,6 +14,8 @@ import Validation from "./helpers/Validation";
 import FreeDraw from '../components/maps/FreeDraw';
 import SimpleMap from '../components/maps/SimpleMap';
 
+import { LocationPropType } from "../helpers/Location";
+
 export const Fields = {
   Name: {
     required: true,
@@ -25,6 +27,10 @@ export const Fields = {
 };
 
 export class RegionForm extends Component {
+  static propTypes = {
+    defaultLocation: LocationPropType
+  };
+
   @autobind
   handleMarkers(event) {
     // todo: adapt to data format
@@ -33,7 +39,6 @@ export class RegionForm extends Component {
 
   render() {
     const {fields: { Name, Area }, handleSubmit, submitting, invalid, resetForm, pristine} = this.props;
-    let position = [52.512, 13.322]; // todo: make dynamic (user location?)
 
     return (
       <form onSubmit={handleSubmit}>
@@ -50,7 +55,7 @@ export class RegionForm extends Component {
             </div>
           </CardText>
 
-          <SimpleMap center={position} style={{height: 400}}>
+          <SimpleMap center={this.props.defaultLocation} style={{height: 400}}>
             <FreeDraw onMarkers={this.handleMarkers} />
           </SimpleMap>
           <pre>{JSON.stringify(Area.value, null, 2)}</pre>
