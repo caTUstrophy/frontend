@@ -12,6 +12,7 @@ app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output
 app.use(webpackHotMiddleware(compiler))
 
 app.use('/styles', express.static('styles'));
+app.use('/images', express.static('images'));
 
 app.use(function(req, res) {
   res.sendFile(__dirname + '/index.html')

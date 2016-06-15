@@ -62,14 +62,22 @@ export const REQUESTS_FAILURE = 'REQUESTS_FAILURE';
 
 // Fetches all requests
 // Relies on the custom API middleware defined in ../middleware/api.js.
-function fetchRequests() {
+function fetchRequestsBase(endpoint) {
   return {
     [CALL_API]: {
       types: [ REQUESTS_REQUEST, REQUESTS_SUCCESS, REQUESTS_FAILURE ],
-      endpoint: `requests/worldwide`,
+      endpoint,
       schema: Schemas.REQUEST_ARRAY
     }
   }
+}
+
+function fetchRequests(area = "worldwide") {
+  return fetchRequestsBase(`requests/${ area }`)
+}
+
+function fetchUserRequests() {
+  return fetchRequestsBase(`me/requests`)
 }
 
 // Fetches all requests (unless it is cached)
@@ -77,5 +85,11 @@ function fetchRequests() {
 export function loadRequests(requiredFields = []) {
   return (dispatch, getState) => {
     return dispatch(authorized(getState().login.jwt)(fetchRequests()))
+  }
+}
+
+export function loadUserRequests(requiredFields = []) {
+  return (dispatch, getState) => {
+    return dispatch(authorized(getState().login.jwt)(fetchUserRequests()))
   }
 }

@@ -22,6 +22,8 @@ import SignupPage from './containers/user/SignupPage'
 // other
 import DefaultPage from './containers/misc/EmptyPage'
 import NotFoundPage from './containers/misc/NotFoundPage'
+import MyOffersPage from "./containers/me/MyOffersPage";
+import MyRequestsPage from "./containers/me/MyRequestsPage";
 
 
 export default [
@@ -51,6 +53,20 @@ export default [
         <IndexRoute component={RegionsPage} />
         <Route path="create"
                component={AddRegionPage}/>
+      </Route>
+    </Route>
+    <Route path="me">
+      <IndexRoute component={DefaultPage} />
+      <Route path="offers">
+        <IndexRoute component={MyOffersPage} />
+        <Route path=":ID" component={OfferPage} />
+      </Route>
+      <Route path="requests">
+        <IndexRoute component={MyRequestsPage} />
+        <Route path=":ID" component={RequestPage} />
+      </Route>
+      <Route path="requests">
+        <IndexRoute component={MyRequestsPage} />
       </Route>
     </Route>
   </Route>,

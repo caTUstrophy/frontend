@@ -34,7 +34,7 @@ class SignupPage extends Component {
 }
 
 SignupPage.propTypes = {
-  ID: PropTypes.number.isRequired,
+  ID: PropTypes.string.isRequired,
   user: PropTypes.object,
   loadUser: PropTypes.func.isRequired
 };
