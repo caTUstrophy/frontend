@@ -1,5 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
+import { browserHistory } from 'react-router'
+
+import autobind from 'autobind-decorator'
+
 import { loadRegions } from '../../../actions/regions'
 import RegionList from '../../../components/regions/RegionList'
 
@@ -12,6 +16,11 @@ class RegionsPage extends Component {
     this.props.loadRegions();
   }
 
+  @autobind
+  handleTouchTapItem(offer) {
+    browserHistory.push(`/admin/regions/${ offer.ID }`);
+  }
+
   render() {
     const { regions } = this.props;
     if (!regions) {
@@ -21,7 +30,7 @@ class RegionsPage extends Component {
     return (
       <div>
         <h1>Regions</h1>
-        <RegionList regions={regions} onTouchTapItem={(region) => console.log("Region selected", region)} />
+        <RegionList regions={regions} onTouchTapItem={this.handleTouchTapItem} />
       </div>
     )
   }

@@ -11,20 +11,12 @@ import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card'
 
 import Validation from "./helpers/Validation";
 
+import { RegionFields } from "../schemas/RegionSchema"
+
 import FreeDraw from '../components/maps/FreeDraw';
 import SimpleMap from '../components/maps/SimpleMap';
 
 import { LocationPropType } from "../helpers/Location";
-
-export const Fields = {
-  Name: {
-    required: true,
-    error: "Please provide a name"
-  },
-  Area: {
-    required: true
-  }
-};
 
 export class RegionForm extends Component {
   static propTypes = {
@@ -33,8 +25,7 @@ export class RegionForm extends Component {
 
   @autobind
   handleMarkers(event) {
-    // todo: adapt to data format
-    this.props.fields.Area.onChange(event.latLngs[0].map((point) => [point.lat, point.lng ]));
+    this.props.fields.Area.onChange(event.latLngs[0].map((point) => { return { Latitude: point.lat, Longitude: point.lng }}));
   }
 
   render() {
@@ -58,7 +49,7 @@ export class RegionForm extends Component {
           <SimpleMap center={this.props.defaultLocation} style={{height: 400}}>
             <FreeDraw onMarkers={this.handleMarkers} />
           </SimpleMap>
-          <pre>{JSON.stringify(Area.value, null, 2)}</pre>
+          {/* todo: Area.touched && Area.error */}
 
           <CardActions style={{display: 'flex', flexDirection: 'row-reverse'}}>
             {/* everything is reversed with flex-direction, because the submit button should come first (in DOM) */}
@@ -75,6 +66,6 @@ export class RegionForm extends Component {
 
 export default reduxForm({
   form: 'region-form',
-  fields: Object.keys(Fields),
-  validate: Validation(Fields)
+  fields: Object.keys(RegionFields),
+  validate: Validation(RegionFields)
 })(RegionForm);
