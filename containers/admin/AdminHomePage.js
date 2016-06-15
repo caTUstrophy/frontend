@@ -9,7 +9,14 @@ import OfferList from '../../components/OfferList'
 import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 
-class RequestsPage extends Component {
+export class AdminHomePage extends Component {
+  static propTypes = {
+    requests: PropTypes.array.isRequired,
+    offers: PropTypes.array.isRequired,
+    loadRequests: PropTypes.func.isRequired,
+    loadOffers: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
   }
@@ -35,7 +42,7 @@ class RequestsPage extends Component {
     }
 
     return (
-      <OfferList offers={offers} />
+      <OfferList offers={offers} onTouchTapItem={(offer) => browserHistory.push(`/admin/offers/${ offer.ID }`)} />
     )
   }
   
@@ -67,11 +74,6 @@ class RequestsPage extends Component {
   }
 }
 
-RequestsPage.propTypes = {
-  requests: PropTypes.array.isRequired,
-  loadRequests: PropTypes.func.isRequired
-};
-
 function mapStateToProps(state, ownProps) {
   const { entities: { requests, offers } } = state;
   
@@ -84,4 +86,4 @@ function mapStateToProps(state, ownProps) {
 export default connect(mapStateToProps, {
   loadRequests,
   loadOffers
-})(RequestsPage)
+})(AdminHomePage)

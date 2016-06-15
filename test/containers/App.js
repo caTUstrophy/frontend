@@ -18,7 +18,7 @@ import Snackbar from 'material-ui/Snackbar';
 
 import Moment from 'moment';
 
-import wrappedTestFactory from '../helpers/wrappedTestFactory';
+import failOnConsoleError from '../helpers/failOnConsoleError';
 
 import { App } from '../../containers/App'
 import LoginPage from '../../containers/user/LoginPage'
@@ -29,6 +29,7 @@ function setup(customProps) {
     refreshLogin: sinon.spy(),
     logout: sinon.spy(),
     resetErrorMessage: sinon.spy(),
+    toggleSideMenu: sinon.spy(),
     login: {
       expires: new Moment().add(20, 'minutes').toDate()
     },
@@ -47,47 +48,47 @@ function setup(customProps) {
   }
 }
 
-describe('containers', () => {
-  describe('App', () => {
-    it('should render correctly', () => {
-      const { renderer } = setup();
+export function AppTests() {
+  it('should render correctly', failOnConsoleError(() => {
+    const { renderer } = setup();
 
-      expect(renderer, 'to have rendered',
-        <div>
-          <AppBar title={<span>CaTUstrophy</span>} />
-          <main>
-            <Snackbar message=" " open={false} />
-          </main>
-        </div>
-      );
+    expect(renderer, 'to have rendered',
+      <div>
+        <AppBar title={<span>CaTUstrophy</span>} />
+        <main>
+          <Snackbar message=" " open={false} />
+        </main>
+      </div>
+    );
+  }));
+
+  it('should show login page when not logged in', () => {
+    const { renderer } = setup({ login: null });
+
+    expect(renderer, 'to have rendered', <LoginPage />);
+  });
+
+  it('should refresh the login when close to expiry', (done) => {
+    const { props } = setup({
+      login: {
+        expires: new Moment().add(1, 'minutes').toDate()
+      }
     });
 
-    it('should show login page when not logged in', () => {
-      const { renderer } = setup({ login: null });
+    setTimeout(() => {
+      expect(props.refreshLogin, 'was called');
+      done();
+    }, 1500);
+  });
 
-      expect(renderer, 'to have rendered', <LoginPage />);
-    });
+  it('should not refresh the login when still valid for a long time', (done) => {
+    const { props } = setup();
 
-    it('should refresh the login when close to expiry', (done) => {
-      const { props } = setup({
-        login: {
-          expires: new Moment().add(1, 'minutes').toDate()
-        }
-      });
+    setTimeout(() => {
+      expect(props.refreshLogin, 'was not called');
+      done();
+    }, 1500);
+  });
+}
 
-      setTimeout(() => {
-        expect(props.refreshLogin, 'was called');
-        done();
-      }, 1500);
-    });
-
-    it('should not refresh the login when still valid for a long time', (done) => {
-      const { props } = setup();
-
-      setTimeout(() => {
-        expect(props.refreshLogin, 'was not called');
-        done();
-      }, 1500);
-    });
-  })
-});
+export default AppTests
