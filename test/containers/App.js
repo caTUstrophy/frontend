@@ -48,6 +48,10 @@ function setup(customProps) {
   }
 }
 
+function tearDown(renderer) {
+  renderer.unmount();
+}
+
 export function AppTests() {
   it('should render correctly', failOnConsoleError(() => {
     const { renderer } = setup();
@@ -60,16 +64,20 @@ export function AppTests() {
         </main>
       </div>
     );
+
+    tearDown(renderer);
   }));
 
   it('should show login page when not logged in', () => {
     const { renderer } = setup({ login: null });
 
     expect(renderer, 'to have rendered', <LoginPage />);
+
+    tearDown(renderer);
   });
 
   it('should refresh the login when close to expiry', (done) => {
-    const { props } = setup({
+    const { renderer, props } = setup({
       login: {
         expires: new Moment().add(1, 'minutes').toDate()
       }
@@ -78,15 +86,17 @@ export function AppTests() {
     setTimeout(() => {
       expect(props.refreshLogin, 'was called');
       done();
+      tearDown(renderer);
     }, 1500);
   });
 
   it('should not refresh the login when still valid for a long time', (done) => {
-    const { props } = setup();
+    const { renderer, props } = setup();
 
     setTimeout(() => {
       expect(props.refreshLogin, 'was not called');
       done();
+      tearDown(renderer);
     }, 1500);
   });
 }
