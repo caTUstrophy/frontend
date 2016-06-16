@@ -15,7 +15,7 @@ function getNextPageUrl(response) {
   return nextLink.split(';')[0].slice(1, -1)
 }
 
-const API_ROOT = 'http://localhost:3001/';
+const API_ROOT = __API_ROOT_URL__;
 
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
@@ -41,6 +41,9 @@ function callApi(verb, authorization, endpoint, schema, payload) {
     .then(response => {
       if (response.status === 401) {
         return Promise.reject({ message: "Unauthorized" });
+      }
+      if (response.status === 500) {
+        return Promise.reject({ message: "An unexpected error happened on our servers, not your fault. Try again?" });
       }
 
       return response.json().then(json => ({ json, response }));
@@ -91,6 +94,10 @@ const matchingSchema = new Schema('matchings', {
   idAttribute: matching => matching.ID
 });
 
+const regionSchema = new Schema('regions', {
+  idAttribute: matching => matching.ID
+});
+
 // Schemas for Github API responses.
 export const Schemas = {
   USER: userSchema,
@@ -100,7 +107,9 @@ export const Schemas = {
   REQUEST: requestSchema,
   REQUEST_ARRAY: arrayOf(requestSchema),
   MATCHING: matchingSchema,
-  MATCHING_ARRAY: arrayOf(matchingSchema)
+  MATCHING_ARRAY: arrayOf(matchingSchema),
+  REGION: regionSchema,
+  REGION_ARRAY: arrayOf(regionSchema)
 };
 
 // Action key that carries API call info interpreted by this Redux middleware.

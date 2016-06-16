@@ -14,11 +14,14 @@ We assume you run a reasonable sort of Linux or OS X with **node.js 6.x** (use [
 3. Install packages
 
    `npm i`
-4. (Optional: Fire up the [backend](https://github.com/caTUstrophy/backend))
-5. Start development server
+4. Configure your environment. Start by cloning the example configuration and adapt to your needs.
+   
+   `cp environment.js.example environment.js`
+5. (Optional: Fire up the [backend](https://github.com/caTUstrophy/backend))
+6. Start development server
 
    `npm start`
-6. Open spawned website: http://localhost:3000/
+7. Open spawned website: http://localhost:3000/
 
 Changes you make to the code are applied immediately and hot-loaded.
 Hit `CTRL`+`H` to show/hide the Redux DevTools and `CTRL`+`M` to move them around.

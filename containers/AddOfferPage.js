@@ -1,13 +1,26 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import OfferForm from '../forms/OfferForm'
 import {browserHistory} from 'react-router'
-import { createOffer, CREATE_OFFERS_SUCCESS } from '../actions/offers'
+
 import autobind from 'autobind-decorator'
 
+import OfferForm from '../forms/OfferForm'
+import { getLocation } from '../actions/location'
+import { createOffer, CREATE_OFFERS_SUCCESS } from '../actions/offers'
+import { LocationPropType } from '../helpers/Location'
+
 class AddOfferPage extends Component {
+  static propTypes = {
+    offer: PropTypes.object,
+    location: LocationPropType
+  };
+
   constructor(props) {
     super(props);
+  }
+  
+  componentWillMount() {
+    this.props.getLocation();
   }
 
   @autobind
@@ -16,7 +29,7 @@ class AddOfferPage extends Component {
     this.props.createOffer(offer)
       .then(result => {
         if (result.type == CREATE_OFFERS_SUCCESS) {
-          browserHistory.push('/offers'); // todo: improve this
+          browserHistory.push('/me/offers'); // todo: improve this
         }
       }).catch(e => {
       console.log("Catch", e);
@@ -26,16 +39,20 @@ class AddOfferPage extends Component {
   render() {
     return (
       <div style={{width: '40rem', margin: '0 auto'}}>
-        <OfferForm onSubmit={this.handleSubmit} />
+        <OfferForm onSubmit={this.handleSubmit}
+                   defaultLocation={this.props.location} />
       </div>
     )
   }
 }
 
-AddOfferPage.propTypes = {
-  offer: PropTypes.object
+const mapStateToProps = (state, ownProps) => {
+  return {
+    location: state.location
+  }
 };
 
-export default connect(null, {
-  createOffer
+export default connect(mapStateToProps, {
+  createOffer,
+  getLocation
 })(AddOfferPage)

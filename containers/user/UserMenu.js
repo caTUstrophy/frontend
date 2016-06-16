@@ -18,7 +18,7 @@ class UserMenu extends Component {
   }
 
   @autobind
-  handleRequestToggle(event, value) {
+  handleRequestToggle() {
     this.props.toggleUserMenu();
   }
 

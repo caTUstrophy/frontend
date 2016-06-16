@@ -13,7 +13,7 @@ class OffersPage extends Component {
   }
 
   componentWillMount() {
-    this.props.loadOffers();
+    this.props.loadOffers(this.props.regionId);
   }
 
   @autobind
@@ -43,10 +43,10 @@ OffersPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { entities: { offers } } = state;
-  console.dir(state.entities);
 
   return {
-    offers: Object.values(offers)
+    offers: Object.values(offers),
+    regionId: ownProps.params.ID
   }
 }
 
