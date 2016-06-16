@@ -4,6 +4,9 @@ import { browserHistory } from 'react-router'
 
 import autobind from 'autobind-decorator'
 
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+import ContentAdd from 'material-ui/svg-icons/content/add'
+
 import { loadRegions } from '../../../actions/regions'
 import RegionList from '../../../components/regions/RegionList'
 
@@ -31,6 +34,11 @@ class RegionsPage extends Component {
       <div>
         <h1>Regions</h1>
         <RegionList regions={regions} onTouchTapItem={this.handleTouchTapItem} />
+        <FloatingActionButton style={{position: 'fixed', bottom: '2rem', right: '2rem'}}
+                              secondary={true}
+                              onTouchTap={() => browserHistory.push('/admin/regions/create')}>
+          <ContentAdd />
+        </FloatingActionButton>
       </div>
     )
   }
