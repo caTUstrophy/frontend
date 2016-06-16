@@ -28,7 +28,7 @@ class ProfilePage extends Component {
     }
 
     return (
-      <div>
+      <div style={{width: '40rem', margin: '0 auto'}}>
         <Profile profile={profile}/>
       </div>
     )

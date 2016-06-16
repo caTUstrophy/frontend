@@ -9,7 +9,7 @@ export default class Profile extends Component {
     return (
       <Card>
         <CardHeader style={{backgroundColor: 'lightgray'}}
-        title={<h1>{profile.Name}'s details</h1>} />
+                    title={`${profile.Name}'s details`} />
         <CardText>
           <h2>Name:</h2>
           <div style={{display: 'flex', alignItems: 'center', marginBottom: '0.5rem'}}>
