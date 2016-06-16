@@ -2,21 +2,37 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router';
 
-import { loadRequests, loadOffers } from '../../actions'
-import RequestList from '../../components/RequestList'
-import OfferList from '../../components/OfferList'
-
-import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card';
+import { Polygon } from 'react-leaflet';
+import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
 
-class RequestsPage extends Component {
+import { loadRequests, loadOffers, loadRegions } from '../../actions'
+import RequestList from '../../components/RequestList'
+import OfferList from '../../components/OfferList';
+import RegionList from '../../components/regions/RegionList';
+import SimpleMap from '../../components/maps/SimpleMap';
+import { calculateCenter, toLeaflet } from '../../helpers/Location';
+
+export class AdminHomePage extends Component {
+  static propTypes = {
+    requests: PropTypes.array.isRequired,
+    offers: PropTypes.array.isRequired,
+    loadRequests: PropTypes.func.isRequired,
+    loadOffers: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
   }
   
   componentWillMount() {
-    this.props.loadRequests();
-    this.props.loadOffers();
+    // this.props.loadRequests();
+    // this.props.loadOffers();
+    this.props.loadRegions();
+  }
+
+  handleFocusRegion(region) {
+    browserHistory.push(`/admin/manage/${ region.ID }`);
   }
 
   renderRequests(requests) {
@@ -35,53 +51,44 @@ class RequestsPage extends Component {
     }
 
     return (
-      <OfferList offers={offers} />
+      <OfferList offers={offers} onTouchTapItem={(offer) => browserHistory.push(`/admin/offers/${ offer.ID }`)} />
     )
   }
   
   render() {
-    const { requests, offers } = this.props;
-
+    const { requests, offers, regions } = this.props;
     const halfWidth = {width: '50%', margin: '1rem'};
+
+    if (!regions) {
+      return <h2>Loading...</h2>; // todo: display loading animation
+    }
 
     return (
       <div style={{display: 'flex'}}>
-        <Card style={halfWidth}>
-          <CardHeader style={{backgroundColor: 'lightgray'}}
-                      title="Requests" />
-          <CardText>{this.renderRequests(requests)}</CardText>
-          <CardActions style={{display: 'flex'}}>
-            <FlatButton label="See all"  style={{marginLeft: 'auto'}} onTouchTap={() => browserHistory.push('/admin/requests')} />
-          </CardActions>
-        </Card>
-        <Card style={halfWidth}>
-          <CardHeader style={{backgroundColor: 'lightgray'}}
-                      title="Offers" />
-          <CardText>{this.renderOffers(offers)}</CardText>
-          <CardActions style={{display: 'flex'}}>
-            <FlatButton label="See all"  style={{marginLeft: 'auto'}} onTouchTap={() => browserHistory.push('/admin/offers')} />
-          </CardActions>
-        </Card>
+        <Paper style={{width: '20%'}}>
+          <RegionList regions={regions} onTouchTapItem={this.handleFocusRegion.bind(this)} />
+        </Paper>
+        <SimpleMap center={calculateCenter(regions.map((region) => calculateCenter(region.Boundaries.Points)))}
+                   style={{width: '80%', height: 400}}>
+          {regions.map(region => <Polygon positions={toLeaflet(region.Boundaries.Points)} onClick={this.handleFocusRegion.bind(this, region)} key={region.ID} />) /* todo: style */}
+        </SimpleMap>
       </div>
     )
   }
 }
 
-RequestsPage.propTypes = {
-  requests: PropTypes.array.isRequired,
-  loadRequests: PropTypes.func.isRequired
-};
-
 function mapStateToProps(state, ownProps) {
-  const { entities: { requests, offers } } = state;
+  const { entities: { requests, offers, regions } } = state;
   
   return {
     requests: Object.values(requests),
-    offers: Object.values(offers)
+    offers: Object.values(offers),
+    regions: Object.values(regions)
   }
 }
 
 export default connect(mapStateToProps, {
   loadRequests,
-  loadOffers
-})(RequestsPage)
+  loadOffers,
+  loadRegions
+})(AdminHomePage)

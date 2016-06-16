@@ -12,6 +12,7 @@ var compiler = webpack(config)
 app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }))
 app.use(webpackHotMiddleware(compiler))
 
+app.use('/styles', express.static('styles'));
 app.use('/images', express.static('images'));
 
 app.use(function(req, res) {
