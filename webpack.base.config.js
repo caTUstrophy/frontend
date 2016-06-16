@@ -1,5 +1,10 @@
 var path = require('path');
 var webpack = require('webpack');
+var environment = require('./environment.js');
+
+const environmentPlugin = new webpack.DefinePlugin({
+  __API_ROOT_URL__: JSON.stringify(environment.apiRootUrl)
+});
 
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
@@ -13,6 +18,7 @@ module.exports = {
     publicPath: '/static/'
   },
   plugins: [
+    environmentPlugin,
     new webpack.optimize.OccurenceOrderPlugin()
   ],
   module: {

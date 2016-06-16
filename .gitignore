@@ -76,3 +76,9 @@ fabric.properties
 
 # build files
 dist/
+
+# environment configuration
+/environment.js
+
+# Mac?
+/.DS_Store
