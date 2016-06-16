@@ -5,11 +5,36 @@ import { browserHistory } from 'react-router'
 import autobind from 'autobind-decorator';
 
 import Drawer from 'material-ui/Drawer';
-import MenuItem from 'material-ui/MenuItem';
+import { Menu, MenuItem } from 'material-ui/Menu';
 import Subheader from 'material-ui/Subheader';
 
 import { toggleSideMenu } from '../../actions'
 import { logout } from '../../actions/login'
+
+const menuEntries = [
+  {
+    url: "/me/offers",
+    text: "Offers"
+  },
+  {
+    url: "/me/requests",
+    text: "Requests"
+  }
+];
+const adminMenuEntries = [,
+  {
+    url: "/admin/regions",
+    text: "Regions"
+  },
+  {
+    url: "/admin/offers",
+    text: "All Offers"
+  },
+  {
+    url: "/admin/requests",
+    text: "All Requests"
+  }
+];
 
 class UserMenu extends Component {
   constructor(props) {
@@ -17,18 +42,29 @@ class UserMenu extends Component {
   }
 
   @autobind
-  handleRequestToggle(event, value) {
+  handleRequestToggle() {
     this.props.toggleSideMenu();
   }
 
-  handleMenuClick(event, value, endpoint) {
-    browserHistory.push(`/me/${ endpoint }`);
+  @autobind
+  handleChange(event, value) {
+    browserHistory.push(value);
     this.handleRequestToggle(event, value);
+  }
+
+  renderMenuItem(entry) {
+    return <MenuItem key={entry.url} value={entry.url} primaryText={entry.text} />;
   }
 
   render() {
     const { login, sideMenuOpen } = this.props;
-    const isAdmin = login.token.iss == "admin@example.org";
+    let regularEntries = [<Subheader key="regular-subheader">MY ENTRIES</Subheader>]
+      .concat(menuEntries.map(this.renderMenuItem));
+    let adminEntries = null;
+    if (login.token.iss == "admin@example.org") { // todo: hacked admin as a constant
+      adminEntries = [<Subheader key="admin-subheader" style={{marginTop: 30}}>ADMIN</Subheader>]
+        .concat(adminMenuEntries.map(this.renderMenuItem));
+    }
 
     return (
       <div>
@@ -37,10 +73,10 @@ class UserMenu extends Component {
                 containerStyle={{paddingTop: 70, zIndex: 1001}}
                 onRequestChange={this.handleRequestToggle}
                 overlayStyle={{zIndex: 1000}}>
-          <Subheader>MY OBJECTS</Subheader>
-          <MenuItem value="my-offers" primaryText="Offers" onTouchTap={this.handleMenuClick.bind(this, undefined, undefined, "offers")} />
-          <MenuItem value="my-requests" primaryText="Requests" onTouchTap={this.handleMenuClick.bind(this, undefined, undefined, "requests")} />
-          { isAdmin ? <Subheader>ADMIN</Subheader> : null }
+          <Menu onChange={this.handleChange} value={null}>
+            { regularEntries }
+            { adminEntries }
+          </Menu>
         </Drawer>
       </div>
     );
