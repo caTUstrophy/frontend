@@ -18,7 +18,8 @@ export class AdminHomePage extends Component {
     requests: PropTypes.array.isRequired,
     offers: PropTypes.array.isRequired,
     loadRequests: PropTypes.func.isRequired,
-    loadOffers: PropTypes.func.isRequired
+    loadOffers: PropTypes.func.isRequired,
+    loadRegions: PropTypes.func.isRequired
   };
 
   constructor(props) {
