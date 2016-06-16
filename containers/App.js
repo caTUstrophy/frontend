@@ -90,7 +90,7 @@ export class App extends Component {
           iconElementLeft={sideMenuButton}
           iconElementRight={<UserMenu />}
         />
-        <main style={{margin: '1rem'}}>
+        <main>
           {<SideMenu />}
           {this.renderErrorMessage()}
           {children}
