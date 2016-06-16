@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
+import { browserHistory } from 'react-router'
+
 import { loadRegion } from '../../../actions'
 import Region from '../../../components/regions/Region'
 import { RegionPropType } from '../../../schemas/RegionSchema'
@@ -24,6 +26,10 @@ class RegionPage extends Component {
     }
   }
 
+  navigate(target) {
+    browserHistory.push(`/admin/regions/${this.props.ID}/${target}`);
+  }
+
   render() {
     const { region, ID } = this.props;
     if (!region) {
@@ -32,7 +38,9 @@ class RegionPage extends Component {
 
     return (
       <div style={{width: '40rem', margin: '0 auto'}}>
-        <Region region={region} />
+        <Region region={region}
+                onClickRequests={this.navigate.bind(this, 'requests')}
+                onClickOffers={this.navigate.bind(this, 'offers')} />
       </div>
     )
   }

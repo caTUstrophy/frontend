@@ -8,12 +8,18 @@ import { loadRequests } from '../../actions/requests'
 import RequestList from '../../components/RequestList'
 
 class RequestsPage extends Component {
+    static propTypes = {
+        regionId: PropTypes.string.isRequired,
+        requests: PropTypes.array.isRequired,
+        loadRequests: PropTypes.func.isRequired
+    };
+
     constructor(props) {
         super(props);
     }
 
     componentWillMount() {
-        this.props.loadRequests()
+        this.props.loadRequests(this.props.regionId);
     }
     
     @autobind
@@ -36,16 +42,12 @@ class RequestsPage extends Component {
     }
 }
 
-RequestsPage.propTypes = {
-    requests: PropTypes.array.isRequired,
-    loadRequests: PropTypes.func.isRequired
-};
-
 function mapStateToProps(state, ownProps) {
     const { entities: { requests } } = state;
 
     return {
-        requests: Object.values(requests)
+        requests: Object.values(requests),
+        regionId: ownProps.params.ID
     }
 }
 

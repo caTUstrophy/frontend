@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
-import { Card, CardHeader, CardText } from 'material-ui/Card'
+import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card'
+import FlatButton from 'material-ui/FlatButton'
 
 import FingerprintIcon from 'material-ui/svg-icons/action/fingerprint'
 import CropFreeIcon from 'material-ui/svg-icons/image/crop-free'
@@ -12,7 +13,9 @@ import { RegionPropType } from '../../schemas/RegionSchema'
 
 export default class Region extends Component {
   static propTypes = {
-    region: RegionPropType.isRequired
+    region: RegionPropType.isRequired,
+    onClickRequests: PropTypes.func.isRequired,
+    onClickOffers: PropTypes.func.isRequired
   };
 
   render() {
@@ -35,6 +38,10 @@ export default class Region extends Component {
             <FingerprintIcon style={{marginRight: '0.5rem'}} /> {region.ID}
           </div>
         </CardText>
+        <CardActions style={{display: 'flex', flexDirection: 'row-reverse'}}>
+          <FlatButton label="Requests" onTouchTap={this.props.onClickRequests} />
+          <FlatButton label="Offers" onTouchTap={this.props.onClickOffers} />
+        </CardActions>
       </Card>
     )
   }

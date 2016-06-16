@@ -72,8 +72,8 @@ function fetchOffersBase(endpoint) {
   }
 }
 
-function fetchOffers(area = "worldwide") {
-  return fetchOffersBase(`offers/${ area }`)
+function fetchOffers(regionId) {
+  return fetchOffersBase(`regions/${ regionId }/offers`)
 }
 
 function fetchUserOffers() {
@@ -82,9 +82,9 @@ function fetchUserOffers() {
 
 // Fetches all offers (unless it is cached)
 // Relies on Redux Thunk middleware.
-export function loadOffers(requiredFields = []) {
+export function loadOffers(regionId, requiredFields = []) {
   return (dispatch, getState) => {
-    return dispatch(authorized(getState().login.jwt)(fetchOffers()))
+    return dispatch(authorized(getState().login.jwt)(fetchOffers(regionId)))
   }
 }
 

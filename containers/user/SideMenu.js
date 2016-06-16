@@ -26,14 +26,14 @@ const adminMenuEntries = [,
     url: "/admin/regions",
     text: "Regions"
   },
-  {
-    url: "/admin/offers",
-    text: "All Offers"
-  },
-  {
-    url: "/admin/requests",
-    text: "All Requests"
-  }
+  // {
+  //   url: "/admin/offers",
+  //   text: "All Offers"
+  // },
+  // {
+  //   url: "/admin/requests",
+  //   text: "All Requests"
+  // }
 ];
 
 class UserMenu extends Component {

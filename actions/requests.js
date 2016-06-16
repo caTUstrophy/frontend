@@ -72,8 +72,8 @@ function fetchRequestsBase(endpoint) {
   }
 }
 
-function fetchRequests(area = "worldwide") {
-  return fetchRequestsBase(`requests/${ area }`)
+function fetchRequests(regionId) {
+  return fetchRequestsBase(`regions/${ regionId }/requests`)
 }
 
 function fetchUserRequests() {
@@ -82,9 +82,9 @@ function fetchUserRequests() {
 
 // Fetches all requests (unless it is cached)
 // Relies on Redux Thunk middleware.
-export function loadRequests(requiredFields = []) {
+export function loadRequests(regionId, requiredFields = []) {
   return (dispatch, getState) => {
-    return dispatch(authorized(getState().login.jwt)(fetchRequests()))
+    return dispatch(authorized(getState().login.jwt)(fetchRequests(regionId)))
   }
 }
 

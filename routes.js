@@ -35,18 +35,20 @@ export default [
     <Route path="admin">
       <IndexRoute component={AdminHomePage} />
       <Route path="offers">
-        <IndexRoute component={OffersPage} />
         <Route path=":ID" component={OfferPage} />
       </Route>
       <Route path="requests">
-        <IndexRoute component={RequestsPage} />
         <Route path=":ID" component={RequestPage} />
       </Route>
       <Route path="regions">
         <IndexRoute component={RegionsPage} />
         <Route path="create"
                component={AddRegionPage}/>
-        <Route path=":ID" component={RegionPage} />
+        <Route path=":ID">
+          <IndexRoute component={RegionPage} />
+          <Route path="requests" component={RequestsPage} />
+          <Route path="offers" component={OffersPage} />
+        </Route>
       </Route>
     </Route>
     <Route path="me">

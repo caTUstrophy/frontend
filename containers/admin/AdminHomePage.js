@@ -26,8 +26,8 @@ export class AdminHomePage extends Component {
   }
   
   componentWillMount() {
-    this.props.loadRequests();
-    this.props.loadOffers();
+    // this.props.loadRequests();
+    // this.props.loadOffers();
     this.props.loadRegions();
   }
 

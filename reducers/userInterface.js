@@ -3,7 +3,7 @@ import * as ActionTypes from '../actions/userInterface'
 
 export function userInterface(state = { userMenuOpen: false, sideMenuOpen: false, errorMessage: null }, action) {
   if (action.error) { // todo: bad style? intercepts all actions
-    return merge({}, state, {errorMessage: action.error});
+    return merge({}, state, {errorMessage: JSON.stringify(action.error) });
   }
   if (action.type === ActionTypes.RESET_ERROR_MESSAGE) {
     return merge({}, state, { errorMessage: null });
