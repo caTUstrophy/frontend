@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
+import { browserHistory } from 'react-router'
 
 import { Polygon, Marker } from 'react-leaflet';
 
@@ -37,10 +38,18 @@ export class AdminHomePage extends Component {
 
     return (
       <SimpleMap center={calculateCenter(region.Boundaries.Points)}
-                 style={{width: '80%', height: 400}}>
+                 style={{height: 400}}>
         <Polygon positions={toLeaflet(region.Boundaries.Points)} key="region" />
-        {requests.map(request => <Marker position={toLeaflet(request.Location)} key={request.ID} />)}
-        {offers.map(offer => <Marker position={toLeaflet(offer.Location)} key={offer.ID} />)}
+        {requests.map(request =>
+          <Marker position={toLeaflet(request.Location)}
+                  onClick={() => browserHistory.push(`/admin/requests/${request.ID}`)}
+                  key={request.ID} />
+        )}
+        {offers.map(offer =>
+          <Marker position={toLeaflet(offer.Location)}
+                  onClick={() => browserHistory.push(`/admin/offers/${offer.ID}`)}
+                  key={offer.ID} />
+        )}
       </SimpleMap>
     )
   }
