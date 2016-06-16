@@ -79,3 +79,6 @@ dist/
 
 # environment configuration
 /environment.js
+
+# Mac?
+/.DS_Store
