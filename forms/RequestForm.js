@@ -10,33 +10,12 @@ import DatePicker from 'material-ui/DatePicker';
 
 import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card'
 
+import { RequestFields } from '../schemas/RequestSchema'
 import Validation from "./helpers/Validation";
 
 import SimpleMap from '../components/maps/SimpleMap';
 
 import { LocationPropType, fromLeaflet } from "../helpers/Location";
-
-export const Fields = {
-  Name: {
-    required: true,
-    error: "Please provide a name"
-  },
-  Tags: {
-    required: false,
-    regExp: {
-      pattern: /^[a-zA-Z0-9,. ]+$/,
-      error: ("Invalid tag")
-    }
-  },
-  Location: {
-    required: true,
-    error: "Missing location"
-  },
-  ValidityPeriod: {
-    required: true,
-    error: "Please choose a validity period"
-  }
-};
 
 export class RequestForm extends Component {
   static propTypes = {
@@ -103,6 +82,6 @@ export class RequestForm extends Component {
 
 export default reduxForm({
   form: 'request-form',
-  fields: Object.keys(Fields),
-  validate: Validation(Fields)
+  fields: Object.keys(RequestFields),
+  validate: Validation(RequestFields)
 })(RequestForm);

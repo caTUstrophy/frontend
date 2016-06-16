@@ -26,7 +26,6 @@ export class OfferForm extends Component {
   }
 
   render() {
-    console.log("default location", this.props.defaultLocation);
     const {fields: {Name, Tags, Location, ValidityPeriod}, handleSubmit, submitting, invalid, pristine, resetForm} = this.props;
     return (
       <form onSubmit={handleSubmit}>
