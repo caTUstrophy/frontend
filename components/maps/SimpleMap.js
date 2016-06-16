@@ -42,7 +42,7 @@ class SimpleMap extends Component {
     if (!center) {
       if (this.props.marker) {
         center = this.props.marker;
-      } else if (this.props.area) {
+      } else if (this.props.area && this.props.area.length) {
         center = LocationHelpers.calculateCenter(this.props.area);
       }
     }
