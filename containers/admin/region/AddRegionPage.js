@@ -26,7 +26,7 @@ class AddRegionPage extends Component {
     this.props.createRegion(region)
       .then(result => {
         if (result.type == CREATE_REGION_SUCCESS) {
-          browserHistory.push('/regions'); // todo: improve this
+          browserHistory.push('/admin/regions'); // todo: improve this
         }
       }).catch(e => {
         console.log("Catch", e);

@@ -14,7 +14,7 @@ import Validation from "./helpers/Validation";
 
 import SimpleMap from '../components/maps/SimpleMap';
 
-import { LocationPropType, autolocation } from "../helpers/Location";
+import { LocationPropType, fromLeaflet } from "../helpers/Location";
 
 export const Fields = {
   Name: {
@@ -28,15 +28,8 @@ export const Fields = {
       error: ("Invalid tag")
     }
   },
-  Position: {
-    // todo: define position
-  },
   Location: {
     required: true,
-    regExp: {
-      pattern: /^[a-zA-Z0-9,. ]+$/,
-      error: ("Invalid location")
-    },
     error: "Missing location"
   },
   ValidityPeriod: {
@@ -52,14 +45,11 @@ export class RequestForm extends Component {
 
   @autobind
   handleMapClick(event) {
-    this.props.fields.Position.onChange({
-      Latitude: event.latlng.lat,
-      Longitude: event.latlng.lng
-    });
+    this.props.fields.Location.onChange(fromLeaflet(event.latlng));
   }
 
   render() {
-    const {fields: {Name, Tags, Location, Position, ValidityPeriod}, handleSubmit, submitting, invalid, resetForm, pristine} = this.props;
+    const {fields: {Name, Tags, Location, ValidityPeriod}, handleSubmit, submitting, invalid, resetForm, pristine} = this.props;
 
     return (
       <form onSubmit={handleSubmit}>
@@ -83,13 +73,6 @@ export class RequestForm extends Component {
                 errorText={Tags.touched && Tags.error}/>
             </div>
             <div>
-              <TextField {...Location}
-                ref="Location"
-                type="text"
-                floatingLabelText="Location"
-                errorText={Location.touched && Location.error}/>
-            </div>
-            <div>
               <DatePicker {...ValidityPeriod}
                 hintText="ValidityPeriod"
                 container="inline"
@@ -103,7 +86,7 @@ export class RequestForm extends Component {
           <SimpleMap style={{height: '200px'}}
                      onClick={this.handleMapClick}
                      center={this.props.defaultLocation}
-                     marker={Position.value || null} />
+                     marker={Location.value || null} />
 
           <CardActions style={{display: 'flex', flexDirection: 'row-reverse'}}>
             {/* everything is reversed with flex-direction, because the submit button should come first (in DOM) */}

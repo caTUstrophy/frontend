@@ -8,11 +8,17 @@ export const LocationPropType = PropTypes.shape({
 export function isLocation(location) {
   return location && location.Lat && location.Lng;
 }
-export function locationToArray(location) {
+export function toLeaflet(location) {
+  if (Array.isArray(location)) {
+    return location.map(toLeaflet);
+  }
   return [location.Lat, location.Lng];
 }
-export function locationsToArray(locations) {
-  return locations.map(locationToArray)
+export function fromLeaflet(location) {
+  if (Array.isArray(location)) {
+    return location.map(fromLeaflet);
+  }
+  return {Lat: location.lat, Lng: location.lng};
 }
 
 // from: https://github.com/Leaflet/Leaflet.draw/blob/master/src/ext/GeometryUtil.js
@@ -37,7 +43,7 @@ export function geodesicArea(latLngs) {
 
 export default {
   LocationPropType,
-  locationToArray,
-  locationsToArray,
+  toLeaflet,
+  fromLeaflet,
   isLocation
 }

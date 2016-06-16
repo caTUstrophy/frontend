@@ -7,7 +7,7 @@ export default function schemaAsFields(schema) {
       continue;
     }
 
-    if (!schema[property].hasOwnProperty('userDefined') || !schema[property].userDefined) {
+    if (!(schema[property].hasOwnProperty('userDefined') && !schema[property].userDefined)) {
       fields[property] = Object.assign({}, schema[property]);
       delete fields[property].propType;
     }

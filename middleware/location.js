@@ -25,8 +25,8 @@ function callIpInfo(verb, authorization, endpoint, schema, payload) {
       const locationArray = json.loc.split(',').map((value) => parseFloat(value));
 
       return {
-        Latitude: locationArray[0],
-        Longitude: locationArray[1],
+        Lat: locationArray[0],
+        Lng: locationArray[1],
         LocationType: LOCATION_TYPE_NETWORK
       }
     })

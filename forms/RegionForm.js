@@ -16,7 +16,7 @@ import { RegionFields } from "../schemas/RegionSchema"
 import FreeDraw from '../components/maps/FreeDraw';
 import SimpleMap from '../components/maps/SimpleMap';
 
-import { LocationPropType } from "../helpers/Location";
+import { LocationPropType, fromLeaflet } from "../helpers/Location";
 
 export class RegionForm extends Component {
   static propTypes = {
@@ -25,7 +25,7 @@ export class RegionForm extends Component {
 
   @autobind
   handleMarkers(event) {
-    this.props.fields.Area.onChange(event.latLngs[0].map((point) => { return { Latitude: point.lat, Longitude: point.lng }}));
+    this.props.fields.Area.onChange(event.latLngs[0].map(fromLeaflet));
   }
 
   render() {
