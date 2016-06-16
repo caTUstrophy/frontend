@@ -23,6 +23,10 @@ const menuEntries = [
 ];
 const adminMenuEntries = [,
   {
+    url: "/admin",
+    text: "Dashboard"
+  },
+  {
     url: "/admin/regions",
     text: "Regions"
   },
