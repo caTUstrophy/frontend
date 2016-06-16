@@ -40,7 +40,7 @@ class UserMenu extends Component {
         targetOrigin={{horizontal: 'right', vertical: 'top'}}>
         {/* <MenuItem value="username" primaryText="Username"/> */}
         {isAdmin ? <MenuItem value="admin-area" primaryText="Admin area" onTouchTap={() => browserHistory.push('/admin')}/> : null}
-        <MenuItem value="profile" disabled={true} primaryText="Profile" />
+        <MenuItem value="profile" onTouchTap={() => browserHistory.push('/me')} primaryText="Your Profile" />
         <MenuItem value="logout" primaryText="Logout" onTouchTap={this.handleLogoutTap} />
       </IconMenu>
     );
