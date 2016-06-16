@@ -12,7 +12,7 @@ export function toLeaflet(location) {
   if (Array.isArray(location)) {
     return location.map(toLeaflet);
   }
-  return [location.Lat, location.Lng];
+  return {lat: location.Lat, lng: location.Lng};
 }
 export function fromLeaflet(location) {
   if (Array.isArray(location)) {
