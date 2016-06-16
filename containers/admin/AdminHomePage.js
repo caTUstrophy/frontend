@@ -31,6 +31,10 @@ export class AdminHomePage extends Component {
     this.props.loadRegions();
   }
 
+  handleFocusRegion(region) {
+    browserHistory.push(`/admin/manage/${ region.ID }`);
+  }
+
   renderRequests(requests) {
     if (!requests) {
       return <h1><i>Loading requests...</i></h1>
@@ -55,14 +59,18 @@ export class AdminHomePage extends Component {
     const { requests, offers, regions } = this.props;
     const halfWidth = {width: '50%', margin: '1rem'};
 
+    if (!regions) {
+      return <h2>Loading...</h2>; // todo: display loading animation
+    }
+
     return (
       <div style={{display: 'flex'}}>
         <Paper style={{width: '20%'}}>
-          <RegionList regions={regions} onTouchTapItem={(region) => browserHistory.push(`/admin/manage/${ region.ID }`)} />
+          <RegionList regions={regions} onTouchTapItem={this.handleFocusRegion.bind(this)} />
         </Paper>
         <SimpleMap center={calculateCenter(regions.map((region) => calculateCenter(region.Boundaries.Points)))}
                    style={{width: '80%', height: 400}}>
-          {regions.map(region => <Polygon positions={toLeaflet(region.Boundaries.Points)} key={region.ID} />) /* todo: style */}
+          {regions.map(region => <Polygon positions={toLeaflet(region.Boundaries.Points)} onClick={this.handleFocusRegion.bind(this, region)} key={region.ID} />) /* todo: style */}
         </SimpleMap>
       </div>
     )
