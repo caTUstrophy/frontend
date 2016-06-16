@@ -21,6 +21,6 @@ export default class User extends Component {
 
 User.propTypes = {
   user: PropTypes.shape({
-    ID: PropTypes.number.isRequired
+    ID: PropTypes.string.isRequired
   }).isRequired
 };

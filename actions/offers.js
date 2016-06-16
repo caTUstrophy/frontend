@@ -62,14 +62,22 @@ export const OFFERS_FAILURE = 'OFFERS_FAILURE';
 
 // Fetches all offers
 // Relies on the custom API middleware defined in ../middleware/api.js.
-function fetchOffers() {
+function fetchOffersBase(endpoint) {
   return {
     [CALL_API]: {
       types: [ OFFERS_REQUEST, OFFERS_SUCCESS, OFFERS_FAILURE ],
-      endpoint: `offers/worldwide`,
+      endpoint,
       schema: Schemas.OFFER_ARRAY
     }
   }
+}
+
+function fetchOffers(area = "worldwide") {
+  return fetchOffersBase(`offers/${ area }`)
+}
+
+function fetchUserOffers() {
+  return fetchOffersBase(`me/offers`)
 }
 
 // Fetches all offers (unless it is cached)
@@ -77,5 +85,11 @@ function fetchOffers() {
 export function loadOffers(requiredFields = []) {
   return (dispatch, getState) => {
     return dispatch(authorized(getState().login.jwt)(fetchOffers()))
+  }
+}
+
+export function loadUserOffers(requiredFields = []) {
+  return (dispatch, getState) => {
+    return dispatch(authorized(getState().login.jwt)(fetchUserOffers()))
   }
 }

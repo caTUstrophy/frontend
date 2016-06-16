@@ -38,16 +38,14 @@ class OfferPage extends Component {
 }
 
 OfferPage.propTypes = {
-  ID: PropTypes.number.isRequired,
+  ID: PropTypes.string.isRequired,
   offer: PropTypes.object,
   loadOffer: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
-  const ID = parseInt(ownProps.params.ID);
-
+  const { ID } = ownProps.params;
   const offers = state.entities.offers;
-  console.dir(offers);
 
   return {
     ID,

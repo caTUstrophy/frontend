@@ -4,12 +4,15 @@ var webpackHotMiddleware = require('webpack-hot-middleware')
 var config = require('./webpack.config')
 var environment = require('./environment.js')
 
-var app = new (require('express'))()
+var express = require('express');
+var app = new express();
 var port = environment.port;
 
 var compiler = webpack(config)
 app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }))
 app.use(webpackHotMiddleware(compiler))
+
+app.use('/images', express.static('images'));
 
 app.use(function(req, res) {
   res.sendFile(__dirname + '/index.html')

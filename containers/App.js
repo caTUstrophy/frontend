@@ -9,11 +9,15 @@ import LocalStorage from '../helpers/LocalStorage';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import AppBar from 'material-ui/AppBar';
 import Snackbar from 'material-ui/Snackbar';
+import MenuIcon from 'material-ui/svg-icons/navigation/menu';
+import CloseIcon from 'material-ui/svg-icons/navigation/close';
+import IconButton from 'material-ui/IconButton/IconButton';
 
 import LoginPage from './user/LoginPage'
 import UserMenu from './user/UserMenu'
+import SideMenu from './user/SideMenu'
 
-import { resetErrorMessage } from '../actions/userInterface'
+import { resetErrorMessage, toggleSideMenu } from '../actions/userInterface'
 import { tryRestoreLogin, logout, refreshLogin } from '../actions/login'
 import {LOGIN_LOCAL_STORAGE_KEY} from "../actions/login";
 
@@ -53,6 +57,11 @@ export class App extends Component {
     this.props.resetErrorMessage();
   }
 
+  @autobind
+  handleToggleSideMenu(event, value) {
+    this.props.toggleSideMenu();
+  }
+
   renderErrorMessage() {
     const { errorMessage } = this.props;
 
@@ -64,20 +73,25 @@ export class App extends Component {
   }
 
   render() {
-    const { children, login, url } = this.props;
+    const { children, login, url, sideMenuOpen } = this.props;
 
     if (!login || login.expires < new Date()) {
       return <LoginPage />;
     }
 
+    let sideMenuButton = <IconButton onTouchTap={this.handleToggleSideMenu}>
+      {sideMenuOpen ? <CloseIcon color="white"/> : <MenuIcon color="white"/>}
+    </IconButton>;
+
     return (
       <div>
         <AppBar
           title={<span style={{cursor: 'pointer'}} onTouchTap={() => browserHistory.push('/')}>CaTUstrophy</span>}
-          iconElementLeft={<div /> /* todo: remove to make menu-button appear and link to side menu */}
+          iconElementLeft={sideMenuButton}
           iconElementRight={<UserMenu />}
         />
         <main style={{margin: '1rem'}}>
+          {<SideMenu />}
           {this.renderErrorMessage()}
           {children}
         </main>
@@ -90,7 +104,7 @@ App.propTypes = {
   // Injected by React Redux
   errorMessage: PropTypes.string,
   login: PropTypes.object,
-
+  toggleSideMenu: PropTypes.func.isRequired,
   resetErrorMessage: PropTypes.func.isRequired,
   refreshLogin: PropTypes.func.isRequired,
   tryRestoreLogin: PropTypes.func.isRequired,
@@ -100,19 +114,20 @@ App.propTypes = {
   children: PropTypes.node,
   // Injected by muiThemeable
   muiTheme: PropTypes.object.isRequired
-
 };
 
 function mapStateToProps(state, ownProps) {
-  const { login, userInterface: { errorMessage }} = state;
+  const { login, userInterface: { errorMessage, sideMenuOpen }} = state;
   return {
     url: ownProps.location.pathname,
     login,
-    errorMessage
+    errorMessage,
+    sideMenuOpen
   }
 }
-
+ 
 export default muiThemeable()(connect(mapStateToProps, {
+  toggleSideMenu,
   resetErrorMessage,
   tryRestoreLogin,
   refreshLogin,

@@ -2,8 +2,6 @@ import React, { Component, PropTypes } from 'react'
 
 import { List, ListItem } from 'material-ui/List'
 
-import { browserHistory } from 'react-router'
-
 export default class RequestList extends Component {
     render() {
         let requestList;
@@ -27,6 +25,9 @@ export default class RequestList extends Component {
 }
 
 RequestList.propTypes = {
-    requests: PropTypes.array.isRequired, // todo: specify more detailed schema?
+    requests: PropTypes.arrayOf(PropTypes.shape({
+        ID: PropTypes.string.isRequired,
+        Name: PropTypes.string.isRequired
+    })).isRequired,
     onTouchTapItem: PropTypes.func.isRequired
 };
