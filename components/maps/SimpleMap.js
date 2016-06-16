@@ -43,10 +43,7 @@ class SimpleMap extends Component {
       if (this.props.marker) {
         center = this.props.marker;
       } else if (this.props.area) {
-        center = {
-          Lat: this.props.area.map(point => point.Lat).reduce((a, b) => a + b) / this.props.area.length,
-          Lng: this.props.area.map(point => point.Lng).reduce((a, b) => a + b) / this.props.area.length,
-        }
+        center = calculateCenter(this.props.area);
       }
     }
     center = center ||  {

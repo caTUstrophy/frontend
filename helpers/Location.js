@@ -31,6 +31,13 @@ export function toString(location) {
   return `${toArcMinutes(location.Lat)}${location.Lat > 0 ? 'N' : 'S'} ${toArcMinutes(location.Lng)}${location.Lng > 0 ? 'E' : 'W'}`;
 }
 
+export function calculateCenter(arrayOfLocations) {
+  return {
+    Lat: arrayOfLocations.map(point => point.Lat).reduce((a, b) => a + b) / arrayOfLocations.length,
+    Lng: arrayOfLocations.map(point => point.Lng).reduce((a, b) => a + b) / arrayOfLocations.length
+  }
+}
+
 // from: https://github.com/Leaflet/Leaflet.draw/blob/master/src/ext/GeometryUtil.js
 export function geodesicArea(latLngs) {
   var pointsCount = latLngs.length,
@@ -55,5 +62,6 @@ export default {
   LocationPropType,
   toLeaflet,
   fromLeaflet,
-  isLocation
+  isLocation,
+  calculateCenter
 }
