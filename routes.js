@@ -20,6 +20,7 @@ import SignupPage from './containers/user/SignupPage'
 // other
 import DefaultPage from './containers/misc/EmptyPage'
 import NotFoundPage from './containers/misc/NotFoundPage'
+import ProfilePage from "./containers/me/ProfilePage";
 import MyOffersPage from "./containers/me/MyOffersPage";
 import MyRequestsPage from "./containers/me/MyRequestsPage";
 
@@ -49,7 +50,7 @@ export default [
       </Route>
     </Route>
     <Route path="me">
-      <IndexRoute component={DefaultPage} />
+      <IndexRoute component={ProfilePage} />
       <Route path="offers">
         <IndexRoute component={MyOffersPage} />
         <Route path=":ID" component={OfferPage} />

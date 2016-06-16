@@ -5,6 +5,7 @@ import paginate from './paginate'
 import userInterface from './userInterface'
 import login from './login'
 import error from './error'
+import profile from './profile'
 import { routerReducer as routing } from 'react-router-redux'
 import { combineReducers } from 'redux'
 import { reducer as formReducer } from 'redux-form';
@@ -25,6 +26,7 @@ const pagination = combineReducers({
 const rootReducer = combineReducers({
   login,
   entities,
+  profile,
   // pagination,
   userInterface,
   error,
