@@ -30,16 +30,8 @@ import MyRequestsPage from "./containers/me/MyRequestsPage";
 export default [
   <Route path="/" component={App}>
     <IndexRoute component={HomePage} />
-    <Route path="requests">
-      <IndexRoute component={DefaultPage} />
-      <Route path="create"
-             component={AddRequestPage}/>
-    </Route>
-    <Route path="offers">
-      <IndexRoute component={DefaultPage} />
-      <Route path="create"
-             component={AddOfferPage}/>
-    </Route>
+    <Route path="requests/create" component={AddRequestPage}/>
+    <Route path="offers/create" component={AddOfferPage}/>
     <Route path="admin">
       <IndexRoute component={AdminHomePage} />
       <Route path="offers">

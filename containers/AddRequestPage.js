@@ -1,11 +1,13 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {browserHistory} from 'react-router'
+
+import autobind from 'autobind-decorator'
+
 import {createRequest, CREATE_REQUESTS_SUCCESS} from '../actions/requests'
 import { getLocation } from '../actions/location'
 import RequestForm from '../forms/RequestForm'
-
-import autobind from 'autobind-decorator'
+import { LocationPropType } from '../helpers/Location'
 
 class AddRequestPage extends Component {
   constructor(props) {
@@ -22,7 +24,7 @@ class AddRequestPage extends Component {
     this.props.createRequest(request)
       .then(response => {
         if (response.type == CREATE_REQUESTS_SUCCESS) {
-          browserHistory.push('/requests'); // todo: improve this
+          browserHistory.push('/me/requests'); // todo: improve this
         }
       }).catch(e => {
         console.log("Catch", e);
@@ -41,7 +43,7 @@ class AddRequestPage extends Component {
 
 AddRequestPage.propTypes = {
   request: PropTypes.object,
-  location: PropTypes.object // todo: refine location propType and make common
+  location: LocationPropType
 };
 
 const mapStateToProps = (state, ownProps) => {
