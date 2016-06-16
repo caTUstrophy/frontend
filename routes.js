@@ -9,6 +9,7 @@ import AddRequestPage from './containers/AddRequestPage'
 
 // admin
 import AdminHomePage from './containers/admin/AdminHomePage'
+import ManagePage from './containers/admin/ManagePage'
 import OffersPage from './containers/admin/OffersPage'
 import OfferPage from './containers/admin/OfferPage'
 import RequestsPage from './containers/admin/RequestsPage'
@@ -50,6 +51,7 @@ export default [
           <Route path="offers" component={OffersPage} />
         </Route>
       </Route>
+      <Route path="manage/:ID" component={ManagePage} />
     </Route>
     <Route path="me">
       <IndexRoute component={DefaultPage} />

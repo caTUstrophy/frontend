@@ -58,7 +58,7 @@ export class AdminHomePage extends Component {
     return (
       <div style={{display: 'flex'}}>
         <Paper style={{width: '20%'}}>
-          <RegionList regions={regions} onTouchTapItem={console.dir} />
+          <RegionList regions={regions} onTouchTapItem={(region) => browserHistory.push(`/admin/manage/${ region.ID }`)} />
         </Paper>
         <SimpleMap center={calculateCenter(regions.map((region) => calculateCenter(region.Boundaries.Points)))}
                    style={{width: '80%', height: 400}}>
