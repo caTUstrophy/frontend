@@ -1,15 +1,15 @@
 import { PropTypes } from 'react';
 
 export const LocationPropType = PropTypes.shape({
-  Latitude: PropTypes.number,
-  Longitude: PropTypes.number
+  Lat: PropTypes.number,
+  Lng: PropTypes.number
 });
 
 export function isLocation(location) {
-  return location && location.Latitude && location.Longitude;
+  return location && location.Lat && location.Lng;
 }
 export function locationToArray(location) {
-  return [location.Latitude, location.Longitude];
+  return [location.Lat, location.Lng];
 }
 export function locationsToArray(locations) {
   return locations.map(locationToArray)
@@ -26,8 +26,8 @@ export function geodesicArea(latLngs) {
     for (var i = 0; i < pointsCount; i++) {
       p1 = latLngs[i];
       p2 = latLngs[(i + 1) % pointsCount];
-      area += ((p2.Longitude - p1.Longitude) * d2r) *
-        (2 + Math.sin(p1.Latitude * d2r) + Math.sin(p2.Latitude * d2r));
+      area += ((p2.Lng - p1.Lng) * d2r) *
+        (2 + Math.sin(p1.Lat * d2r) + Math.sin(p2.Lat * d2r));
     }
     area = area * 6378137.0 * 6378137.0 / 2.0;
   }

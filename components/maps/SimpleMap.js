@@ -44,14 +44,14 @@ class SimpleMap extends Component {
         center = this.props.marker;
       } else if (this.props.area) {
         center = {
-          Latitude: this.props.area.map(point => point.Latitude).reduce((a, b) => a + b) / this.props.area.length,
-          Longitude: this.props.area.map(point => point.Longitude).reduce((a, b) => a + b) / this.props.area.length,
+          Lat: this.props.area.map(point => point.Lat).reduce((a, b) => a + b) / this.props.area.length,
+          Lng: this.props.area.map(point => point.Lng).reduce((a, b) => a + b) / this.props.area.length,
         }
       }
     }
     center = center ||  {
-      Latitude: 0,
-      Longitude: 0
+      Lat: 0,
+      Lng: 0
     };
 
     return <Map center={LocationHelpers.locationToArray(center)} zoom={this.props.zoom} style={style} onClick={this.props.onClick}>
