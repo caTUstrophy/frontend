@@ -42,6 +42,9 @@ function callApi(verb, authorization, endpoint, schema, payload) {
       if (response.status === 401) {
         return Promise.reject({ message: "Unauthorized" });
       }
+      if (response.status === 500) {
+        return Promise.reject({ message: "An unexpected error happened on our servers, not your fault. Try again?" });
+      }
 
       return response.json().then(json => ({ json, response }));
     }).then(({ json, response }) => {

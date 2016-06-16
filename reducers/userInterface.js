@@ -2,8 +2,8 @@ import merge from 'lodash/merge';
 import * as ActionTypes from '../actions/userInterface'
 
 export function userInterface(state = { userMenuOpen: false, sideMenuOpen: false, errorMessage: null }, action) {
-  if (action.error) { // todo: bad style? intercepts all actions
-    return merge({}, state, {errorMessage: JSON.stringify(action.error) });
+  if (action.errorMessage || action.error) { // todo: bad style? intercepts all actions
+    return merge({}, state, { errorMessage: action.errorMessage || JSON.stringify(action.error) });
   }
   if (action.type === ActionTypes.RESET_ERROR_MESSAGE) {
     return merge({}, state, { errorMessage: null });
