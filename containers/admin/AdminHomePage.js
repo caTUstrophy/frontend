@@ -2,12 +2,16 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router';
 
-import { loadRequests, loadOffers } from '../../actions'
-import RequestList from '../../components/RequestList'
-import OfferList from '../../components/OfferList'
-
-import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card';
+import { Polygon } from 'react-leaflet';
+import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
+
+import { loadRequests, loadOffers, loadRegions } from '../../actions'
+import RequestList from '../../components/RequestList'
+import OfferList from '../../components/OfferList';
+import RegionList from '../../components/regions/RegionList';
+import SimpleMap from '../../components/maps/SimpleMap';
+import { calculateCenter, toLeaflet } from '../../helpers/Location';
 
 export class AdminHomePage extends Component {
   static propTypes = {
@@ -24,6 +28,7 @@ export class AdminHomePage extends Component {
   componentWillMount() {
     this.props.loadRequests();
     this.props.loadOffers();
+    this.props.loadRegions();
   }
 
   renderRequests(requests) {
@@ -47,43 +52,35 @@ export class AdminHomePage extends Component {
   }
   
   render() {
-    const { requests, offers } = this.props;
-
+    const { requests, offers, regions } = this.props;
     const halfWidth = {width: '50%', margin: '1rem'};
 
     return (
       <div style={{display: 'flex'}}>
-        <Card style={halfWidth}>
-          <CardHeader style={{backgroundColor: 'lightgray'}}
-                      title="Requests" />
-          <CardText>{this.renderRequests(requests)}</CardText>
-          <CardActions style={{display: 'flex'}}>
-            <FlatButton label="See all"  style={{marginLeft: 'auto'}} onTouchTap={() => browserHistory.push('/admin/requests')} />
-          </CardActions>
-        </Card>
-        <Card style={halfWidth}>
-          <CardHeader style={{backgroundColor: 'lightgray'}}
-                      title="Offers" />
-          <CardText>{this.renderOffers(offers)}</CardText>
-          <CardActions style={{display: 'flex'}}>
-            <FlatButton label="See all"  style={{marginLeft: 'auto'}} onTouchTap={() => browserHistory.push('/admin/offers')} />
-          </CardActions>
-        </Card>
+        <Paper style={{width: '20%'}}>
+          <RegionList regions={regions} onTouchTapItem={console.dir} />
+        </Paper>
+        <SimpleMap center={calculateCenter(regions.map((region) => calculateCenter(region.Boundaries.Points)))}
+                   style={{width: '80%', height: 400}}>
+          {regions.map(region => <Polygon positions={toLeaflet(region.Boundaries.Points)} key={region.ID} />) /* todo: style */}
+        </SimpleMap>
       </div>
     )
   }
 }
 
 function mapStateToProps(state, ownProps) {
-  const { entities: { requests, offers } } = state;
+  const { entities: { requests, offers, regions } } = state;
   
   return {
     requests: Object.values(requests),
-    offers: Object.values(offers)
+    offers: Object.values(offers),
+    regions: Object.values(regions)
   }
 }
 
 export default connect(mapStateToProps, {
   loadRequests,
-  loadOffers
+  loadOffers,
+  loadRegions
 })(AdminHomePage)
