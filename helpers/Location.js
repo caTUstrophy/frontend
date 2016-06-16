@@ -21,6 +21,16 @@ export function fromLeaflet(location) {
   return {Lat: location.lat, Lng: location.lng};
 }
 
+function toArcMinutes(decimalDegrees) {
+  let degrees = Math.floor(decimalDegrees);
+  let minutes = Math.floor((decimalDegrees - degrees) * 60);
+  let seconds = Math.floor((decimalDegrees - degrees - minutes / 60) * 60 * 60);
+  return `${degrees}°${minutes}'${seconds}"`;
+}
+export function toString(location) {
+  return `${toArcMinutes(location.Lat)}${location.Lat > 0 ? 'N' : 'S'} ${toArcMinutes(location.Lng)}${location.Lng > 0 ? 'E' : 'W'}`;
+}
+
 // from: https://github.com/Leaflet/Leaflet.draw/blob/master/src/ext/GeometryUtil.js
 export function geodesicArea(latLngs) {
   var pointsCount = latLngs.length,

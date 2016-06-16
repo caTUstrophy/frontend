@@ -20,7 +20,7 @@ class SimpleMap extends Component {
 
   static defaultProps = {
     showScale: true,
-    zoom: 12
+    zoom: 13
   };
 
   render() {
