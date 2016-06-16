@@ -47,8 +47,8 @@ class SimpleMap extends Component {
       }
     }
     center = center ||  {
-      Lat: 0,
-      Lng: 0
+      lat: 0,
+      lng: 0
     };
 
     return <Map center={LocationHelpers.toLeaflet(center)} zoom={this.props.zoom} style={style} onClick={this.props.onClick}>
