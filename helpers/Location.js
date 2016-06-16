@@ -1,24 +1,24 @@
 import { PropTypes } from 'react';
 
 export const LocationPropType = PropTypes.shape({
-  Lat: PropTypes.number,
-  Lng: PropTypes.number
+  lat: PropTypes.number,
+  lng: PropTypes.number
 });
 
 export function isLocation(location) {
-  return location && location.Lat && location.Lng;
+  return location && location.lat && location.lng;
 }
 export function toLeaflet(location) {
   if (Array.isArray(location)) {
     return location.map(toLeaflet);
   }
-  return {lat: location.Lat, lng: location.Lng};
+  return {lat: location.lat, lng: location.lng};
 }
 export function fromLeaflet(location) {
   if (Array.isArray(location)) {
     return location.map(fromLeaflet);
   }
-  return {Lat: location.lat, Lng: location.lng};
+  return {lat: location.lat, lng: location.lng};
 }
 
 function toArcMinutes(decimalDegrees) {
@@ -28,13 +28,13 @@ function toArcMinutes(decimalDegrees) {
   return `${degrees}°${minutes}'${seconds}"`;
 }
 export function toString(location) {
-  return `${toArcMinutes(location.Lat)}${location.Lat > 0 ? 'N' : 'S'} ${toArcMinutes(location.Lng)}${location.Lng > 0 ? 'E' : 'W'}`;
+  return `${toArcMinutes(location.lat)}${location.lat > 0 ? 'N' : 'S'} ${toArcMinutes(location.lng)}${location.lng > 0 ? 'E' : 'W'}`;
 }
 
 export function calculateCenter(arrayOfLocations) {
   return {
-    Lat: arrayOfLocations.map(point => point.Lat).reduce((a, b) => a + b) / arrayOfLocations.length,
-    Lng: arrayOfLocations.map(point => point.Lng).reduce((a, b) => a + b) / arrayOfLocations.length
+    lat: arrayOfLocations.map(point => point.lat).reduce((a, b) => a + b) / arrayOfLocations.length,
+    lng: arrayOfLocations.map(point => point.lng).reduce((a, b) => a + b) / arrayOfLocations.length
   }
 }
 
@@ -49,8 +49,8 @@ export function geodesicArea(latLngs) {
     for (var i = 0; i < pointsCount; i++) {
       p1 = latLngs[i];
       p2 = latLngs[(i + 1) % pointsCount];
-      area += ((p2.Lng - p1.Lng) * d2r) *
-        (2 + Math.sin(p1.Lat * d2r) + Math.sin(p2.Lat * d2r));
+      area += ((p2.lng - p1.lng) * d2r) *
+        (2 + Math.sin(p1.lat * d2r) + Math.sin(p2.lat * d2r));
     }
     area = area * 6378137.0 * 6378137.0 / 2.0;
   }
