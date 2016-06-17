@@ -47,9 +47,11 @@ function fetchRequest(requestId) {
 // Relies on Redux Thunk middleware.
 export function loadRequest(requestId, requiredFields = []) {
   return (dispatch, getState) => {
-    const request = getState().entities.requests[requestId];
-    if (request && requiredFields.every(key => request.hasOwnProperty(key))) {
-      return null;
+    if (__USE_FRONTEND_CACHES__) {
+      const request = getState().entities.requests[requestId];
+      if (request && requiredFields.every(key => request.hasOwnProperty(key))) {
+        return null;
+      }
     }
     
     return dispatch(authorized(getState().login.jwt)(fetchRequest(requestId)));

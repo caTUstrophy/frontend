@@ -47,9 +47,11 @@ function fetchRegion(regionId) {
 // Relies on Redux Thunk middleware.
 export function loadRegion(regionId, requiredFields = []) {
   return (dispatch, getState) => {
-    const region = getState().entities.regions[regionId];
-    if (region && requiredFields.every(key => region.hasOwnProperty(key))) {
-      return null;
+    if (__USE_FRONTEND_CACHES__) {
+      const region = getState().entities.regions[regionId];
+      if (region && requiredFields.every(key => region.hasOwnProperty(key))) {
+        return null;
+      }
     }
     
     return dispatch(authorized(getState().login.jwt)(fetchRegion(regionId)));

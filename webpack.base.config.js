@@ -3,7 +3,8 @@ var webpack = require('webpack');
 var environment = require('./environment.js');
 
 const environmentPlugin = new webpack.DefinePlugin({
-  __API_ROOT_URL__: JSON.stringify(environment.apiRootUrl)
+  __API_ROOT_URL__: JSON.stringify(environment.apiRootUrl),
+  __USE_FRONTEND_CACHES__: JSON.stringify(environment.useFrontendCaches)
 });
 
 module.exports = {

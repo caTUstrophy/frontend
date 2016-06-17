@@ -46,9 +46,11 @@ function fetchUser(userId) {
 // Relies on Redux Thunk middleware.
 export function loadUser(userId, requiredFields = []) {
   return (dispatch, getState) => {
-    const user = getState().entities.users[userId]
-    if (user && requiredFields.every(key => user.hasOwnProperty(key))) {
-      return null
+    if (__USE_FRONTEND_CACHES__) {
+      const user = getState().entities.users[userId]
+      if (user && requiredFields.every(key => user.hasOwnProperty(key))) {
+        return null
+      }
     }
     
     return dispatch(fetchUser(userId))

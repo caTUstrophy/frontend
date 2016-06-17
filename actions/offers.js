@@ -47,9 +47,11 @@ function fetchOffer(offerId) {
 // Relies on Redux Thunk middleware.
 export function loadOffer(offerId, requiredFields = []) {
   return (dispatch, getState) => {
-    const offer = getState().entities.offers[offerId];
-    if (offer && requiredFields.every(key => offer.hasOwnProperty(key))) {
-      return null;
+    if (__USE_FRONTEND_CACHES__) {
+      const offer = getState().entities.offers[offerId];
+      if (offer && requiredFields.every(key => offer.hasOwnProperty(key))) {
+        return null;
+      }
     }
 
     return dispatch(authorized(getState().login.jwt)(fetchOffer(offerId)));
