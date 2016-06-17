@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 
+import Leaflet from 'leaflet';
 import { Polygon, Marker } from 'react-leaflet';
 
 import SimpleMap from '../../components/maps/SimpleMap';
@@ -9,7 +10,7 @@ import { calculateCenter, toLeaflet } from '../../helpers/Location';
 
 import { loadRequests, loadOffers, loadRegion } from '../../actions'
 
-export class AdminHomePage extends Component {
+export class ManagePage extends Component {
   static propTypes = {
     regionId: PropTypes.string.isRequired,
     requests: PropTypes.array.isRequired,
@@ -18,6 +19,11 @@ export class AdminHomePage extends Component {
     loadOffers: PropTypes.func.isRequired,
     loadRegion: PropTypes.func.isRequired
   };
+
+  static greenMarker = Leaflet.icon({
+    iconUrl: '/images/maps/marker-icon-green.png',
+    shadowUrl: '/images/maps/marker-shadow.png'
+  });
 
   constructor(props) {
     super(props);
@@ -47,6 +53,7 @@ export class AdminHomePage extends Component {
         )}
         {offers.map(offer =>
           <Marker position={toLeaflet(offer.Location)}
+                  icon={ManagePage.greenMarker}
                   onClick={() => browserHistory.push(`/admin/offers/${offer.ID}`)}
                   key={offer.ID} />
         )}
@@ -70,4 +77,4 @@ export default connect(mapStateToProps, {
   loadRequests,
   loadOffers,
   loadRegion
-})(AdminHomePage)
+})(ManagePage)
