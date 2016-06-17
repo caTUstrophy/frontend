@@ -7,23 +7,27 @@ export const CREATE_MATCHING_FAILURE = 'CREATE_MATCHING_FAILURE';
 
 // Fetches all matchings
 // Relies on the custom API middleware defined in ../middleware/api.js.
-function sendMatching(matching) {
+function sendMatching(regionId, requestId, offerId) {
     return {
         [CALL_API]: {
             types: [ CREATE_MATCHING_REQUEST, CREATE_MATCHING_SUCCESS, CREATE_MATCHING_FAILURE ],
             endpoint: `matchings`,
             verb: 'POST',
             schema: Schemas.MATCHING_ARRAY, // todo: no real response schema?
-            payload: matching
+            payload: {
+                Region: regionId,
+                Request: requestId,
+                Offer: offerId
+            }
         }
     }
 }
 
 // Fetches all matchings (unless it is cached)
 // Relies on Redux Thunk middleware.
-export function createMatching(matching) {
+export function createMatching(regionId, requestId, offerId) {
     return (dispatch, getState) => {
-        return dispatch(authorized(getState().login.jwt)(sendMatching(matching)))
+        return dispatch(authorized(getState().login.jwt)(sendMatching(regionId, requestId, offerId)))
     }
 }
 

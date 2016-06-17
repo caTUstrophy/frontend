@@ -24,3 +24,21 @@ export function toggleSideMenu() {
     type: TOGGLE_SIDE_MENU
   }
 }
+
+export const MANAGE_PAGE_SELECT_ITEM = 'MANAGE_PAGE_SELECT_ITEM';
+
+export function managePageSelectItem(itemType, item) {
+  return {
+    type: MANAGE_PAGE_SELECT_ITEM,
+    itemType,
+    item
+  }
+}
+
+export const MANAGE_PAGE_UNSELECT_ITEM = 'MANAGE_PAGE_UNSELECT_ITEM';
+
+export function managePageUnselectItem(itemType, item) {
+  return {
+    type: MANAGE_PAGE_UNSELECT_ITEM
+  }
+}

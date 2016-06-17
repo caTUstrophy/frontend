@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { loadRequest } from '../../actions'
-import Request from '../../components/Request'
+import Request from '../../components/RequestCard'
 
 function loadData(props) {
   const { loadRequest, ID } = props;
@@ -31,7 +31,7 @@ class RequestPage extends Component {
 
     return (
       <div style={{width: '40rem', margin: '0 auto'}}>
-        <Request request={request} />
+        <RequestCard request={request} />
       </div>
     )
   }

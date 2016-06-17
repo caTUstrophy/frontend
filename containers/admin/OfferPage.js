@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { loadOffer } from '../../actions'
-import Offer from '../../components/Offer'
+import OfferCard from '../../components/OfferCard'
 
 function loadData(props) {
   const { loadOffer, ID } = props;
@@ -31,7 +31,7 @@ class OfferPage extends Component {
 
     return (
       <div style={{width: '40rem', margin: '0 auto'}}>
-        <Offer offer={offer} />
+        <OfferCard offer={offer} />
       </div>
     )
   }
