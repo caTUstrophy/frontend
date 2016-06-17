@@ -9,7 +9,12 @@ export const RegionSchema = Object.assign({}, BaseSchema, {
     required: true,
     error: "Please provide a name"
   },
-  Area: {
+  Description: {
+    propType: PropTypes.string,
+    required: true,
+    error: "Please provide a description"
+  },
+  Region: {
     required: true
   }
 });

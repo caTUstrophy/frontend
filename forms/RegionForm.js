@@ -25,11 +25,11 @@ export class RegionForm extends Component {
 
   @autobind
   handleMarkers(event) {
-    this.props.fields.Area.onChange(event.latLngs[0].map(fromLeaflet));
+    this.props.fields.Region.onChange(event.latLngs[0].map(fromLeaflet));
   }
 
   render() {
-    const {fields: { Name, Area }, handleSubmit, submitting, invalid, resetForm, pristine} = this.props;
+    const {fields: { Name, Description }, handleSubmit, submitting, invalid, resetForm, pristine} = this.props;
 
     return (
       <form onSubmit={handleSubmit}>
@@ -43,6 +43,14 @@ export class RegionForm extends Component {
                 type="text"
                 floatingLabelText="The region's name"
                 errorText={Name.touched && Name.error}/>
+            </div>
+            <div>
+              <TextField {...Description}
+                ref="Description"
+                type="text"
+                multiline={true}
+                floatingLabelText="Describe the region"
+                errorText={Description.touched && Description.error}/>
             </div>
           </CardText>
 
