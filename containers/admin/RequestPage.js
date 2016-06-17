@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { loadRequest } from '../../actions'
-import Request from '../../components/RequestCard'
+import RequestCard from '../../components/RequestCard'
 
 function loadData(props) {
   const { loadRequest, ID } = props;

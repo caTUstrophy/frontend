@@ -5,6 +5,8 @@ import { Card, CardHeader, CardText } from 'material-ui/Card'
 import { RequestPropType } from '../schemas/RequestSchema'
 import SimpleMap from '../components/maps/SimpleMap';
 
+import Request from '../components/Request';
+
 export default class RequestCard extends Component {
   static propTypes = {
     request: RequestPropType.isRequired
