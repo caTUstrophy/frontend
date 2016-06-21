@@ -6,4 +6,11 @@ var config = require("./webpack.base.config.js");
 config.plugins = config.plugins || [ ];
 config.plugins.push(new webpack.HotModuleReplacementPlugin());
 
+// enable react HMR
+config.module.loaders.forEach((loader) => {
+  if (loader.test.test('.js')) {
+    loader.query.presets.push("react-hmre");
+  }
+});
+
 module.exports = config;
