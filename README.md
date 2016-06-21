@@ -24,7 +24,14 @@ We assume you run a reasonable sort of Linux or OS X with **node.js 6.x** (use [
 7. Open spawned website: http://localhost:3000/
 
 Changes you make to the code are applied immediately and hot-loaded.
-Hit `CTRL`+`H` to show/hide the Redux DevTools and `CTRL`+`M` to move them around.
+Hit `CTRL`+`H` to show/hide the Redux DevTools, 
+`CTRL`+`M` to move them around and
+`CTRL`+`SHIFT`+`M` to switch between the available monitors:
+
+
+- [Inspector](https://github.com/alexkuz/redux-devtools-inspector)
+- [Slider](https://github.com/calesce/redux-slider-monitor)
+- [Chart](https://github.com/romseguy/redux-devtools-chart-monitor) (might require reopening the DevTools to render correctly)
 
 
 ## Technology overview
