@@ -89,6 +89,11 @@ See [#3](https://github.com/caTUstrophy/frontend/issues/3) to discuss how to wri
 - Some `test/helpers` (mostly copied from [smaato/react-test-kit](https://github.com/smaato/react-test-kit))
 - Travis runs `npm test` automatically, current status: [![Build Status](https://travis-ci.org/caTUstrophy/frontend.svg?branch=master)](https://travis-ci.org/caTUstrophy/frontend)
 
+### Code coverage
+Code coverage is assessed with [nyc](https://www.npmjs.com/package/nyc) which is built on top of [istanbul](https://www.npmjs.com/package/istanbul).
+It is monitored and published with [coveralls](https://www.npmjs.com/package/coveralls).
+You can see the current details at [coveralls.io](https://coveralls.io/github/caTUstrophy/frontend) or with this fancy badge: [![Coverage Status](https://coveralls.io/repos/github/caTUstrophy/frontend/badge.svg?branch=master)](https://coveralls.io/github/caTUstrophy/frontend?branch=master)
+
 ## Deploying
 
 Run `npm run-script bundle` to create a webpack build in `dist/`.
