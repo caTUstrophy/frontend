@@ -4,29 +4,26 @@ import { browserHistory } from 'react-router'
 
 import Moment from 'moment';
 import autobind from 'autobind-decorator';
-import LocalStorage from '../helpers/LocalStorage';
 
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import AppBar from 'material-ui/AppBar';
-import Snackbar from 'material-ui/Snackbar';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
 import IconButton from 'material-ui/IconButton/IconButton';
 
+import Main from './Main'
 import LoginPage from './user/LoginPage'
 import UserMenu from './user/UserMenu'
 import SideMenu from './user/SideMenu'
 
-import { resetErrorMessage, toggleSideMenu } from '../actions/userInterface'
+import { toggleSideMenu } from '../actions/userInterface'
 import { tryRestoreLogin, logoutAfterTimeout, refreshLogin } from '../actions/login'
 
 export class App extends Component {
   static propTypes = {
     // Injected by React Redux
-    errorMessage: PropTypes.string,
     login: PropTypes.object,
     toggleSideMenu: PropTypes.func.isRequired,
-    resetErrorMessage: PropTypes.func.isRequired,
     refreshLogin: PropTypes.func.isRequired,
     tryRestoreLogin: PropTypes.func.isRequired,
     logoutAfterTimeout: PropTypes.func.isRequired,
@@ -67,32 +64,15 @@ export class App extends Component {
   }
 
   @autobind
-  handleRequestClose() {
-    this.props.resetErrorMessage();
-  }
-
-  @autobind
   handleToggleSideMenu(event, value) {
     this.props.toggleSideMenu();
-  }
-
-  renderErrorMessage() {
-    const { errorMessage } = this.props;
-
-    // todo: render notifications too. another snackbar but different color? same, but change color as needed?
-
-    return <Snackbar
-          open={!!errorMessage}
-          message={errorMessage || " " }
-          onRequestClose={this.handleRequestClose}
-          bodyStyle={{backgroundColor: 'darkred', fontFamily: this.props.muiTheme.fontFamily}} />;
   }
 
   render() {
     const { children, login, url, sideMenuOpen } = this.props;
 
     if (!login || login.expires < new Date()) {
-      return <LoginPage />;
+      return <Main><LoginPage /></Main>;
     }
 
     let sideMenuButton = <IconButton onTouchTap={this.handleToggleSideMenu}>
@@ -106,29 +86,26 @@ export class App extends Component {
           iconElementLeft={sideMenuButton}
           iconElementRight={<UserMenu />}
         />
-        <main>
-          {<SideMenu />}
-          {this.renderErrorMessage()}
+        <Main>
+          <SideMenu />
           {children}
-        </main>
+        </Main>
       </div>
     )
   }
 }
 
 function mapStateToProps(state, ownProps) {
-  const { login, userInterface: { errorMessage, sideMenuOpen }} = state;
+  const { login, userInterface: { sideMenuOpen }} = state;
   return {
     url: ownProps.location.pathname,
     login,
-    errorMessage,
     sideMenuOpen
   }
 }
  
 export default muiThemeable()(connect(mapStateToProps, {
   toggleSideMenu,
-  resetErrorMessage,
   tryRestoreLogin,
   refreshLogin,
   logoutAfterTimeout

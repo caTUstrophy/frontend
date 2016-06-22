@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 
 import { createUser, CREATE_USER_SUCCESS } from '../../actions'
+import Main from '../Main'
 import UserForm from '../../forms/UserForm'
 
 import autobind from 'autobind-decorator'
@@ -24,11 +25,13 @@ class SignupPage extends Component {
 
   render() {
     return (
-      <div style={{display: 'flex', height: '100%'}}>
-        <div style={{width: '40rem', margin: 'auto'}}>
-          <UserForm onSubmit={this.handleSubmit} />
+      <Main>
+        <div style={{display: 'flex', height: '100%'}}>
+          <div style={{width: '40rem', margin: 'auto'}}>
+            <UserForm onSubmit={this.handleSubmit} />
+          </div>
         </div>
-      </div>
+      </Main>
     )
   }
 }
