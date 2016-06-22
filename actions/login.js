@@ -50,6 +50,16 @@ export function refreshLogin() {
   }
 }
 
+export const LOGOUT_AFTER_TIMEOUT = 'LOGOUT_AFTER_TIMEOUT';
+
+export function logoutAfterTimeout() {
+  LocalStorage.removeItem(LOGIN_LOCAL_STORAGE_KEY);
+  return {
+    type: LOGOUT_AFTER_TIMEOUT,
+    notification: "You've been logged out due to long inactivity."
+  }
+}
+
 export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';

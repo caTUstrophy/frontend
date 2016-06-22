@@ -18,10 +18,25 @@ import UserMenu from './user/UserMenu'
 import SideMenu from './user/SideMenu'
 
 import { resetErrorMessage, toggleSideMenu } from '../actions/userInterface'
-import { tryRestoreLogin, logout, refreshLogin } from '../actions/login'
-import {LOGIN_LOCAL_STORAGE_KEY} from "../actions/login";
+import { tryRestoreLogin, logoutAfterTimeout, refreshLogin } from '../actions/login'
 
 export class App extends Component {
+  static propTypes = {
+    // Injected by React Redux
+    errorMessage: PropTypes.string,
+    login: PropTypes.object,
+    toggleSideMenu: PropTypes.func.isRequired,
+    resetErrorMessage: PropTypes.func.isRequired,
+    refreshLogin: PropTypes.func.isRequired,
+    tryRestoreLogin: PropTypes.func.isRequired,
+    logoutAfterTimeout: PropTypes.func.isRequired,
+
+    // Injected by React Router
+    children: PropTypes.node,
+    // Injected by muiThemeable
+    muiTheme: PropTypes.object.isRequired
+  };
+
   constructor(props) {
     super(props);
   }
@@ -30,15 +45,14 @@ export class App extends Component {
     this.props.tryRestoreLogin();
 
     this.loginRefreshFunction = setInterval(() => {
-      const { login, logout, refreshLogin } = this.props;
+      const { login, logoutAfterTimeout, refreshLogin } = this.props;
 
       if (!login) {
         return;
       }
 
       if (login.expires < new Date()) {
-        LocalStorage.removeItem(LOGIN_LOCAL_STORAGE_KEY);
-        // todo: modify state!
+        logoutAfterTimeout();
       }
 
       let refreshTarget = new Moment(login.expires).subtract(5, 'minutes');
@@ -64,6 +78,8 @@ export class App extends Component {
 
   renderErrorMessage() {
     const { errorMessage } = this.props;
+
+    // todo: render notifications too. another snackbar but different color? same, but change color as needed?
 
     return <Snackbar
           open={!!errorMessage}
@@ -100,22 +116,6 @@ export class App extends Component {
   }
 }
 
-App.propTypes = {
-  // Injected by React Redux
-  errorMessage: PropTypes.string,
-  login: PropTypes.object,
-  toggleSideMenu: PropTypes.func.isRequired,
-  resetErrorMessage: PropTypes.func.isRequired,
-  refreshLogin: PropTypes.func.isRequired,
-  tryRestoreLogin: PropTypes.func.isRequired,
-  logout: PropTypes.func.isRequired,
-
-  // Injected by React Router
-  children: PropTypes.node,
-  // Injected by muiThemeable
-  muiTheme: PropTypes.object.isRequired
-};
-
 function mapStateToProps(state, ownProps) {
   const { login, userInterface: { errorMessage, sideMenuOpen }} = state;
   return {
@@ -131,5 +131,5 @@ export default muiThemeable()(connect(mapStateToProps, {
   resetErrorMessage,
   tryRestoreLogin,
   refreshLogin,
-  logout
+  logoutAfterTimeout
 })(App))

@@ -2,11 +2,11 @@ import jwtDecode from 'jwt-decode';
 
 import LocalStorage from '../helpers/LocalStorage';
 
-import { LOGIN_SUCCESS, RESTORE_LOGIN_SUCCESS, REFRESH_LOGIN_SUCCESS, LOGOUT_SUCCESS, LOGIN_LOCAL_STORAGE_KEY } from '../actions/login'
+import { LOGIN_SUCCESS, RESTORE_LOGIN_SUCCESS, REFRESH_LOGIN_SUCCESS, LOGOUT_SUCCESS, LOGIN_LOCAL_STORAGE_KEY, LOGOUT_AFTER_TIMEOUT } from '../actions/login'
 
 // login reducer
 export default function login(state = null, action) {
-  if (action.type == LOGOUT_SUCCESS) {
+  if (action.type == LOGOUT_SUCCESS || action.type == LOGOUT_AFTER_TIMEOUT) {
     LocalStorage.removeItem(LOGIN_LOCAL_STORAGE_KEY);
     return null;
   }
