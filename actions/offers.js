@@ -13,7 +13,7 @@ function sendOffer(offer) {
       types: [ CREATE_OFFERS_REQUEST, CREATE_OFFERS_SUCCESS, CREATE_OFFERS_FAILURE ],
       endpoint: `offers`,
       verb: 'POST',
-      schema: Schemas.OFFER_ARRAY, // todo: no real response schema?
+      schema: Schemas.OFFER,
       payload: offer
     }
   }

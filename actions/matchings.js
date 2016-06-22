@@ -13,7 +13,7 @@ function sendMatching(regionId, requestId, offerId) {
             types: [ CREATE_MATCHING_REQUEST, CREATE_MATCHING_SUCCESS, CREATE_MATCHING_FAILURE ],
             endpoint: `matchings`,
             verb: 'POST',
-            schema: Schemas.MATCHING_ARRAY, // todo: no real response schema?
+            schema: Schemas.MATCHING,
             payload: {
                 Region: regionId,
                 Request: requestId,
