@@ -25,7 +25,7 @@ export class RegionForm extends Component {
 
   @autobind
   handleMarkers(event) {
-    this.props.fields.Region.onChange(event.latLngs[0].map(fromLeaflet));
+    this.props.fields.Boundaries.onChange({ Points: event.latLngs[0].map(fromLeaflet) });
   }
 
   render() {
