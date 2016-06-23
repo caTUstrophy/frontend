@@ -4,18 +4,23 @@ import { browserHistory } from 'react-router';
 
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
+import Checkbox from 'material-ui/Checkbox';
 import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card'
 
 import { UserFields } from '../schemas/UserSchema'
+import cleanBeforeSubmit from '../schemas/helpers/cleanBeforeSubmit'
 import Validation from './helpers/Validation'
+
+import ErrorMessage from './helpers/ErrorMessage'
 
 export class UserForm extends Component {
   render() {
-    const { fields: { Name, PreferredName, Mail, Password }, resetForm, handleSubmit, submitting, invalid, pristine} = this.props;
+    const { fields: { Name, PreferredName, Mail, Password, IsConsentGiven }, resetForm, handleSubmit, submitting, invalid, pristine} = this.props;
+    console.log("IsConsentGiven", IsConsentGiven);
 
     const flexBetweenStyle = {display: 'flex', justifyContent: 'space-around'};
     return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(cleanBeforeSubmit(UserFields))}>
         <Card>
           <CardHeader style={{backgroundColor: 'lightgray'}}
                       title="Create user" />
@@ -42,6 +47,12 @@ export class UserForm extends Component {
                   type="password"
                   floatingLabelText="Password"
                   errorText={Password.touched && Password.error}/>
+            </div>
+
+            <div style={{marginTop: '2rem'}}>
+              <Checkbox label="Allow CaTUstrophy to share your contact details (email, phone number) with other members in case of a match"
+                        checked={IsConsentGiven.value === true} onCheck={(event, value) => { IsConsentGiven.onChange(value); IsConsentGiven.onBlur(); } } />
+              <ErrorMessage field={IsConsentGiven} />
             </div>
           </CardText>
 

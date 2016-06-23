@@ -25,6 +25,10 @@ export const UserSchema = Object.assign({}, BaseSchema, {
         error: "Too short"
       }
     ]
+  },
+  IsConsentGiven: {
+    required: true,
+    userInterfaceOnly: true
   }
 });
 

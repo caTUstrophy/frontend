@@ -9,6 +9,11 @@ import UserForm from '../../forms/UserForm'
 import autobind from 'autobind-decorator'
 
 class SignupPage extends Component {
+  static propTypes = {
+    // injected by react-redux
+    createUser: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
   }
@@ -35,12 +40,6 @@ class SignupPage extends Component {
     )
   }
 }
-
-SignupPage.propTypes = {
-  ID: PropTypes.string.isRequired,
-  user: PropTypes.object,
-  loadUser: PropTypes.func.isRequired
-};
 
 export default connect(null, {
   createUser
