@@ -15,8 +15,7 @@ import ErrorMessage from './helpers/ErrorMessage'
 
 export class UserForm extends Component {
   render() {
-    const { fields: { Name, PreferredName, Mail, Password, IsConsentGiven }, resetForm, handleSubmit, submitting, invalid, pristine} = this.props;
-    console.log("IsConsentGiven", IsConsentGiven);
+    const { fields: { Name, PreferredName, Mail, Password, IsConsentGiven, Phone }, resetForm, handleSubmit, submitting, invalid, pristine} = this.props;
 
     const flexBetweenStyle = {display: 'flex', justifyContent: 'space-around'};
     return (
@@ -35,6 +34,13 @@ export class UserForm extends Component {
                   floatingLabelText="Preferred Name"
                   placeholder="Preferred Name (optional)"
                   errorText={PreferredName.touched && PreferredName.error} />
+            </div>
+            <div style={flexBetweenStyle}>
+              <TextField {...Phone}
+                ref="Phone"
+                type="tel"
+                floatingLabelText="Phone"
+                errorText={Phone.touched && Phone.error} />
             </div>
             <div style={flexBetweenStyle}>
               <TextField {...Mail}
