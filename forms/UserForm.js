@@ -6,55 +6,13 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card'
 
-import toPairsIn from 'lodash/toPairsIn'
-
-export const Fields = {
-  Name : {
-    required: true
-  },
-  PreferredName : {
-    required: false
-  },
-  Mail: {
-    required: true,
-    regExp: {
-      pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-      error: 'Not a valid e-mail address'
-    }
-  },
-  Password: {
-    required: true,
-    custom: [
-      {
-        test: (value) => value && value.length > 5,
-        error: "Too short"
-      }
-    ]
-  }
-};
-
-const validate = values => {
-  const errors = {};
-  toPairsIn(Fields).forEach(([key, validations]) => {
-    if (validations.required && !values[key]) {
-      errors[key] = 'Required';
-    } else if (validations.regExp && !validations.regExp.pattern.test(values[key])) {
-      errors[key] = validations.regExp.error;
-    } else if (validations.custom) {
-      for (let customValidation of validations.custom) {
-        if (!customValidation.test(values[key])) {
-          errors[key] = customValidation.error;
-          break;
-        }
-      }
-    }
-  });
-  return errors;
-};
+import { UserFields } from '../schemas/UserSchema'
+import Validation from './helpers/Validation'
 
 export class UserForm extends Component {
   render() {
     const { fields: { Name, PreferredName, Mail, Password }, resetForm, handleSubmit, submitting, invalid, pristine} = this.props;
+
     const flexBetweenStyle = {display: 'flex', justifyContent: 'space-around'};
     return (
       <form onSubmit={handleSubmit}>
@@ -101,6 +59,6 @@ export class UserForm extends Component {
 
 export default reduxForm({
   form: 'user-form',
-  fields: Object.keys(Fields),
-  validate
+  fields: Object.keys(UserFields),
+  validate: Validation(UserFields)
 })(UserForm);
