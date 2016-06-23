@@ -1,5 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 
+import MailIcon from 'material-ui/svg-icons/communication/mail-outline'
+import PhoneIcon from 'material-ui/svg-icons/communication/phone'
+import VerifiedIcon from 'material-ui/svg-icons/action/verified-user'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 
 export default class Profile extends Component {
@@ -9,20 +12,21 @@ export default class Profile extends Component {
     return (
       <Card>
         <CardHeader style={{backgroundColor: 'lightgray'}}
-                    title={`${profile.Name}'s details`} />
+                    title={`${profile.Name}'s profile`} />
         <CardText>
-          <h2>Name:</h2>
+          <h2>{profile.Name} {profile.PreferredName && profile.PreferredName.length ? `(${profile.PreferredName})` : ''}</h2>
           <div style={{display: 'flex', alignItems: 'center', marginBottom: '0.5rem'}}>
-            {profile.Name}
+            <MailIcon style={{marginRight: '0.5rem'}} />
+            {profile.Mail} &nbsp;
+            <span style={{color: 'gray'}}>{profile.MailVerified ? <VerifiedIcon /> : <i>not verified</i>}</span>
           </div>
-          <h2>Preferred name:</h2>
           <div style={{display: 'flex', alignItems: 'center', marginBottom: '0.5rem'}}>
-            {profile.PreferredName}
+            <PhoneIcon style={{marginRight: '0.5rem'}} />
+            {profile.Phone || <span style={{color: 'gray'}}>No phone number</span>} &nbsp;
+
           </div>
-          <h2>Email address:</h2>
-          <div style={{display: 'flex', alignItems: 'center', marginBottom: '0.5rem'}}>
-            {profile.Mail}
-          </div>
+          <h3 style={{marginTop: '2rem'}}>Permissions</h3>
+          <pre>{JSON.stringify(profile.Groups, null, 2)}</pre>
         </CardText>
       </Card>
     )
