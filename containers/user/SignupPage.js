@@ -7,6 +7,10 @@ import Main from '../Main'
 import UserForm from '../../forms/UserForm'
 
 import autobind from 'autobind-decorator'
+import {UserFields} from "../../schemas/UserSchema";
+import cleanBeforeSubmit from "../../schemas/helpers/cleanBeforeSubmit";
+
+const cleanUserBeforeSubmit = cleanBeforeSubmit(UserFields)
 
 class SignupPage extends Component {
   static propTypes = {
@@ -20,7 +24,7 @@ class SignupPage extends Component {
 
   @autobind
   handleSubmit(user) {
-    this.props.createUser(user)
+    this.props.createUser(cleanUserBeforeSubmit(user))
       .then(result => {
         if (result.type == CREATE_USER_SUCCESS) {
           browserHistory.goBack()

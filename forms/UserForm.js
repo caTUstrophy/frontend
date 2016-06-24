@@ -32,7 +32,7 @@ export class UserForm extends Component {
 
     const flexBetweenStyle = {display: 'flex', justifyContent: 'space-around'};
     return (
-      <form onSubmit={handleSubmit(cleanBeforeSubmit(UserFields))}>
+      <form onSubmit={handleSubmit}>
         <Card>
           <CardHeader style={{backgroundColor: 'lightgray'}}
                       title="Create user" />
