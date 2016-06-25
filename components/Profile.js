@@ -5,11 +5,17 @@ import PhoneIcon from 'material-ui/svg-icons/communication/phone'
 import VerifiedIcon from 'material-ui/svg-icons/action/verified-user'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 
+import { UserPropType } from '../schemas/UserSchema'
+
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 export default class Profile extends Component {
+  static propTypes = {
+    profile: UserPropType.isRequired
+  };
+
   renderPhoneNumbers(numbers) {
     if (numbers.length === 0) {
       return <div style={{display: 'flex', alignItems: 'center', marginBottom: '0.5rem', color: 'gray'}}>
@@ -66,12 +72,3 @@ export default class Profile extends Component {
     )
   }
 }
-
-Profile.propTypes = {
-  profile: PropTypes.shape({
-    ID: PropTypes.string.isRequired,
-    Mail: PropTypes.string.isRequired,
-    Name: PropTypes.string.isRequired,
-    PreferredName: PropTypes.string.isRequired
-  }).isRequired
-};
