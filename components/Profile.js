@@ -6,6 +6,20 @@ import VerifiedIcon from 'material-ui/svg-icons/action/verified-user'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 
 export default class Profile extends Component {
+  renderPhoneNumbers(numbers) {
+    if (numbers.length === 0) {
+      return <div style={{display: 'flex', alignItems: 'center', marginBottom: '0.5rem', color: 'gray'}}>
+        <PhoneIcon style={{marginRight: '0.5rem'}} />
+        No phone number
+      </div>;
+    }
+
+    return numbers.map(number => <div style={{display: 'flex', alignItems: 'center', marginBottom: '0.5rem'}}>
+      <PhoneIcon style={{marginRight: '0.5rem'}} />
+      {number}
+    </div>)
+  }
+
   render() {
     let profile = this.props.profile;
 
@@ -20,11 +34,7 @@ export default class Profile extends Component {
             {profile.Mail} &nbsp;
             <span style={{color: 'gray'}}>{profile.MailVerified ? <VerifiedIcon /> : <i>not verified</i>}</span>
           </div>
-          <div style={{display: 'flex', alignItems: 'center', marginBottom: '0.5rem'}}>
-            <PhoneIcon style={{marginRight: '0.5rem'}} />
-            {profile.Phone || <span style={{color: 'gray'}}>No phone number</span>} &nbsp;
-
-          </div>
+          {this.renderPhoneNumbers(profile.PhoneNumbers)}
           <h3 style={{marginTop: '2rem'}}>Permissions</h3>
           <pre>{JSON.stringify(profile.Groups, null, 2)}</pre>
         </CardText>
