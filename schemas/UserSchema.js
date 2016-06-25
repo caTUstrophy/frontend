@@ -2,6 +2,7 @@ import { PropTypes } from 'react';
 import BaseSchema from './BaseSchema';
 import schemaAsPropType from './helpers/schemaAsPropType'
 import schemaAsFields from './helpers/schemaAsFields'
+import schemaAsFieldKeys from './helpers/schemaAsFieldKeys'
 
 import { PhoneNumberUtil } from 'google-libphonenumber'
 
@@ -14,8 +15,9 @@ export const UserSchema = Object.assign({}, BaseSchema, {
   PreferredName : {
     required: false
   },
-  Phone : {
-    required: false,
+  PhoneNumbers : {
+    required: true, // currently means that entries in array may not be empty, but array may be empty (no minimum length)
+    type: Array,
     custom: [
       {
         test: (value) => {
@@ -57,3 +59,4 @@ export const UserSchema = Object.assign({}, BaseSchema, {
 
 export const UserPropType = schemaAsPropType(UserSchema);
 export const UserFields = schemaAsFields(UserSchema);
+export const UserFieldKeys = schemaAsFieldKeys(UserSchema);

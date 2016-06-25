@@ -2,24 +2,37 @@ import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import { browserHistory } from 'react-router';
 
+import autobind from 'autobind-decorator';
+
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
+import IconButton from 'material-ui/IconButton';
+import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import Checkbox from 'material-ui/Checkbox';
 import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card'
 
-import { UserFields } from '../schemas/UserSchema'
+import { UserFields, UserFieldKeys } from '../schemas/UserSchema'
 import cleanBeforeSubmit from '../schemas/helpers/cleanBeforeSubmit'
 import Validation from './helpers/Validation'
 
 import ErrorMessage from './helpers/ErrorMessage'
 
 export class UserForm extends Component {
+  @autobind
+  handleAddPhoneNumber() {
+    this.props.fields.PhoneNumbers.addField('');
+  }
+
+  handleRemovePhoneNumber(index) {
+    this.props.fields.PhoneNumbers.removeField(index);
+  }
+
   render() {
-    const { fields: { Name, PreferredName, Mail, Password, IsConsentGiven, Phone }, resetForm, handleSubmit, submitting, invalid, pristine} = this.props;
+    const { fields: { Name, PreferredName, Mail, Password, IsConsentGiven, PhoneNumbers }, resetForm, handleSubmit, submitting, invalid, pristine} = this.props;
 
     const flexBetweenStyle = {display: 'flex', justifyContent: 'space-around'};
     return (
-      <form onSubmit={handleSubmit(cleanBeforeSubmit(UserFields))}>
+      <form onSubmit={handleSubmit}>
         <Card>
           <CardHeader style={{backgroundColor: 'lightgray'}}
                       title="Create user" />
@@ -35,12 +48,21 @@ export class UserForm extends Component {
                   placeholder="Preferred Name (optional)"
                   errorText={PreferredName.touched && PreferredName.error} />
             </div>
-            <div style={flexBetweenStyle}>
-              <TextField {...Phone}
-                ref="Phone"
-                type="tel"
-                floatingLabelText="Phone"
-                errorText={Phone.touched && Phone.error} />
+            <div style={Object.assign({}, flexBetweenStyle, { alignItems: 'baseline', flexWrap: 'wrap' })}>
+              {PhoneNumbers && PhoneNumbers.map((PhoneNumber, index) =>
+                <div style={{display: 'flex', alignItems: 'baseline'}} key={index}>
+                  <TextField {...PhoneNumber}
+                    ref={`PhoneNumbers${ index }`}
+                    type="tel"
+                    floatingLabelText="Phone"
+                    errorText={PhoneNumber.touched && PhoneNumber.error} />
+
+                  <IconButton tooltip="Delete phone number" onTouchTap={this.handleRemovePhoneNumber.bind(this, index)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </div>
+              )}
+              <FlatButton label="Add phone number" onTouchTap={this.handleAddPhoneNumber} />
             </div>
             <div style={flexBetweenStyle}>
               <TextField {...Mail}
@@ -76,6 +98,6 @@ export class UserForm extends Component {
 
 export default reduxForm({
   form: 'user-form',
-  fields: Object.keys(UserFields),
+  fields: UserFieldKeys,
   validate: Validation(UserFields)
 })(UserForm);

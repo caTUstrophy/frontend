@@ -5,10 +5,10 @@ export default function cleanBeforeSubmit(userFields) {
         continue;
       }
       if (userFields[field].userInterfaceOnly) {
-        delete data[field]
+        delete data[field];
       }
     }
-    
+
     return data;
   }
 }

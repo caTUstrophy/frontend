@@ -41,6 +41,9 @@ module.exports = {
         test: /\.json$/,
         loader: 'json'
       }
+    ],
+    noParse: [
+      /\/libphonenumber\.js$/
     ]
   },
   resolve: {
