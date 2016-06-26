@@ -12,6 +12,7 @@ import Snackbar from 'material-ui/Snackbar';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
 import IconButton from 'material-ui/IconButton/IconButton';
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 
 import LoginPage from './user/LoginPage'
 import UserMenu from './user/UserMenu'
@@ -83,18 +84,22 @@ export class App extends Component {
       {sideMenuOpen ? <CloseIcon color="white"/> : <MenuIcon color="white"/>}
     </IconButton>;
 
+    console.log('da theme', this.props.muiTheme);
+
     return (
       <div>
-        <AppBar
-          title={<span style={{cursor: 'pointer'}} onTouchTap={() => browserHistory.push('/')}>CaTUstrophy</span>}
-          iconElementLeft={sideMenuButton}
-          iconElementRight={<UserMenu />}
-        />
-        <main>
-          {<SideMenu />}
-          {this.renderErrorMessage()}
-          {children}
-        </main>
+        <Toolbar noGutter={true} >
+          <ToolbarGroup firstchild={true} >
+            {sideMenuButton}
+            <ToolbarTitle text="CaTUstrophy" onTouchTap={() => browserHistory.push('/')} style={{cursor: 'pointer'}} />
+          </ToolbarGroup>
+          <ToolbarGroup float={'right'} lastchild={true}>
+              {<UserMenu />}
+              {<SideMenu />}
+          </ToolbarGroup>
+        </Toolbar>
+        {children}
+        {this.renderErrorMessage()}
       </div>
     )
   }

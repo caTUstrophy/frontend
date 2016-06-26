@@ -28,12 +28,14 @@ import ProfilePage from "./containers/me/ProfilePage";
 import MyOffersPage from "./containers/me/MyOffersPage";
 import MyRequestsPage from "./containers/me/MyRequestsPage";
 
+import NotificationsPage from './containers/NotificationsPage'
 
 export default [
   <Route path="/" component={App}>
     <IndexRoute component={HomePage} />
     <Route path="requests/create" component={AddRequestPage}/>
     <Route path="offers/create" component={AddOfferPage}/>
+    <Route path="notifications" component={NotificationsPage} />
     <Route path="admin">
       <IndexRoute component={AdminHomePage} />
       <Route path="offers">
