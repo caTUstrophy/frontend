@@ -40,7 +40,8 @@ class RegionPage extends Component {
       <div style={{width: '40rem', margin: '0 auto'}}>
         <Region region={region}
                 onClickRequests={this.navigate.bind(this, 'requests')}
-                onClickOffers={this.navigate.bind(this, 'offers')} />
+                onClickOffers={this.navigate.bind(this, 'offers')}
+                onClickManageAdmins={this.navigate.bind(this, 'admins')} />
       </div>
     )
   }
