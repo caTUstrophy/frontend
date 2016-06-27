@@ -14,14 +14,17 @@ class NotFoundPage extends Component {
             <CardHeader style={{backgroundColor: 'lightgray'}}
                         title="Not found" />
             <CardText>
-              We're sorry, there doesn't seem to be anything at <b>{this.props.url}</b>.
+              We're sorry, there doesn't seem to be anything at <b>{this.props.url}</b>.<br/>
+              <br/>
+              <i style={{color: 'gray'}}>URL: {window.location.href}</i>
             </CardText>
 
-            <CardActions style={{display: 'flex'}}>
-              <FlatButton label="Back to home"
-                            secondary={true}
-                            onTouchTap={() => browserHistory.push('/')}
-                            style={{marginLeft: 'auto'}} />
+            <CardActions style={{display: 'flex', flexDirection: 'row-reverse'}}>
+              <FlatButton label="Go to home page"
+                          secondary={true}
+                          onTouchTap={() => browserHistory.push('/')} />
+              <FlatButton label="Back to last page"
+                          onTouchTap={() => browserHistory.goBack()} />
             </CardActions>
           </Card>
         </div>
