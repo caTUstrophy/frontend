@@ -1,4 +1,4 @@
-var config = require("./webpack.test.config.js");
+var config = require("./webpack.config.js");
 
 // enable react HMR
 config.module.loaders.forEach((loader) => {
