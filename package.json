@@ -78,6 +78,7 @@
     "redux-slider-monitor": "^1.0.6",
     "sinon": "^1.17.4",
     "sizzle": "^2.3.0",
+    "source-map-support": "^0.4.0",
     "unexpected": "^10.13.3",
     "unexpected-react": "^3.2.3",
     "unexpected-sinon": "^10.2.1",
