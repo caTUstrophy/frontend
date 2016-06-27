@@ -10,10 +10,16 @@ export default class NotificationList extends Component {
                             primaryText="No notifications"
                             disabled={true}/>
     } else {
-      notificationList = this.props.notifications.map(notification =>
-        <ListItem key={notification.ID}
-                  onTouchTap={this.props.onTouchTapItem.bind(this, notification)} />
-      );
+      notificationList = this.props.notifications.map(notification => {
+        if (notification[notification.Type]) {
+          return <ListItem key={notification.ID}
+                           onTouchTap={this.props.onTouchTapItem.bind(this, notification)}
+                           primaryText={`${notification.Type}: ${notification.matching.OfferId} and ${notification.matching.RequestId}`} />
+        }
+        return <ListItem key={notification.ID}
+                  onTouchTap={this.props.onTouchTapItem.bind(this, notification)}
+                  primaryText={`Loading ${notification.Type}...`} />
+      });
     }
     return (
       <List>
@@ -25,7 +31,9 @@ export default class NotificationList extends Component {
 
 NotificationList.propTypes = {
   notifications: PropTypes.arrayOf(PropTypes.shape({
-    ID: PropTypes.string.isRequired
+    ID: PropTypes.string.isRequired,
+    ItemID: PropTypes.string.isRequired,
+    Type: PropTypes.string.isRequired
   })).isRequired,
   onTouchTapItem: PropTypes.func.isRequired
 };

@@ -2,59 +2,34 @@ import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import { browserHistory } from 'react-router';
 
+import autobind from 'autobind-decorator';
+
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
+import IconButton from 'material-ui/IconButton';
+import DeleteIcon from 'material-ui/svg-icons/action/delete';
+import Checkbox from 'material-ui/Checkbox';
 import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card'
 
-import toPairsIn from 'lodash/toPairsIn'
+import { UserFields, UserFieldKeys } from '../schemas/UserSchema'
+import cleanBeforeSubmit from '../schemas/helpers/cleanBeforeSubmit'
+import Validation from './helpers/Validation'
 
-export const Fields = {
-  Name : {
-    required: true
-  },
-  PreferredName : {
-    required: false
-  },
-  Mail: {
-    required: true,
-    regExp: {
-      pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-      error: 'Not a valid e-mail address'
-    }
-  },
-  Password: {
-    required: true,
-    custom: [
-      {
-        test: (value) => value && value.length > 5,
-        error: "Too short"
-      }
-    ]
-  }
-};
-
-const validate = values => {
-  const errors = {};
-  toPairsIn(Fields).forEach(([key, validations]) => {
-    if (validations.required && !values[key]) {
-      errors[key] = 'Required';
-    } else if (validations.regExp && !validations.regExp.pattern.test(values[key])) {
-      errors[key] = validations.regExp.error;
-    } else if (validations.custom) {
-      for (let customValidation of validations.custom) {
-        if (!customValidation.test(values[key])) {
-          errors[key] = customValidation.error;
-          break;
-        }
-      }
-    }
-  });
-  return errors;
-};
+import ErrorMessage from './helpers/ErrorMessage'
 
 export class UserForm extends Component {
+  @autobind
+  handleAddPhoneNumber() {
+    this.props.fields.PhoneNumbers.addField('');
+  }
+
+  handleRemovePhoneNumber(index) {
+    this.props.fields.PhoneNumbers.removeField(index);
+  }
+
   render() {
-    const { fields: { Name, PreferredName, Mail, Password }, resetForm, handleSubmit, submitting, invalid, pristine} = this.props;
+    const { fields: { Name, PreferredName, Mail, Password, IsConsentGiven, PhoneNumbers }, resetForm, handleSubmit, submitting, invalid, pristine} = this.props;
+
     const flexBetweenStyle = {display: 'flex', justifyContent: 'space-around'};
     return (
       <form onSubmit={handleSubmit}>
@@ -73,6 +48,22 @@ export class UserForm extends Component {
                   placeholder="Preferred Name (optional)"
                   errorText={PreferredName.touched && PreferredName.error} />
             </div>
+            <div style={Object.assign({}, flexBetweenStyle, { alignItems: 'baseline', flexWrap: 'wrap' })}>
+              {PhoneNumbers && PhoneNumbers.map((PhoneNumber, index) =>
+                <div style={{display: 'flex', alignItems: 'baseline'}} key={index}>
+                  <TextField {...PhoneNumber}
+                    ref={`PhoneNumbers${ index }`}
+                    type="tel"
+                    floatingLabelText="Phone"
+                    errorText={PhoneNumber.touched && PhoneNumber.error} />
+
+                  <IconButton tooltip="Delete phone number" onTouchTap={this.handleRemovePhoneNumber.bind(this, index)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </div>
+              )}
+              <FlatButton label="Add phone number" onTouchTap={this.handleAddPhoneNumber} />
+            </div>
             <div style={flexBetweenStyle}>
               <TextField {...Mail}
                   ref="Mail"
@@ -84,6 +75,12 @@ export class UserForm extends Component {
                   type="password"
                   floatingLabelText="Password"
                   errorText={Password.touched && Password.error}/>
+            </div>
+
+            <div style={{marginTop: '2rem'}}>
+              <Checkbox label="Allow CaTUstrophy to share your contact details (email, phone number) with other members in case of a match"
+                        checked={IsConsentGiven.value === true} onCheck={(event, value) => { IsConsentGiven.onChange(value); IsConsentGiven.onBlur(); } } />
+              <ErrorMessage field={IsConsentGiven} />
             </div>
           </CardText>
 
@@ -101,6 +98,6 @@ export class UserForm extends Component {
 
 export default reduxForm({
   form: 'user-form',
-  fields: Object.keys(Fields),
-  validate
+  fields: UserFieldKeys,
+  validate: Validation(UserFields)
 })(UserForm);

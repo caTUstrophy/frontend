@@ -7,6 +7,15 @@ export function resetErrorMessage() {
   }
 }
 
+export const RESET_NOTIFICATION_MESSAGE = 'RESET_NOTIFICATION_MESSAGE';
+
+// Resets the currently visible notification message.
+export function resetNotificationMessage() {
+  return {
+    type: RESET_NOTIFICATION_MESSAGE
+  }
+}
+
 export const TOGGLE_USER_MENU = 'TOGGLE_USER_MENU';
 
 // Opens user menu

@@ -42,6 +42,7 @@ function fetchNotifications() {
   return {
     [CALL_API]: {
       types: [ NOTIFICATIONS_REQUEST, NOTIFICATIONS_SUCCESS, NOTIFICATIONS_FAILURE ],
+      endpoint: `notifications`,
       schema: Schemas.NOTIFICATION_ARRAY
     }
   }

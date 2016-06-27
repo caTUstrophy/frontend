@@ -6,6 +6,10 @@ export default function schemaAsPropType(schema) {
     if (!schema.hasOwnProperty(property)) {
       continue;
     }
+
+    if (schema[property].userInterfaceOnly) {
+      continue;
+    }
     
     shape[property] = schema[property].propType || PropTypes.any;
     if (schema[property].isRequired) {

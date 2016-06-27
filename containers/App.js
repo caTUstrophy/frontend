@@ -4,25 +4,40 @@ import { browserHistory } from 'react-router'
 
 import Moment from 'moment';
 import autobind from 'autobind-decorator';
-import LocalStorage from '../helpers/LocalStorage';
 
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import AppBar from 'material-ui/AppBar';
-import Snackbar from 'material-ui/Snackbar';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
 import IconButton from 'material-ui/IconButton/IconButton';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 
+import Main from './Main'
 import LoginPage from './user/LoginPage'
 import UserMenu from './user/UserMenu'
 import SideMenu from './user/SideMenu'
+import NotificationsMenu from './user/NotificationsMenu'
 
-import { resetErrorMessage, toggleSideMenu } from '../actions/userInterface'
-import { tryRestoreLogin, logout, refreshLogin } from '../actions/login'
-import {LOGIN_LOCAL_STORAGE_KEY} from "../actions/login";
+import { toggleSideMenu } from '../actions/userInterface'
+import { tryRestoreLogin, logoutAfterTimeout, refreshLogin } from '../actions/login'
+import { loadNotifications } from '../actions/notifications'
 
 export class App extends Component {
+  static propTypes = {
+    // Injected by React Redux
+    login: PropTypes.object,
+    toggleSideMenu: PropTypes.func.isRequired,
+    refreshLogin: PropTypes.func.isRequired,
+    tryRestoreLogin: PropTypes.func.isRequired,
+    logoutAfterTimeout: PropTypes.func.isRequired,
+    loadNotifications: PropTypes.func.isRequired,
+
+    // Injected by React Router
+    children: PropTypes.node,
+    // Injected by muiThemeable
+    muiTheme: PropTypes.object.isRequired
+  };
+
   constructor(props) {
     super(props);
   }
@@ -31,15 +46,14 @@ export class App extends Component {
     this.props.tryRestoreLogin();
 
     this.loginRefreshFunction = setInterval(() => {
-      const { login, logout, refreshLogin } = this.props;
+      const { login, logoutAfterTimeout, refreshLogin } = this.props;
 
       if (!login) {
         return;
       }
 
       if (login.expires < new Date()) {
-        LocalStorage.removeItem(LOGIN_LOCAL_STORAGE_KEY);
-        // todo: modify state!
+        logoutAfterTimeout();
       }
 
       let refreshTarget = new Moment(login.expires).subtract(5, 'minutes');
@@ -47,15 +61,15 @@ export class App extends Component {
         refreshLogin();
       }
     }, 1000);
+
+    this.loadNotificationsFunction = setInterval(() => {
+      this.props.loadNotifications()
+    }, 5000);
   }
 
   componentWillUnmount() {
-    clearTimeout(this.loginRefreshFunction);
-  }
-
-  @autobind
-  handleRequestClose() {
-    this.props.resetErrorMessage();
+    clearInterval(this.loginRefreshFunction);
+    clearInterval(this.loadNotificationsFunction);
   }
 
   @autobind
@@ -63,28 +77,16 @@ export class App extends Component {
     this.props.toggleSideMenu();
   }
 
-  renderErrorMessage() {
-    const { errorMessage } = this.props;
-
-    return <Snackbar
-          open={!!errorMessage}
-          message={errorMessage || " " }
-          onRequestClose={this.handleRequestClose}
-          bodyStyle={{backgroundColor: 'darkred', fontFamily: this.props.muiTheme.fontFamily}} />;
-  }
-
   render() {
     const { children, login, url, sideMenuOpen } = this.props;
 
     if (!login || login.expires < new Date()) {
-      return <LoginPage />;
+      return <Main><LoginPage /></Main>;
     }
 
     let sideMenuButton = <IconButton onTouchTap={this.handleToggleSideMenu}>
       {sideMenuOpen ? <CloseIcon color="white"/> : <MenuIcon color="white"/>}
     </IconButton>;
-
-    console.log('da theme', this.props.muiTheme);
 
     return (
       <div>
@@ -94,47 +96,32 @@ export class App extends Component {
             <ToolbarTitle text="CaTUstrophy" onTouchTap={() => browserHistory.push('/')} style={{cursor: 'pointer'}} />
           </ToolbarGroup>
           <ToolbarGroup float={'right'} lastchild={true}>
+              {<NotificationsMenu />}
               {<UserMenu />}
               {<SideMenu />}
           </ToolbarGroup>
         </Toolbar>
-        {children}
-        {this.renderErrorMessage()}
+        <Main>
+          {children}
+        </Main>
       </div>
     )
   }
 }
 
-App.propTypes = {
-  // Injected by React Redux
-  errorMessage: PropTypes.string,
-  login: PropTypes.object,
-  toggleSideMenu: PropTypes.func.isRequired,
-  resetErrorMessage: PropTypes.func.isRequired,
-  refreshLogin: PropTypes.func.isRequired,
-  tryRestoreLogin: PropTypes.func.isRequired,
-  logout: PropTypes.func.isRequired,
-
-  // Injected by React Router
-  children: PropTypes.node,
-  // Injected by muiThemeable
-  muiTheme: PropTypes.object.isRequired
-};
-
 function mapStateToProps(state, ownProps) {
-  const { login, userInterface: { errorMessage, sideMenuOpen }} = state;
+  const { login, userInterface: { sideMenuOpen }} = state;
   return {
     url: ownProps.location.pathname,
     login,
-    errorMessage,
     sideMenuOpen
   }
 }
  
 export default muiThemeable()(connect(mapStateToProps, {
   toggleSideMenu,
-  resetErrorMessage,
   tryRestoreLogin,
   refreshLogin,
-  logout
+  logoutAfterTimeout,
+  loadNotifications
 })(App))

@@ -10,7 +10,6 @@ const environmentPlugin = new webpack.DefinePlugin({
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
   entry: [
-    'webpack-hot-middleware/client',
     './index'
   ],
   output: {
@@ -35,18 +34,16 @@ module.exports = {
         include: __dirname,
         query: {
           "presets": ["es2015", "react", "stage-0"],
-          "plugins": ["transform-decorators-legacy", "transform-object-rest-spread"],
-          "env": {
-            "development": {
-              "presets": ["react-hmre"]
-            }
-          }
+          "plugins": ["transform-decorators-legacy", "transform-object-rest-spread"]
         }
       },
       {
         test: /\.json$/,
         loader: 'json'
       }
+    ],
+    noParse: [
+      /\/libphonenumber\.js$/
     ]
   },
   resolve: {

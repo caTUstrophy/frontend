@@ -27,7 +27,7 @@ function setup(customProps) {
   let props = {
     tryRestoreLogin: sinon.spy(),
     refreshLogin: sinon.spy(),
-    logout: sinon.spy(),
+    logoutAfterTimeout: sinon.spy(),
     resetErrorMessage: sinon.spy(),
     toggleSideMenu: sinon.spy(),
     login: {

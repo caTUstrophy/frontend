@@ -60,7 +60,7 @@ export class AdminHomePage extends Component {
     const { requests, offers, regions } = this.props;
     const halfWidth = {width: '50%', margin: '1rem'};
 
-    if (!regions) {
+    if (!regions || regions.length === 0) {
       return <h2>Loading...</h2>; // todo: display loading animation
     }
 

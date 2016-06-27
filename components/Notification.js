@@ -1,14 +1,7 @@
 import React, { Component, PropTypes } from 'react'
-
-import AccountIcon from 'material-ui/svg-icons/action/account-circle'
-import LocationIcon from 'material-ui/svg-icons/communication/location-on'
-import TimerIcon from 'material-ui/svg-icons/image/timer'
-import LabelIcon from 'material-ui/svg-icons/action/label'
-
 import { NotificationPropType } from '../schemas/NotificationSchema'
-import { toString } from "../helpers/Location"
 
-export default class Offer extends Component {
+export default class Notification extends Component {
   static propTypes = {
     notification: NotificationPropType.isRequired
   };
@@ -18,7 +11,8 @@ export default class Offer extends Component {
 
     return (
       <div>
-        <h2>{notification.ID}</h2>
+        <h2>{notification.Type}</h2>
+        <pre>{JSON.stringify(notification, null, 2)}</pre>
       </div>
     )
   }

@@ -13,7 +13,7 @@ function sendRequest(request) {
       types: [ CREATE_REQUESTS_REQUEST, CREATE_REQUESTS_SUCCESS, CREATE_REQUESTS_FAILURE ],
       endpoint: `requests`,
       verb: 'POST',
-      schema: Schemas.REQUEST_ARRAY, // todo: no real response schema?
+      schema: Schemas.REQUEST,
       payload: request
     }
   }

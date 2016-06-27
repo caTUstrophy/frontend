@@ -12,7 +12,7 @@ function sendUser(user) {
       types: [ CREATE_USER_REQUEST, CREATE_USER_SUCCESS, CREATE_USER_FAILURE ],
       endpoint: `users`,
       verb: 'POST',
-      schema: Schemas.USER_ARRAY, // todo: no real response schema?
+      schema: Schemas.USER, // todo: do we want to store this at all?
       payload: user
     }
   }

@@ -13,7 +13,7 @@ function sendRegion(region) {
       types: [ CREATE_REGION_REQUEST, CREATE_REGION_SUCCESS, CREATE_REGION_FAILURE ],
       endpoint: `regions`,
       verb: 'POST',
-      schema: Schemas.REGION_ARRAY,
+      schema: Schemas.REGION,
       payload: region
     }
   }

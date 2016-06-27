@@ -14,7 +14,8 @@ export const RegionSchema = Object.assign({}, BaseSchema, {
     required: true,
     error: "Please provide a description"
   },
-  Region: {
+  Boundaries: {
+    // todo: specify nested 'Points' as array of lat/lng
     required: true
   }
 });
