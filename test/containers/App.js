@@ -21,6 +21,7 @@ import Moment from 'moment';
 import failOnConsoleError from '../helpers/failOnConsoleError';
 
 import { App } from '../../containers/App'
+import Main from '../../containers/Main'
 import LoginPage from '../../containers/user/LoginPage'
 
 function setup(customProps) {
@@ -59,9 +60,7 @@ export function AppTests() {
     expect(renderer, 'to have rendered',
       <div>
         <AppBar title={<span>CaTUstrophy</span>} />
-        <main>
-          <Snackbar message=" " open={false} />
-        </main>
+        <Main />
       </div>
     );
 

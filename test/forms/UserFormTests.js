@@ -16,7 +16,8 @@ import { createRenderer, Simulate, renderIntoDocument, findRenderedDOMComponentW
 import populateForm from '../helpers/populateForm';
 import wrappedTestFactory from '../helpers/wrappedTestFactory';
 
-import ReduxUserForm, { Fields as UserFormFields, UserForm } from '../../forms/UserForm'
+import ReduxUserForm, { UserForm } from '../../forms/UserForm'
+import { UserFields } from '../../schemas/UserSchema'
 
 import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card';
 
@@ -40,7 +41,7 @@ function generateFormProps(fieldsDescription) {
 }
 
 function setup() {
-  let props = generateFormProps(UserFormFields);
+  let props = generateFormProps(UserFields);
 
   let renderer = createRenderer();
   renderer.render(<UserForm {...props} />);
@@ -67,9 +68,10 @@ const sampleData = {
   Name: 'full name',
   PreferredName: 'preferred',
   Mail: 'mail@example.com',
-  Password: '#SoPassword!1'
+  Password: '#SoPassword!1',
+  PhoneNumbers: [ '+49 30 1234567' ]
 };
-const requiredFields = Object.keys(sampleData).filter(key => UserFormFields[key].required);
+const requiredFields = Object.keys(sampleData).filter(key => UserFields[key].required);
 
 export function UserFormTests() {
   it('should render correctly', () => {
