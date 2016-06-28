@@ -45,7 +45,7 @@ export default class Profile extends Component {
         }
 
         return <div key={index}>
-          <b>{capitalizeFirstLetter(group.Permissions.map(permission => permission.AccessRight).join(', '))}</b> &nbsp;
+          <b>{capitalizeFirstLetter(group.AccessRight)}</b> &nbsp;
           {region}
         </div>
       })}
