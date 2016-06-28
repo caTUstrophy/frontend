@@ -10,6 +10,7 @@ import { loadRegionAdmins, loadRegion, promoteAdmin } from '../../actions'
 import ManageAdminsForm from '../../forms/ManageAdminsForm'
 
 import { RegionPropType, UserPropType } from "../../schemas"
+import extractRegionWithAdmins from "../helpers/extractRegionWithAdmins";
 
 class ManageAdminsPage extends Component {
   static propTypes = {
@@ -44,18 +45,14 @@ class ManageAdminsPage extends Component {
   }
 
   render() {
-    const { region, admins } = this.props;
-    if (!region) {
+    const { region } = this.props;
+    if (!region) { // todo: check if last action was "request" and note "success"
       return <h1><i>Loading region...</i></h1>; // todo: loading animation
-    }
-    if (!admins) {
-      return <h1><i>Loading administrators...</i></h1>; // todo: loading animation
     }
 
     return (
       <div style={{width: '40rem', margin: '0 auto'}}>
         <ManageAdminsForm region={region}
-                          admins={admins}
                           onPromoteAdmin={this.handlePromoteAdmin}
                           resetInlineEmailForm={this.props.resetInlineEmailForm}
                           navigateToRegion={this.navigateToRegion} />
@@ -65,12 +62,11 @@ class ManageAdminsPage extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { entities: { regions, users } } = state;
+  let regionId = ownProps.params.ID;
 
   return {
-    region: regions[ownProps.params.ID],
-    regionId: ownProps.params.ID,
-    admins: []
+    region: extractRegionWithAdmins(state, regionId),
+    regionId
   }
 }
 

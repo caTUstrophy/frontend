@@ -33,18 +33,19 @@ export const ADMINS_FAILURE = 'ADMINS_FAILURE';
 
 // Fetches all admins
 // Relies on the custom API middleware defined in ../middleware/api.js.
-function fetchAdminsBase(endpoint) {
+function fetchAdminsBase(endpoint, reference) {
   return {
     [CALL_API]: {
       types: [ ADMINS_REQUEST, ADMINS_SUCCESS, ADMINS_FAILURE ],
       endpoint,
-      schema: Schemas.USER_ARRAY // todo: register in region
+      schema: Schemas.USER_ARRAY,
+      reference
     }
   }
 }
 
 function fetchRegionAdmins(regionId) {
-  return fetchAdminsBase(`regions/${ regionId }/admins`)
+  return fetchAdminsBase(`regions/${ regionId }/admins`, { regionId });
 }
 
 // Fetches all admins (unless it is cached)

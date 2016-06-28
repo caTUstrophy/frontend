@@ -21,12 +21,17 @@ export default class Region extends Component {
     onClickManageAdmins: PropTypes.func.isRequired
   };
   
-  renderAdminList() {
-    return <List>
-      <ListItem key="empty"
-                primaryText="No administrators for this region"
-                disabled={true}/>
-    </List>;
+  renderAdminList(admins) {
+    let list;
+    if (admins.length === 0) {
+      list = <ListItem key="empty"
+                       primaryText="No administrators for this region"
+                       disabled={true}/>;
+    } else {
+      list = admins.map(admin => <ListItem key={admin.ID} primaryText={`${admin.Name}`}
+      secondaryText={admin.Mail} />);
+    }
+    return <List>{list}</List>;
   }
   
   render() {
@@ -43,7 +48,7 @@ export default class Region extends Component {
         <SimpleMap area={region.Boundaries.Points} style={{'height': '400px'}} />
         <CardText>
           <h4>Administration</h4>
-          {this.renderAdminList()}
+          {this.renderAdminList(region.admins)}
           <div style={{display: 'flex', flexDirection: 'row-reverse'}}>
             <RaisedButton label="Manage admins" onTouchTap={this.props.onClickManageAdmins} />
           </div>

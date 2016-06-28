@@ -24,23 +24,28 @@ export default class ManageAdminsForm extends Component {
     // todo: dispatch this.props.resetInlineEmailForm on success
   }
 
-  renderAdminList() {
-    return <List>
-      <ListItem key="empty"
-                primaryText="No administrators for this region"
-                disabled={true}/>
-    </List>;
+  renderAdminList(admins) {
+    let list;
+    if (admins.length === 0) {
+      list = <ListItem key="empty"
+                       primaryText="No administrators for this region"
+                       disabled={true}/>;
+    } else {
+      list = admins.map(admin => <ListItem key={admin.ID} primaryText={`${admin.Name}`}
+                                           secondaryText={admin.Mail} />);
+    }
+    return <List>{list}</List>;
   }
 
   render() {
-    const {region } = this.props;
+    const { region } = this.props;
 
     return (
       <Card>
         <CardHeader style={{backgroundColor: 'lightgray'}}
                     title={`Manage administrators for ${region.Name}`} />
         <CardText>
-          {this.renderAdminList()}
+          {this.renderAdminList(region.admins)}
           <InlineEmailForm onSubmit={this.handleEmailSubmit} submitButtonText="Add user to admins" ref="add-admin-email-form" />
         </CardText>
 
