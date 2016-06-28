@@ -7,7 +7,18 @@ export default function entities(state = { users: {}, offers: {}, requests: {}, 
     return entities(undefined, {});
   }
   if (action.response && action.response.entities) {
-    return merge({}, state, action.response.entities)
+    let clonedState = Object.assign({}, state);
+    for (let entityType in action.response.entities) {
+      if (action.response.entities.hasOwnProperty(entityType)) {
+        let entityGroup = action.response.entities[entityType];
+        for (let entityId in entityGroup) {
+          if (entityGroup.hasOwnProperty(entityId)) {
+            clonedState[entityType][entityId] = entityGroup[entityId];
+          }
+        }
+      }
+    }
+    return clonedState;
   }
   
   return state;
