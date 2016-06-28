@@ -8,5 +8,9 @@ export default function (state, regionId) {
     admins = regionAdmins[regionId].map(userId => users[userId]);
   }
 
+  if (!regions[regionId]) {
+    return null;
+  }
+
   return Object.assign({}, regions[regionId], { admins });
 }
