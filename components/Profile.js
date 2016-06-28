@@ -66,7 +66,7 @@ export default class Profile extends Component {
           </div>
           {this.renderPhoneNumbers(profile.PhoneNumbers)}
 
-          {this.renderPermissions(profile.Groups)}
+          {this.props.permissionsComponent || this.renderPermissions(profile.Groups)}
         </CardText>
       </Card>
     )

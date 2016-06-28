@@ -19,6 +19,10 @@ import AddRegionPage from './containers/admin/region/AddRegionPage'
 import RegionsPage from './containers/admin/region/RegionsPage'
 import RegionPage from './containers/admin/region/RegionPage'
 
+// system
+import UserPage from './containers/system/UserPage'
+import UsersPage from './containers/system/UsersPage'
+
 // user
 import SignupPage from './containers/user/SignupPage'
 
@@ -55,6 +59,13 @@ export default [
         </Route>
       </Route>
       <Route path="manage/:ID" component={ManagePage} />
+    </Route>
+    <Route path="system">
+      <IndexRoute component={DefaultPage} />
+      <Route path="users">
+        <IndexRoute component={UsersPage} />
+        <Route path=":ID" component={UserPage} />
+      </Route>      
     </Route>
     <Route path="me">
       <IndexRoute component={ProfilePage} />

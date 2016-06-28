@@ -2,27 +2,28 @@ import React, { Component, PropTypes } from 'react'
 
 import { List, ListItem } from 'material-ui/List'
 
-import { browserHistory } from 'react-router'
+import { UserPropType } from '../schemas/UserSchema';
 
 export default class UserList extends Component {
-  navigateToUserPage(id) {
-    browserHistory.push(`/user/${ id }`);
-  }
+  static propTypes = {
+    users: UserPropType,
+    onTouchTapItem: PropTypes.func.isRequired
+  };
 
   render() {
     return (
       <List >
-        {this.props.users.map(user =>
-          <ListItem key={user.ID}
-                    primaryText={`${user.FirstName} ${user.LastName}`}
+        {this.props.users.map(user => {
+          let name = user.Name;
+          if (user.PreferredName) {
+            name += ` (${user.PreferredName})`;
+          }
+          return <ListItem key={user.ID}
+                    primaryText={name}
                     secondaryText={user.Mail}
-                    onTouchTap={this.navigateToUserPage.bind(this, user.ID)} />
-        )}
+                    onTouchTap={this.props.onTouchTapItem.bind(this, user)}/>
+        })}
       </List>
     )
   }
 }
-
-UserList.propTypes = {
-  users: PropTypes.array.isRequired // todo: specify more detailed schema?
-};

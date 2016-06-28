@@ -39,6 +39,12 @@ const adminMenuEntries = [,
   //   text: "All Requests"
   // }
 ];
+const systemMenuEntries = [,
+  {
+    url: "/system/users",
+    text: "Users"
+  }
+];
 
 class UserMenu extends Component {
   constructor(props) {
@@ -69,6 +75,12 @@ class UserMenu extends Component {
       adminEntries = [<Subheader key="admin-subheader" style={{marginTop: 30}}>ADMIN</Subheader>]
         .concat(adminMenuEntries.map(this.renderMenuItem));
     }
+    let systemEntries;
+    if (login.token.iss == "admin@example.org") { // todo: hacked admin as a constant
+      systemEntries = [<Subheader key="system-subheader" style={{marginTop: 30}}>SYSTEM</Subheader>]
+        .concat(systemMenuEntries.map(this.renderMenuItem));
+    }
+
 
     return (
       <div>
@@ -80,6 +92,7 @@ class UserMenu extends Component {
           <Menu onChange={this.handleChange} value={null}>
             { regularEntries }
             { adminEntries }
+            { systemEntries }
           </Menu>
         </Drawer>
       </div>
