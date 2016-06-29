@@ -10,6 +10,7 @@ import AppBar from 'material-ui/AppBar';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
 import IconButton from 'material-ui/IconButton/IconButton';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import Main from './Main'
 import LoginPage from './user/LoginPage'
@@ -72,6 +73,15 @@ export class App extends Component {
     const { children, login, url, sideMenuOpen } = this.props;
 
     if (!login || login.expires < new Date()) {
+      if (url == '/') {
+        return <Main>
+          <div style={{width: '40rem', margin: '5rem auto 0'}}>
+            <h1>This page is so landing.</h1>
+            <RaisedButton onTouchTap={() => browserHistory.push('/login')} label="login" /> &nbsp;
+            <RaisedButton onTouchTap={() => browserHistory.push('/signup')} label="sign up" />
+          </div>
+        </Main>;
+      }
       return <Main><LoginPage /></Main>;
     }
 
