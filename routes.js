@@ -1,11 +1,11 @@
-import React from 'react'
-import { Route, IndexRoute } from 'react-router'
-import App from './containers/App'
+import React from 'react';
+import { Route, IndexRoute } from 'react-router';
+import App from './containers/App';
 
 // regular users
-import HomePage from './containers/HomePage'
-import AddOfferPage from './containers/AddOfferPage'
-import AddRequestPage from './containers/AddRequestPage'
+import HomePage from './containers/HomePage';
+import AddOfferPage from './containers/AddOfferPage';
+import AddRequestPage from './containers/AddRequestPage';
 
 // admin
 import AdminHomePage from './containers/admin/AdminHomePage'
@@ -24,7 +24,7 @@ import UserPage from './containers/system/UserPage'
 import UsersPage from './containers/system/UsersPage'
 
 // user
-import SignupPage from './containers/user/SignupPage'
+import SignupPage from './containers/user/SignupPage';
 
 // other
 import DefaultPage from './containers/misc/EmptyPage'
@@ -32,7 +32,8 @@ import NotFoundPage from './containers/misc/NotFoundPage'
 import ProfilePage from "./containers/me/ProfilePage";
 import MyOffersPage from "./containers/me/MyOffersPage";
 import MyRequestsPage from "./containers/me/MyRequestsPage";
-
+import NotificationPage from './containers/NotificationPage';
+import NotificationsPage from './containers/NotificationsPage';
 
 export default [
   <Route path="/" component={App}>
@@ -40,6 +41,10 @@ export default [
     <Route path="login" />
     <Route path="requests/create" component={AddRequestPage}/>
     <Route path="offers/create" component={AddOfferPage}/>
+    <Route path="notifications">
+      <IndexRoute component={NotificationsPage} />
+      <Route path=":ID" component={NotificationPage} />
+    </Route>
     <Route path="admin">
       <IndexRoute component={AdminHomePage} />
       <Route path="offers">
@@ -66,7 +71,7 @@ export default [
       <Route path="users">
         <IndexRoute component={UsersPage} />
         <Route path=":ID" component={UserPage} />
-      </Route>      
+      </Route>
     </Route>
     <Route path="me">
       <IndexRoute component={ProfilePage} />

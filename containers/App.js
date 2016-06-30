@@ -11,14 +11,17 @@ import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
 import IconButton from 'material-ui/IconButton/IconButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 
 import Main from './Main'
 import LoginPage from './user/LoginPage'
 import UserMenu from './user/UserMenu'
 import SideMenu from './user/SideMenu'
+import NotificationsMenu from './user/NotificationsMenu'
 
 import { toggleSideMenu } from '../actions/userInterface'
 import { tryRestoreLogin, logoutAfterTimeout, refreshLogin } from '../actions/login'
+import { loadNotifications } from '../actions/notifications'
 
 export class App extends Component {
   static propTypes = {
@@ -28,6 +31,7 @@ export class App extends Component {
     refreshLogin: PropTypes.func.isRequired,
     tryRestoreLogin: PropTypes.func.isRequired,
     logoutAfterTimeout: PropTypes.func.isRequired,
+    loadNotifications: PropTypes.func.isRequired,
 
     // Injected by React Router
     children: PropTypes.node,
@@ -58,10 +62,15 @@ export class App extends Component {
         refreshLogin();
       }
     }, 1000);
+
+    this.loadNotificationsFunction = setInterval(() => {
+      this.props.loadNotifications()
+    }, 5000);
   }
 
   componentWillUnmount() {
-    clearTimeout(this.loginRefreshFunction);
+    clearInterval(this.loginRefreshFunction);
+    clearInterval(this.loadNotificationsFunction);
   }
 
   @autobind
@@ -91,13 +100,18 @@ export class App extends Component {
 
     return (
       <div>
-        <AppBar
-          title={<span style={{cursor: 'pointer'}} onTouchTap={() => browserHistory.push('/')}>CaTUstrophy</span>}
-          iconElementLeft={sideMenuButton}
-          iconElementRight={<UserMenu />}
-        />
+        <Toolbar noGutter={true} >
+          <ToolbarGroup firstchild={true} >
+            {sideMenuButton}
+            <ToolbarTitle text="CaTUstrophy" onTouchTap={() => browserHistory.push('/')} style={{cursor: 'pointer'}} />
+          </ToolbarGroup>
+          <ToolbarGroup float={'right'} lastchild={true}>
+              {<NotificationsMenu />}
+              {<UserMenu />}
+              {<SideMenu />}
+          </ToolbarGroup>
+        </Toolbar>
         <Main>
-          <SideMenu />
           {children}
         </Main>
       </div>
@@ -118,5 +132,6 @@ export default muiThemeable()(connect(mapStateToProps, {
   toggleSideMenu,
   tryRestoreLogin,
   refreshLogin,
-  logoutAfterTimeout
+  logoutAfterTimeout,
+  loadNotifications
 })(App))

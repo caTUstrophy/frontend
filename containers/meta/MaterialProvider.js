@@ -6,12 +6,16 @@ injectTapEventPlugin();
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { blueGrey400, redA700 } from 'material-ui/styles/colors';
+import { blueGrey400, redA700, white } from 'material-ui/styles/colors';
 
 const theme = getMuiTheme({
   palette: {
     primary1Color: blueGrey400,
     accent1Color: redA700
+  },
+  toolbar: {
+    backgroundColor: blueGrey400,
+    iconColor: white
   }
 });
 
