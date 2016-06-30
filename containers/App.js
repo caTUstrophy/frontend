@@ -84,8 +84,10 @@ export class App extends Component {
     if (!login || login.expires < new Date()) {
       if (url == '/') {
         return <Main>
-          <div style={{width: '40rem', margin: '5rem auto 0'}}>
-            <h1>This page is so landing.</h1>
+          <div style={{width: '40rem', margin: '5rem auto 0', textAlign: 'center' }}>
+            <img src="../images/logo.svg" alt="CaTUstrophy" width="200rem" height="200rem"/>
+            <h1>CaTUstrophy</h1>
+            <h2>A platform for connecting those in need with aid relief in catastrophe regions across the world.</h2>
             <RaisedButton onTouchTap={() => browserHistory.push('/login')} label="login" /> &nbsp;
             <RaisedButton onTouchTap={() => browserHistory.push('/signup')} label="sign up" />
           </div>

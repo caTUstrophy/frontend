@@ -10,9 +10,10 @@ class HomePage extends Component {
   render() {
     return (
       <div style={{display: 'flex'}}>
-        <div style={{width: '40rem', margin: 'auto', textAlign: 'center'}}>
+        <div style={{width: '40rem', margin: 'auto', padding:'5rem', textAlign: 'center'}}>
           <img src="../images/logo.svg" alt="CaTUstrophy" width="200rem" height="200rem"/>
-          <h1>Welcome to CaTUstrophy</h1>
+          <h1>Welcome to CaTUstrophy.</h1>
+          <h4>Get started by creating your first offer or request.<br/> Just click the plus button in the bottom-right corner.</h4>
 
 
           <IconMenu
@@ -22,7 +23,7 @@ class HomePage extends Component {
             </FloatingActionButton>}
             anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
             targetOrigin={{horizontal: 'right', vertical: 'bottom'}}>
-            <MenuItem primaryText="Request" onTouchTap={() => browserHistory.push('/requests/create')} />
+            <MenuItem primaryText="Request" onTouchTap={() => browserHistory.push('/requests/create')} /><br/>
             <MenuItem primaryText="Offer" onTouchTap={() => browserHistory.push('/offers/create')} />
           </IconMenu>
         </div>
