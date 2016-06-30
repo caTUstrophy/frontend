@@ -17,7 +17,6 @@ export default class Notification extends Component {
   };
 
   render() {
-    const notification = this.props.notification;
     const user = this.props.profile;
     const userPost = user.ID === this.props.notification.Matching.Request.User.ID ? this.props.notification.Matching.Request : this.props.notification.Matching.Offer;
     const userPostType = user.ID === this.props.notification.Matching.Request.User.ID ? "request" : "offer";
