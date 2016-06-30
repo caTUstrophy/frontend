@@ -1,4 +1,5 @@
 import { CALL_API, Schemas } from '../middleware/api'
+import {authorized} from "./authorizationHelpers";
 
 export const CREATE_USER_REQUEST = 'CREATE_USER_REQUEST';
 export const CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS';
@@ -22,13 +23,41 @@ function sendUser(user) {
 // Relies on Redux Thunk middleware.
 export function createUser(user, requiredFields = []) {
   return (dispatch, getState) => {
-    return dispatch(sendUser(user))
+    return dispatch(sendUser(user));
   }
 }
 
-export const USER_REQUEST = 'USER_REQUEST'
-export const USER_SUCCESS = 'USER_SUCCESS'
-export const USER_FAILURE = 'USER_FAILURE'
+
+export const SAVE_USER_REQUEST = 'SAVE_USER_REQUEST';
+export const SAVE_USER_SUCCESS = 'SAVE_USER_SUCCESS';
+export const SAVE_USER_FAILURE = 'SAVE_USER_FAILURE';
+
+// Fetches all users
+// Relies on the custom API middleware defined in ../middleware/api.js.
+function saveUser(user) {
+  return {
+    [CALL_API]: {
+      types: [ SAVE_USER_REQUEST, SAVE_USER_SUCCESS, SAVE_USER_FAILURE ],
+      endpoint: `users/${ user.ID }`,
+      verb: 'PUT',
+      schema: Schemas.USER,
+      payload: user
+    }
+  }
+}
+
+// Fetches all users (unless it is cached)
+// Relies on Redux Thunk middleware.
+export function updateUser(user) {
+  return (dispatch, getState) => {
+    return dispatch(authorized(getState().login.jwt)(saveUser(user)));
+  }
+}
+
+
+export const USER_REQUEST = 'USER_REQUEST';
+export const USER_SUCCESS = 'USER_SUCCESS';
+export const USER_FAILURE = 'USER_FAILURE';
 
 // Fetches a single user
 // Relies on the custom API middleware defined in ../middleware/api.js.
@@ -53,7 +82,7 @@ export function loadUser(userId, requiredFields = []) {
       }
     }
     
-    return dispatch(fetchUser(userId))
+    return dispatch(authorized(getState().login.jwt)(fetchUser(userId)));
   }
 }
 
@@ -83,6 +112,6 @@ export function loadUsers(requiredFields = []) {
     //   return null
     // }
     
-    return dispatch(fetchUsers())
+    return dispatch(authorized(getState().login.jwt)(fetchUsers()))
   }
 }

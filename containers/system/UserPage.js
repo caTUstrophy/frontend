@@ -1,7 +1,11 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { loadUser } from '../../actions'
-import User from '../../components/User'
+
+import autobind from 'autobind-decorator'
+
+import { loadUser, updateUser } from '../../actions'
+import Profile from '../../components/Profile'
+import PermissionsForm from '../../forms/PermissionsForm'
 
 function loadData(props) {
   const { ID } = props;
@@ -23,15 +27,27 @@ class UserPage extends Component {
     }
   }
 
+  @autobind
+  handleDeletePermission(permission) {
+    let newUser = Object.assign({}, this.props.user);
+    newUser.Groups = newUser.Groups.filter((group) => group.ID != permission.ID);
+
+    this.props.updateUser(newUser); // todo: handle failures
+  }
+
   render() {
     const { user, ID } = this.props;
     if (!user) {
       return <h1><i>Loading {ID}’s profile...</i></h1>
     }
 
+    let permissionsForm = this.props.user.Groups
+      ? <PermissionsForm permissions={this.props.user.Groups} onDeletePermission={this.handleDeletePermission} />
+      : <i>Loading...</i>;
+    
     return (
       <div style={{width: '40rem', margin: '0 auto'}}>
-        <User user={user} />
+        <Profile profile={user} permissionsComponent={permissionsForm} />
       </div>
     )
   }
@@ -54,5 +70,6 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  loadUser
+  loadUser,
+  updateUser
 })(UserPage)
