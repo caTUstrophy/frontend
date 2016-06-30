@@ -1,41 +1,43 @@
-import React from 'react'
-import { Route, IndexRoute } from 'react-router'
-import App from './containers/App'
+import React from 'react';
+import { Route, IndexRoute } from 'react-router';
+import App from './containers/App';
 
 // regular users
-import HomePage from './containers/HomePage'
-import AddOfferPage from './containers/AddOfferPage'
-import AddRequestPage from './containers/AddRequestPage'
+import HomePage from './containers/HomePage';
+import AddOfferPage from './containers/AddOfferPage';
+import AddRequestPage from './containers/AddRequestPage';
 
 // admin
-import AdminHomePage from './containers/admin/AdminHomePage'
-import ManagePage from './containers/admin/ManagePage'
-import OffersPage from './containers/admin/OffersPage'
-import OfferPage from './containers/admin/OfferPage'
-import RequestsPage from './containers/admin/RequestsPage'
-import RequestPage from './containers/admin/RequestPage'
-import AddRegionPage from './containers/admin/region/AddRegionPage'
-import RegionsPage from './containers/admin/region/RegionsPage'
-import RegionPage from './containers/admin/region/RegionPage'
+import AdminHomePage from './containers/admin/AdminHomePage';
+import ManagePage from './containers/admin/ManagePage';
+import OffersPage from './containers/admin/OffersPage';
+import OfferPage from './containers/admin/OfferPage';
+import RequestsPage from './containers/admin/RequestsPage';
+import RequestPage from './containers/admin/RequestPage';
+import AddRegionPage from './containers/admin/region/AddRegionPage';
+import RegionsPage from './containers/admin/region/RegionsPage';
+import RegionPage from './containers/admin/region/RegionPage';
 
 // user
-import SignupPage from './containers/user/SignupPage'
+import SignupPage from './containers/user/SignupPage';
 
 // other
-import DefaultPage from './containers/misc/EmptyPage'
-import NotFoundPage from './containers/misc/NotFoundPage'
+import NotFoundPage from './containers/misc/NotFoundPage';
 import ProfilePage from "./containers/me/ProfilePage";
 import MyOffersPage from "./containers/me/MyOffersPage";
 import MyRequestsPage from "./containers/me/MyRequestsPage";
-
-import NotificationsPage from './containers/NotificationsPage'
+import NotificationPage from './containers/NotificationPage';
+import NotificationsPage from './containers/NotificationsPage';
 
 export default [
   <Route path="/" component={App}>
     <IndexRoute component={HomePage} />
     <Route path="requests/create" component={AddRequestPage}/>
     <Route path="offers/create" component={AddOfferPage}/>
-    <Route path="notifications" component={NotificationsPage} />
+    <Route path="notifications">
+      <IndexRoute component={NotificationsPage} />
+      <Route path=":ID" component={NotificationPage} />
+    </Route>
     <Route path="admin">
       <IndexRoute component={AdminHomePage} />
       <Route path="offers">
