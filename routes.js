@@ -8,21 +8,27 @@ import AddOfferPage from './containers/AddOfferPage';
 import AddRequestPage from './containers/AddRequestPage';
 
 // admin
-import AdminHomePage from './containers/admin/AdminHomePage';
-import ManagePage from './containers/admin/ManagePage';
-import OffersPage from './containers/admin/OffersPage';
-import OfferPage from './containers/admin/OfferPage';
-import RequestsPage from './containers/admin/RequestsPage';
-import RequestPage from './containers/admin/RequestPage';
-import AddRegionPage from './containers/admin/region/AddRegionPage';
-import RegionsPage from './containers/admin/region/RegionsPage';
-import RegionPage from './containers/admin/region/RegionPage';
+import AdminHomePage from './containers/admin/AdminHomePage'
+import ManagePage from './containers/admin/ManagePage'
+import ManageAdminsPage from './containers/admin/ManageAdminsPage'
+import OffersPage from './containers/admin/OffersPage'
+import OfferPage from './containers/admin/OfferPage'
+import RequestsPage from './containers/admin/RequestsPage'
+import RequestPage from './containers/admin/RequestPage'
+import AddRegionPage from './containers/admin/region/AddRegionPage'
+import RegionsPage from './containers/admin/region/RegionsPage'
+import RegionPage from './containers/admin/region/RegionPage'
+
+// system
+import UserPage from './containers/system/UserPage'
+import UsersPage from './containers/system/UsersPage'
 
 // user
 import SignupPage from './containers/user/SignupPage';
 
 // other
-import NotFoundPage from './containers/misc/NotFoundPage';
+import DefaultPage from './containers/misc/EmptyPage'
+import NotFoundPage from './containers/misc/NotFoundPage'
 import ProfilePage from "./containers/me/ProfilePage";
 import MyOffersPage from "./containers/me/MyOffersPage";
 import MyRequestsPage from "./containers/me/MyRequestsPage";
@@ -32,6 +38,7 @@ import NotificationsPage from './containers/NotificationsPage';
 export default [
   <Route path="/" component={App}>
     <IndexRoute component={HomePage} />
+    <Route path="login" />
     <Route path="requests/create" component={AddRequestPage}/>
     <Route path="offers/create" component={AddOfferPage}/>
     <Route path="notifications">
@@ -54,9 +61,17 @@ export default [
           <IndexRoute component={RegionPage} />
           <Route path="requests" component={RequestsPage} />
           <Route path="offers" component={OffersPage} />
+          <Route path="admins" component={ManageAdminsPage} />
         </Route>
       </Route>
       <Route path="manage/:ID" component={ManagePage} />
+    </Route>
+    <Route path="system">
+      <IndexRoute component={DefaultPage} />
+      <Route path="users">
+        <IndexRoute component={UsersPage} />
+        <Route path=":ID" component={UserPage} />
+      </Route>
     </Route>
     <Route path="me">
       <IndexRoute component={ProfilePage} />

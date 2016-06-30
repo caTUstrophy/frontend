@@ -2,27 +2,28 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 
-import { loadRegion } from '../../../actions'
+import { loadRegion, loadRegionAdmins } from '../../../actions'
 import Region from '../../../components/regions/Region'
 import { RegionPropType } from '../../../schemas/RegionSchema'
-
-function loadData(props) {
-  const { loadRegion, ID } = props;
-  loadRegion(ID);
-}
+import extractRegionWithAdmins from "../../helpers/extractRegionWithAdmins";
 
 class RegionPage extends Component {
   constructor(props) {
     super(props);
   }
 
+  loadData(regionId) {
+    this.props.loadRegion(regionId);
+    this.props.loadRegionAdmins(regionId);
+  }
+
   componentWillMount() {
-    loadData(this.props)
+    this.loadData(this.props.ID);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.ID !== this.props.ID) {
-      loadData(nextProps)
+      this.loadData(nextProps.ID);
     }
   }
 
@@ -31,16 +32,18 @@ class RegionPage extends Component {
   }
 
   render() {
-    const { region, ID } = this.props;
+    const { region, admins, ID } = this.props;
     if (!region) {
-      return <h1><i>Loading region {ID}...</i></h1>
+      return <h1><i>Loading region {ID}...</i></h1>; // todo: show loading animation
     }
 
     return (
       <div style={{width: '40rem', margin: '0 auto'}}>
         <Region region={region}
+                admins={admins}
                 onClickRequests={this.navigate.bind(this, 'requests')}
-                onClickOffers={this.navigate.bind(this, 'offers')} />
+                onClickOffers={this.navigate.bind(this, 'offers')}
+                onClickManageAdmins={this.navigate.bind(this, 'admins')} />
       </div>
     )
   }
@@ -54,14 +57,14 @@ RegionPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { ID } = ownProps.params;
-  const regions = state.entities.regions;
 
   return {
     ID,
-    region: regions[ID]
+    region: extractRegionWithAdmins(state, ID)
   }
 }
 
 export default connect(mapStateToProps, {
-  loadRegion
+  loadRegion,
+  loadRegionAdmins
 })(RegionPage)

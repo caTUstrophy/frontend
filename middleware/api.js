@@ -19,7 +19,7 @@ const API_ROOT = __API_ROOT_URL__;
 
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
-function callApi(verb, authorization, endpoint, schema, payload) {
+function callApi(verb, authorization, endpoint, schema, payload, reference) {
   const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint;
 
   let request = {
@@ -60,7 +60,7 @@ function callApi(verb, authorization, endpoint, schema, payload) {
 
       return Object.assign({},
         normalize(json, schema),
-        { nextPageUrl }
+        { nextPageUrl, reference }
       )
     })
 }
@@ -130,7 +130,7 @@ export default store => next => action => {
   }
 
   let { endpoint, verb, payload } = callAPI;
-  const { schema, types, authorization } = callAPI;
+  const { schema, types, authorization, reference } = callAPI;
 
   if (typeof endpoint === 'function') {
     endpoint = endpoint(store.getState())
@@ -161,7 +161,7 @@ export default store => next => action => {
   const [ requestType, successType, failureType ] = types
   next(actionWith({ type: requestType }))
 
-  return callApi(verb, authorization, endpoint, schema, payload).then(
+  return callApi(verb, authorization, endpoint, schema, payload, reference).then(
     response => next(actionWith({
       response,
       type: successType

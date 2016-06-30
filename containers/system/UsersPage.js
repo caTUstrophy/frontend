@@ -1,5 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
+import { browserHistory } from 'react-router'
+
+import autobind from 'autobind-decorator'
+
 import { loadUsers } from '../../actions'
 import UserList from '../../components/UserList'
 
@@ -16,6 +20,11 @@ class UsersPage extends Component {
     loadData(this.props)
   }
 
+  @autobind
+  handleTouchTapItem(user) {
+    browserHistory.push(`/system/users/${ user.ID }`);
+  }
+
   render() {
     const { users } = this.props;
     if (!users) {
@@ -23,7 +32,7 @@ class UsersPage extends Component {
     }
 
     return (
-      <UserList users={users} />
+      <UserList users={users} onTouchTapItem={this.handleTouchTapItem} />
     )
   }
 }
