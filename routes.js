@@ -38,7 +38,7 @@ import NotificationsPage from './containers/NotificationsPage';
 export default [
   <Route path="/" component={App}>
     <IndexRoute component={HomePage} />
-    <Route path="login" />
+    <Route path="login" component={HomePage}/>
     <Route path="requests/create" component={AddRequestPage}/>
     <Route path="offers/create" component={AddOfferPage}/>
     <Route path="notifications">
