@@ -49,6 +49,7 @@ class NotificationsPage extends Component {
 }
 
 NotificationsPage.propTypes = {
+  ID: PropTypes.string.isRequired,
   notifications: PropTypes.array.isRequired,
   loadNotifications: PropTypes.func.isRequired,
   matching: PropTypes.array.isRequired,

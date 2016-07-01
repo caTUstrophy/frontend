@@ -13,17 +13,15 @@ import { toString } from "../helpers/Location"
 export default class Notification extends Component {
   static propTypes = {
     notification: NotificationPropType.isRequired,
-    profile: PropTypes.object
+    profile: PropTypes.object.isRequired
   };
 
   render() {
-    const notification = this.props.notification;
     const user = this.props.profile;
     const userPost = user.ID === this.props.notification.Matching.Request.User.ID ? this.props.notification.Matching.Request : this.props.notification.Matching.Offer;
     const userPostType = user.ID === this.props.notification.Matching.Request.User.ID ? "request" : "offer";
     const matchedPost = user.ID === this.props.notification.Matching.Request.User.ID ? this.props.notification.Matching.Offer : this.props.notification.Matching.Request;
     const matchedPostType = user.ID === this.props.notification.Matching.Request.User.ID ? "offer" : "request";
-
 
     return (
       <div>
