@@ -25,6 +25,7 @@ class UserMenu extends Component {
   @autobind
   handleLogoutTap() {
     this.props.logout();
+    browserHistory.push(`/`)
   }
 
   render() {
