@@ -7,25 +7,11 @@ import autobind from 'autobind-decorator'
 import { loadNotifications } from '.././actions/notifications'
 import { loadMatching } from '.././actions/matchings'
 import NotificationList from '.././components/NotificationList'
+import extractNotification from './helpers/extractNotification'
 
 class NotificationsPage extends Component {
   constructor(props) {
     super(props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    nextProps.notifications.forEach((newNotification) => {
-      // todo: make use of normalized data here
-      if (!this.props.notifications.some(oldNotification => oldNotification.ID == newNotification.ID)) {
-        switch (newNotification.Type) {
-          case 'matching':
-            this.props.loadMatching(newNotification.ItemID);
-            break;
-          default:
-            console.warn(`Unsupported notification type: ${newNotification.Type}`);
-        }
-      }
-    });
   }
 
   @autobind
@@ -60,20 +46,10 @@ function mapStateToProps(state, ownProps) {
   const { entities: { notifications, matchings } } = state;
 
   return {
-    notifications: Object.values(notifications).map(notification => {
-        switch (notification.Type) {
-          case 'matching':
-            notification.matching = matchings[notification.ItemID];
-            break;
-          default:
-            console.warn(`Unsupported notification type: ${notification.Type}`);
-        }
-      return notification;
-    })
+    notifications: Object.keys(notifications).map(extractNotification.bind(this, state))
   }
 }
 
 export default connect(mapStateToProps, {
-  loadNotifications,
-  loadMatching
+  loadNotifications
 })(NotificationsPage)

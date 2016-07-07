@@ -1,12 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { loadNotification } from './../actions/notifications'
-import NotificationCard from './../components/NotificationCard'
 
-function loadData(props) {
-  const { loadNotification, ID } = props;
-  loadNotification(ID);
-}
+import { loadNotifications } from './../actions/notifications'
+import NotificationCard from './../components/NotificationCard'
+import extractNotification from './helpers/extractNotification'
 
 class NotificationPage extends Component {
   constructor(props) {
@@ -14,12 +11,8 @@ class NotificationPage extends Component {
   }
 
   componentWillMount() {
-    loadData(this.props)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.ID !== this.props.ID) {
-      loadData(nextProps)
+    if (!this.props.notification) {
+      this.props.loadNotifications();
     }
   }
 
@@ -45,14 +38,11 @@ NotificationPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { ID } = ownProps.params;
-  const notifications = state.entities.notifications;
 
   return {
     ID,
-    notification: notifications[ID]
+    notification: extractNotification(state, ID)
   }
 }
 
-export default connect(mapStateToProps, {
-  loadNotification
-})(NotificationPage)
+export default connect(mapStateToProps, { loadNotifications })(NotificationPage)

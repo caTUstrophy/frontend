@@ -4,7 +4,6 @@ import { browserHistory } from 'react-router';
 
 import { Polygon } from 'react-leaflet';
 import Paper from 'material-ui/Paper';
-import FlatButton from 'material-ui/FlatButton';
 
 import { loadRequests, loadOffers, loadRegions } from '../../actions'
 import RequestList from '../../components/RequestList'

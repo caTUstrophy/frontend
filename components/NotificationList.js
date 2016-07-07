@@ -14,7 +14,8 @@ export default class NotificationList extends Component {
         if (notification[notification.Type]) {
           return <ListItem key={notification.ID}
                            onTouchTap={this.props.onTouchTapItem.bind(this, notification)}
-                           primaryText={`${notification.Type}: ${notification.matching.Offer.ID} and ${notification.matching.Request.ID}`} />
+                           primaryText={`"${notification.matching.Offer.Name}" and "${notification.matching.Request.Name}"`}
+                           secondaryText={notification.Type} />
         }
         return <ListItem key={notification.ID}
                   onTouchTap={this.props.onTouchTapItem.bind(this, notification)}

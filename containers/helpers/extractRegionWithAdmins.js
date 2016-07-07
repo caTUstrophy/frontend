@@ -1,5 +1,4 @@
 export default function (state, regionId) {
-
   const { regions, users } = state.entities;
   const { regionAdmins } = state.mappings;
 

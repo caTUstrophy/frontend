@@ -18,10 +18,14 @@ export default class Notification extends Component {
 
   render() {
     const user = this.props.profile;
-    const userPost = user.ID === this.props.notification.Matching.Request.User.ID ? this.props.notification.Matching.Request : this.props.notification.Matching.Offer;
-    const userPostType = user.ID === this.props.notification.Matching.Request.User.ID ? "request" : "offer";
-    const matchedPost = user.ID === this.props.notification.Matching.Request.User.ID ? this.props.notification.Matching.Offer : this.props.notification.Matching.Request;
-    const matchedPostType = user.ID === this.props.notification.Matching.Request.User.ID ? "offer" : "request";
+    const userPost = user.ID === this.props.notification.matching.Request.User.ID ? this.props.notification.matching.Request : this.props.notification.matching.Offer;
+    const userPostType = user.ID === this.props.notification.matching.Request.User.ID ? "request" : "offer";
+    const matchedPost = user.ID === this.props.notification.matching.Request.User.ID ? this.props.notification.matching.Offer : this.props.notification.matching.Request;
+    const matchedPostType = user.ID === this.props.notification.matching.Request.User.ID ? "offer" : "request";
+
+    if (!matchedPost.User) {
+      return <h1>Loading...</h1>;
+    }
 
     return (
       <div>
@@ -33,12 +37,11 @@ export default class Notification extends Component {
         <div style={{display: 'flex', alignItems: 'center', marginBottom: '0.5rem'}}>
           <EmailIcon style={{marginRight: '0.5rem'}} /> {matchedPost.User ? matchedPost.User.Mail : "Email"}
         </div>
-        <div style={{display: 'flex', alignItems: 'center', marginBottom: '0.5rem'}}>
-          <PhoneIcon style={{marginRight: '0.5rem'}} /> {matchedPost.User ? matchedPost.User.PhoneNumbers[0] : "Phone number"}
-        </div>
-        <div style={{display: 'flex', alignItems: 'center', marginBottom: '0.5rem'}}>
-          <HardwarePhoneIphone style={{marginRight: '0.5rem'}} /> {matchedPost.User ? matchedPost.User.PhoneNumbers[1] : "Mobile phone number"}
-        </div>
+        {matchedPost.User.PhoneNumbers.map((phoneNumber, index) =>
+          <div style={{display: 'flex', alignItems: 'center', marginBottom: '0.5rem'}} key={index}>
+            <PhoneIcon style={{marginRight: '0.5rem'}} /> {phoneNumber}
+          </div>
+        )}
         <div style={{display: 'flex', alignItems: 'center', marginBottom: '0.5rem'}}>
           <LocationIcon style={{marginRight: '0.5rem'}} /> {toString(matchedPost.Location)}
         </div>

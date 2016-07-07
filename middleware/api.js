@@ -93,6 +93,10 @@ const requestSchema = new Schema('requests', {
 const matchingSchema = new Schema('matchings', {
   idAttribute: matching => matching.ID
 });
+matchingSchema.define({
+  Offer: offerSchema,
+  Request: requestSchema
+});
 
 const regionSchema = new Schema('regions', {
   idAttribute: matching => matching.ID
@@ -100,6 +104,9 @@ const regionSchema = new Schema('regions', {
 
 const notificationSchema = new Schema('notifications', {
   idAttribute: notification => notification.ID
+});
+notificationSchema.define({
+  Matching: matchingSchema
 });
 
 // Schemas for Github API responses.

@@ -7,7 +7,6 @@ import IconButton from 'material-ui/IconButton/IconButton';
 import CloseIcon from 'material-ui/svg-icons/navigation/close'
 
 import Leaflet from 'leaflet';
-import { Polygon, Marker } from 'react-leaflet';
 
 import SimpleMap from '../../components/maps/SimpleMap';
 import Offer from '../../components/Offer';
