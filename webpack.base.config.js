@@ -40,6 +40,10 @@ module.exports = {
       {
         test: /\.json$/,
         loader: 'json'
+      },
+      {
+        test: /\.sass$/,
+        loaders: ["style", "css", "autoprefixer", "sass"]
       }
     ],
     noParse: [
@@ -50,5 +54,11 @@ module.exports = {
     alias: {
       'sinon': 'sinon/pkg/sinon'
     }
+  },
+  sassLoader: {
+    includePaths: [path.resolve(__dirname, "node_modules/foundation-sites/scss/")]
+  },
+  autoprefixerLoader: {
+    browsers: "> 1%"
   }
 };
