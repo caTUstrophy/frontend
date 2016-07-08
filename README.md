@@ -64,12 +64,19 @@ All new code should be written in ES7/JSX. And embrace the ecosystem!
 
 
 ## Design
-See [#3](https://github.com/caTUstrophy/frontend/issues/3) to discuss how to write and include the styles.
 
 - Follow the [material design guidelines](https://www.google.com/design/spec/material-design/introduction.html)
     - See [icons](https://design.google.com/icons/)
 - Use [Material-UI](http://www.material-ui.com/)'s React components where possible
     - style with [theming](http://www.material-ui.com/#/customization/themes) (not CSS) where applicable
+    
+### CSS
+We use [Foundation Sites](http://foundation.zurb.com/sites/docs/). 
+Write SASS, only. 
+Use their mixins et cetera wherever possible.
+Don't use prefixes, we have [autoprefixer](https://github.com/postcss/autoprefixer) set up (aggressively i.e. `> 1%`).
+
+*We should eventually use [extract-text-webpack-plugin](https://github.com/webpack/extract-text-webpack-plugin) to generate a CSS file, but for now it doesn't seem strictly necessary.*
 
 ## Testing
 - Write tests for everything. 
@@ -105,7 +112,7 @@ Read `webpack.production.config.js` for the details.
 
 Currently there is no HTML generated, an `index.html` should be derived manually.
 
-There are no CSS files anyway, see [#3](https://github.com/caTUstrophy/frontend/issues/3).
+There are no CSS files for now, it is inlined with the JS sources by webpack.
 
 ## Resources to familiarize yourself with the technologies
 - [React tutorial](http://facebook.github.io/react/docs/tutorial.html) in the [official docs](http://facebook.github.io/react/docs/top-level-api.html)
