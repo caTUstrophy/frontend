@@ -88,7 +88,7 @@ export class App extends Component {
           <Center style={{textAlign: 'center' }}>
             <img src="../images/logo.svg" alt="CaTUstrophy" width="200rem" height="200rem"/>
             <h1>CaTUstrophy</h1>
-            <h2>A platform for connecting those in need with aid relief in catastrophe regions across the world.</h2>
+            A platform for connecting those in need with aid relief in catastrophe regions across the world.
             <RaisedButton onTouchTap={() => browserHistory.push('/login')} label="login" /> &nbsp;
             <RaisedButton onTouchTap={() => browserHistory.push('/signup')} label="sign up" />
           </Center>
@@ -103,7 +103,7 @@ export class App extends Component {
 
     return (
       <div>
-        <Toolbar noGutter={true} >
+        <Toolbar noGutter={true}>
           <ToolbarGroup firstchild={true} >
             {sideMenuButton}
             <ToolbarTitle text="CaTUstrophy" onTouchTap={() => browserHistory.push('/')} style={{cursor: 'pointer'}} />
