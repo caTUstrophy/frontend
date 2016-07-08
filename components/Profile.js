@@ -3,7 +3,10 @@ import React, { Component, PropTypes } from 'react'
 import MailIcon from 'material-ui/svg-icons/communication/mail-outline'
 import PhoneIcon from 'material-ui/svg-icons/communication/phone'
 import VerifiedIcon from 'material-ui/svg-icons/action/verified-user'
-import { Card, CardHeader, CardText } from 'material-ui/Card'
+import AccountIcon from 'material-ui/svg-icons/action/account-circle'
+
+import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card'
+import FlatButton from 'material-ui/FlatButton'
 
 import { UserPropType } from '../schemas/UserSchema'
 
@@ -13,7 +16,8 @@ function capitalizeFirstLetter(string) {
 
 export default class Profile extends Component {
   static propTypes = {
-    profile: UserPropType.isRequired
+    profile: UserPropType.isRequired,
+    isOwnProfile: PropTypes.boolean
   };
 
   renderPhoneNumbers(numbers) {
@@ -55,8 +59,20 @@ export default class Profile extends Component {
   render() {
     let profile = this.props.profile;
 
+    let cardHead, cardActions;
+    if (this.props.isOwnProfile) {
+      cardHead = <CardHeader title="Your profile"
+                             subtitle="This information is visible to administrators and users with whom you are matched"
+                             avatar={<AccountIcon />}
+                             style={{backgroundColor: 'lightgray'}} />;
+      cardActions = <CardActions style={{display: 'flex', flexDirection: 'row-reverse'}}>
+        <FlatButton label="Edit profile" onTouchTap={this.props.navigateToEditProfile} />;
+      </CardActions>;
+    }
+
     return (
       <Card>
+        {cardHead}
         <CardText>
           <h2>{profile.Name} {profile.PreferredName && profile.PreferredName.length ? `(${profile.PreferredName})` : ''}</h2>
           <div style={{display: 'flex', alignItems: 'center', marginBottom: '0.5rem'}}>
@@ -68,6 +84,7 @@ export default class Profile extends Component {
 
           {this.props.permissionsComponent || this.renderPermissions(profile.Groups)}
         </CardText>
+        {cardActions}
       </Card>
     )
   }

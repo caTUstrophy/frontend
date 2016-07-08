@@ -26,12 +26,15 @@ import UsersPage from './containers/system/UsersPage'
 // user
 import SignupPage from './containers/user/SignupPage';
 
+// me
+import ProfilePage from "./containers/me/ProfilePage";
+import EditProfilePage from "./containers/me/EditProfilePage";
+import MyOffersPage from "./containers/me/MyOffersPage";
+import MyRequestsPage from "./containers/me/MyRequestsPage";
+
 // other
 import DefaultPage from './containers/misc/EmptyPage'
 import NotFoundPage from './containers/misc/NotFoundPage'
-import ProfilePage from "./containers/me/ProfilePage";
-import MyOffersPage from "./containers/me/MyOffersPage";
-import MyRequestsPage from "./containers/me/MyRequestsPage";
 import NotificationPage from './containers/NotificationPage';
 import NotificationsPage from './containers/NotificationsPage';
 
@@ -75,6 +78,7 @@ export default [
     </Route>
     <Route path="me">
       <IndexRoute component={ProfilePage} />
+      <Route path="edit" component={EditProfilePage} />
       <Route path="offers">
         <IndexRoute component={MyOffersPage} />
         <Route path=":ID" component={OfferPage} />

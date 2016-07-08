@@ -12,12 +12,17 @@ import Checkbox from 'material-ui/Checkbox';
 import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card'
 
 import { UserFields, UserFieldKeys } from '../schemas/UserSchema'
-import cleanBeforeSubmit from '../schemas/helpers/cleanBeforeSubmit'
 import Validation from './helpers/Validation'
 
 import ErrorMessage from './helpers/ErrorMessage'
 
 export class UserForm extends Component {
+  componentDidMount() {
+    if (this.props.user) {
+      this.props.initializeForm(this.props.user);
+    }
+  }
+
   @autobind
   handleAddPhoneNumber() {
     this.props.fields.PhoneNumbers.addField('');
@@ -70,24 +75,35 @@ export class UserForm extends Component {
                   type="email"
                   floatingLabelText="Email"
                   errorText={Mail.touched && Mail.error} />
+              {this.props.user ? null :
               <TextField {...Password}
                   ref="Password"
                   type="password"
                   floatingLabelText="Password"
-                  errorText={Password.touched && Password.error}/>
+                  errorText={Password.touched && Password.error}/>}
             </div>
 
-            <div style={{marginTop: '2rem'}}>
-              <Checkbox label="Allow CaTUstrophy to share your contact details (email, phone number) with other members in case of a match"
-                        checked={IsConsentGiven.value === true} onCheck={(event, value) => { IsConsentGiven.onChange(value); IsConsentGiven.onBlur(); } } />
-              <ErrorMessage field={IsConsentGiven} />
-            </div>
+            {this.props.user ? null :
+              <div style={{marginTop: '2rem'}}>
+                <Checkbox
+                  label="Allow CaTUstrophy to share your contact details (email, phone number) with other members in case of a match"
+                  checked={IsConsentGiven.value === true}
+                  onCheck={(event, value) => { IsConsentGiven.onChange(value); IsConsentGiven.onBlur(); } }/>
+                <ErrorMessage field={IsConsentGiven}/>
+              </div>
+            }
           </CardText>
 
           <CardActions style={{display: 'flex', flexDirection: 'row-reverse'}}>
             {/* everything is revered with flex-direction, because the submit button should come first (in DOM) */}
-            <FlatButton ref="submit" label="Submit" disabled={invalid || submitting} style={{marginLeft: 'auto'}} type="submit" />
-            <FlatButton label="Reset" disabled={pristine || submitting} onTouchTap={resetForm} />
+            <FlatButton ref="submit"
+                        label={this.props.user ? "Update" : "Sign up"}
+                        disabled={invalid || submitting}
+                        style={{marginLeft: 'auto'}}
+                        type="submit" />
+            {this.props.user ? null :
+              <FlatButton label="Reset" disabled={pristine || submitting} onTouchTap={resetForm}/>
+            }
             <FlatButton label="Cancel" disabled={submitting} onTouchTap={() => browserHistory.goBack()} />
           </CardActions>
         </Card>
@@ -99,5 +115,5 @@ export class UserForm extends Component {
 export default reduxForm({
   form: 'user-form',
   fields: UserFieldKeys,
-  validate: Validation(UserFields)
+  validate: Validation(UserFields, 'user')
 })(UserForm);

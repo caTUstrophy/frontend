@@ -1,4 +1,5 @@
 export * from './users'
+export * from './profile'
 export * from './offers'
 export * from './requests'
 export * from './matchings'

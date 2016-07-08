@@ -16,10 +16,16 @@ function validateField(field, validations) {
   return null;
 }
 
-export default function Validation(fields) {
-  return (values) => {
+export default function Validation(fields, oldObjectNameInProps) {
+  return (values, props) => {
+    let isCreation = !props[oldObjectNameInProps];
+
     const errors = {};
     toPairsIn(fields).forEach(([key, validations]) => {
+      if (validations.creationOnly && !isCreation) {
+        return;
+      }
+
       if (validations.type === Array) {
         errors[key] = values[key].map(value => validateField(value, validations));
       } else {

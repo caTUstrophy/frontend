@@ -6,10 +6,7 @@ import autobind from 'autobind-decorator'
 
 import { loadUserProfile } from '../../actions/profile'
 import Profile from '../../components/Profile'
-
-function loadData(props) {
-  props.loadUserProfile();
-}
+import Center from '../layout/Center';
 
 class ProfilePage extends Component {
   constructor(props) {
@@ -17,7 +14,12 @@ class ProfilePage extends Component {
   }
 
   componentWillMount() {
-    loadData(this.props)
+    this.props.loadUserProfile();
+  }
+
+  @autobind
+  navigateToEditProfile() {
+    browserHistory.push('/me/edit');
   }
 
   render() {
@@ -28,9 +30,9 @@ class ProfilePage extends Component {
     }
 
     return (
-      <div style={{width: '40rem', margin: '0 auto'}}>
-        <Profile profile={profile}/>
-      </div>
+      <Center>
+        <Profile profile={profile} isOwnProfile={true} navigateToEditProfile={this.navigateToEditProfile} />
+      </Center>
     )
   }
 }

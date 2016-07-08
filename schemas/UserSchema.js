@@ -49,11 +49,13 @@ export const UserSchema = Object.assign({}, BaseSchema, {
         test: (value) => value && value.length > 5,
         error: "Too short"
       }
-    ]
+    ],
+    creationOnly: true
   },
   IsConsentGiven: {
     required: true,
-    userInterfaceOnly: true
+    userInterfaceOnly: true,
+    creationOnly: true
   }
 });
 
