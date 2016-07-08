@@ -5,7 +5,7 @@ export default class Center extends Component {
     const { children } = this.props;
 
     return (
-      <div style={{width: '40rem', margin: '5rem auto 0'}}>
+      <div className="ctuy-center" style={this.props.style}>
         {children}
       </div>
     )
