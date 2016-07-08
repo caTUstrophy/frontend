@@ -2,11 +2,13 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 
+import autobind from 'autobind-decorator'
+
 import { createUser, CREATE_USER_SUCCESS } from '../../actions'
 import Main from '../Main'
 import UserForm from '../../forms/UserForm'
+import Center from '../layout/Center'
 
-import autobind from 'autobind-decorator'
 import {UserFields} from "../../schemas/UserSchema";
 import cleanBeforeSubmit from "../../schemas/helpers/cleanBeforeSubmit";
 
@@ -35,11 +37,9 @@ class SignupPage extends Component {
   render() {
     return (
       <Main>
-        <div style={{display: 'flex', height: '100%'}}>
-          <div style={{width: '40rem', margin: 'auto'}}>
-            <UserForm onSubmit={this.handleSubmit} />
-          </div>
-        </div>
+        <Center vertical={true}>
+          <UserForm onSubmit={this.handleSubmit} />
+        </Center>
       </Main>
     )
   }

@@ -18,7 +18,7 @@ class LoginPage extends Component {
 
   render() {
     return (
-      <Center>
+      <Center vertical={true}>
         <LoginForm onSubmit={this.handleSubmit} />
       </Center>
     )

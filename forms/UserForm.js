@@ -42,16 +42,20 @@ export class UserForm extends Component {
           <CardHeader style={{backgroundColor: 'lightgray'}}
                       title="Create user" />
           <CardText>
-            <div style={flexBetweenStyle}>
-              <TextField {...Name}
-                  ref="Name"
-                  floatingLabelText="Full Name"
-                  errorText={Name.touched && Name.error} />
-              <TextField {...PreferredName}
-                  ref="PreferredName"
-                  floatingLabelText="Preferred Name"
-                  placeholder="Preferred Name (optional)"
-                  errorText={PreferredName.touched && PreferredName.error} />
+            <div className="row align-spaced">
+              <div className="medium-5 small-12 column">
+                <TextField {...Name}
+                    ref="Name"
+                    floatingLabelText="Full Name"
+                    errorText={Name.touched && Name.error} />
+              </div>
+              <div className="medium-5 small-12 column">
+                <TextField {...PreferredName}
+                    ref="PreferredName"
+                    floatingLabelText="Preferred Name"
+                    placeholder="Preferred Name (optional)"
+                    errorText={PreferredName.touched && PreferredName.error} />
+              </div>
             </div>
             <div style={Object.assign({}, flexBetweenStyle, { alignItems: 'baseline', flexWrap: 'wrap' })}>
               {PhoneNumbers && PhoneNumbers.map((PhoneNumber, index) =>
@@ -69,18 +73,22 @@ export class UserForm extends Component {
               )}
               <FlatButton label="Add phone number" onTouchTap={this.handleAddPhoneNumber} />
             </div>
-            <div style={flexBetweenStyle}>
-              <TextField {...Mail}
-                  ref="Mail"
-                  type="email"
-                  floatingLabelText="Email"
-                  errorText={Mail.touched && Mail.error} />
-              {this.props.user ? null :
-              <TextField {...Password}
-                  ref="Password"
-                  type="password"
-                  floatingLabelText="Password"
-                  errorText={Password.touched && Password.error}/>}
+            <div className="row align-spaced">
+              <div className="medium-5 small-12 column">
+                <TextField {...Mail}
+                    ref="Mail"
+                    type="email"
+                    floatingLabelText="Email"
+                    errorText={Mail.touched && Mail.error} />
+              </div>
+              <div className="medium-5 small-12 column">
+                {this.props.user ? null :
+                  <TextField {...Password}
+                      ref="Password"
+                      type="password"
+                      floatingLabelText="Password"
+                      errorText={Password.touched && Password.error}/>}
+              </div>
             </div>
 
             {this.props.user ? null :
