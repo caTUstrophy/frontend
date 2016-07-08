@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { login } from '../../actions/login'
 import LoginForm from '../../forms/LoginForm'
+import Center from '../layout/Center'
 
 import autobind from 'autobind-decorator'
 
@@ -17,11 +18,9 @@ class LoginPage extends Component {
 
   render() {
     return (
-      <div style={{display: 'flex', height: '100%'}}>
-        <div style={{width: '40rem', margin: 'auto'}}>
-          <LoginForm onSubmit={this.handleSubmit} />
-        </div>
-      </div>
+      <Center>
+        <LoginForm onSubmit={this.handleSubmit} />
+      </Center>
     )
   }
 }
