@@ -13,6 +13,7 @@ import ManagePage from './containers/admin/ManagePage'
 import ManageAdminsPage from './containers/admin/ManageAdminsPage'
 import OffersPage from './containers/admin/OffersPage'
 import OfferPage from './containers/admin/OfferPage'
+import MatchingPage from './containers/admin/MatchingPage'
 import RequestsPage from './containers/admin/RequestsPage'
 import RequestPage from './containers/admin/RequestPage'
 import AddRegionPage from './containers/admin/region/AddRegionPage'
@@ -31,6 +32,7 @@ import ProfilePage from "./containers/me/ProfilePage";
 import EditProfilePage from "./containers/me/EditProfilePage";
 import MyOffersPage from "./containers/me/MyOffersPage";
 import MyRequestsPage from "./containers/me/MyRequestsPage";
+import MyMatchingsPage from "./containers/me/MyOffersPage";
 
 // other
 import DefaultPage from './containers/misc/EmptyPage'
@@ -82,6 +84,10 @@ export default [
       <Route path="offers">
         <IndexRoute component={MyOffersPage} />
         <Route path=":ID" component={OfferPage} />
+      </Route>
+      <Route path="matchings">
+        <IndexRoute component={MyMatchingsPage} />
+        <Route path=":ID" component={MatchingPage} />
       </Route>
       <Route path="requests">
         <IndexRoute component={MyRequestsPage} />

@@ -19,6 +19,10 @@ const menuEntries = [
   {
     url: "/me/requests",
     text: "Requests"
+  },
+  {
+    url: "/me/matchings",
+    text: "Matchings"
   }
 ];
 const adminMenuEntries = [,

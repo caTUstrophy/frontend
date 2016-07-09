@@ -86,3 +86,9 @@ export function loadMatchings(requiredFields = []) {
         return dispatch(fetchMatchings(getState().login.jwt))
     }
 }
+
+export function loadUserMatchings(requiredFields = []) {
+    return (dispatch, getState) => {
+        return dispatch(authorized(getState().login.jwt)(fetchMatchings()))
+    }
+}
