@@ -57,7 +57,7 @@ export default class MatchingCard extends Component {
                   onClick={function () {}} />
         </SimpleMap>
         <CardText>
-          <Matching matching={matching} offer={offer} request={request} profile={profile} />
+          <Matching offer={offer} request={request} profile={profile} />
         </CardText>
       </Card>
     )

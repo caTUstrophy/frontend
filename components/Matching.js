@@ -1,11 +1,9 @@
 import React, { Component, PropTypes } from 'react'
-import { MatchingPropType } from '../schemas/MatchingSchema'
 import { OfferPropType } from '../schemas/OfferSchema'
 import { RequestPropType } from '../schemas/RequestSchema'
 import { UserPropType } from '../schemas/UserSchema'
 
 import AccountIcon from 'material-ui/svg-icons/action/account-circle'
-import HardwarePhoneIphone from 'material-ui/svg-icons/hardware/phone-iphone'
 import PhoneIcon from 'material-ui/svg-icons/communication/phone'
 import EmailIcon from 'material-ui/svg-icons/communication/email'
 import LocationIcon from 'material-ui/svg-icons/communication/location-on'
@@ -15,14 +13,13 @@ import { toString } from "../helpers/Location"
 
 export default class Matching extends Component {
   static propTypes = {
-    matching: MatchingPropType.isRequired,
     offer: OfferPropType.isRequired,
     request: RequestPropType.isRequired,
     profile: UserPropType.isRequired
   };
 
   render() {
-    const {matching, offer, request, profile} = this.props;
+    const {offer, request, profile} = this.props;
     const user = this.props.profile;
     const userPost = user.ID === this.props.request.User.ID ? this.props.request : this.props.offer;
     const userPostType = user.ID === this.props.request.User.ID ? "request" : "offer";
