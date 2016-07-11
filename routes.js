@@ -32,7 +32,7 @@ import ProfilePage from "./containers/me/ProfilePage";
 import EditProfilePage from "./containers/me/EditProfilePage";
 import MyOffersPage from "./containers/me/MyOffersPage";
 import MyRequestsPage from "./containers/me/MyRequestsPage";
-import MyMatchingsPage from "./containers/me/MyOffersPage";
+import MyMatchingsPage from "./containers/me/MyMatchingsPage";
 
 // other
 import DefaultPage from './containers/misc/EmptyPage'

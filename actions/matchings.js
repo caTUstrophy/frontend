@@ -72,7 +72,7 @@ function fetchMatchings(authorization) {
     return {
         [CALL_API]: {
             types: [ MATCHINGS_MATCHING, MATCHINGS_SUCCESS, MATCHINGS_FAILURE ],
-            endpoint: `matchings`,
+            endpoint: `me/matchings`,
             schema: Schemas.MATCHING_ARRAY,
             authorization
         }

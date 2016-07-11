@@ -7,6 +7,8 @@ import { Marker } from 'react-leaflet';
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 
 import { MatchingPropType } from '../schemas/MatchingSchema'
+import { OfferPropType } from '../schemas/OfferSchema'
+import { RequestPropType } from '../schemas/RequestSchema'
 import SimpleMap from '../components/maps/SimpleMap';
 
 import Matching from './Matching'
@@ -20,7 +22,9 @@ function loadData(props) {
 export default class MatchingCard extends Component {
   static propTypes = {
     matching: MatchingPropType.isRequired,
-    loadUserProfile: PropTypes.func.isRequired
+    loadUserProfile: PropTypes.func.isRequired,
+    offer: OfferPropType.isRequired,
+    request: RequestPropType.isRequired
   };
 
   static greenMarker = Leaflet.icon({
@@ -33,28 +37,27 @@ export default class MatchingCard extends Component {
   }
 
   render() {
-    const matching = this.props.matching;
-    const profile = this.props.profile;
+    const {matching, profile, offer, request} = this.props;
 
-    if (!matching || !profile) {
+    if (!matching || !profile || !offer || !request) {
       return <h1>Loading matching...</h1>; // todo: loading animation
     }
 
     return (
       <Card>
         <CardHeader style={{backgroundColor: 'lightgray'}}
-                    title={"Your matching"} />
+                    title="Your matching" />
         <SimpleMap style={{height: '200px'}}
-                   center={{ lat: (matching.Offer.Location.lat + matching.Request.Location.lat) / 2,
-                   lng: (matching.Offer.Location.lng + matching.Request.Location.lng) / 2}}>
-          <Marker position={matching.Offer.Location}
+                   center={{ lat: (offer.Location.lat + request.Location.lat) / 2,
+                   lng: (offer.Location.lng + request.Location.lng) / 2}}>
+          <Marker position={offer.Location}
                   icon={MatchingCard.greenMarker}
                   onClick={function () {}} />
-          <Marker position={matching.Request.Location}
+          <Marker position={request.Location}
                   onClick={function () {}} />
         </SimpleMap>
         <CardText>
-          <Matching matching={matching} profile={profile} />
+          <Matching matching={matching} offer={offer} request={request} profile={profile} />
         </CardText>
       </Card>
     )

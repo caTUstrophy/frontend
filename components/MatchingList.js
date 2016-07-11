@@ -6,19 +6,26 @@ import { browserHistory } from 'react-router'
 
 export default class MatchingList extends Component {
     navigateToMatchingPage(id) {
-        browserHistory.push(`/matching/${ id }`);
+        browserHistory.push(`/me/matchings/${ id }`);
     }
 
     render() {
+        let matchingsList;
+        if (this.props.matchings.length === 0) {
+            matchingsList = <ListItem key="empty"
+                                  primaryText="No matchings"
+                                  disabled={true}/>
+        } else {
+            matchingsList = this.props.matchings.map(matching =>
+              <ListItem key={matching.ID}
+                        primaryText={`${matching.Offer} and ${matching.Request}`}
+                        onTouchTap={this.props.onTouchTapItem.bind(this, matching)} />
+            );
+        }
         return (
-            <List>
-                {this.props.matchings.map(matching =>
-                    <ListItem key={matching.ID}
-                              primaryText={`${matching.FirstName} ${matching.LastName}`}
-                              secondaryText={matching.Mail}
-                              onTouchTap={this.navigateToMatchingPage.bind(this, matching.ID)} />
-                )}
-            </List>
+          <List>
+              {matchingsList}
+          </List>
         )
     }
 }

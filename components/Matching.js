@@ -1,5 +1,8 @@
 import React, { Component, PropTypes } from 'react'
-import { NotificationPropType } from '../schemas/NotificationSchema'
+import { MatchingPropType } from '../schemas/MatchingSchema'
+import { OfferPropType } from '../schemas/OfferSchema'
+import { RequestPropType } from '../schemas/RequestSchema'
+import { UserPropType } from '../schemas/UserSchema'
 
 import AccountIcon from 'material-ui/svg-icons/action/account-circle'
 import HardwarePhoneIphone from 'material-ui/svg-icons/hardware/phone-iphone'
@@ -10,27 +13,30 @@ import TimerIcon from 'material-ui/svg-icons/image/timer'
 import LabelIcon from 'material-ui/svg-icons/action/label'
 import { toString } from "../helpers/Location"
 
-export default class Notification extends Component {
+export default class Matching extends Component {
   static propTypes = {
-    notification: NotificationPropType.isRequired,
-    profile: PropTypes.object.isRequired
+    matching: MatchingPropType.isRequired,
+    offer: OfferPropType.isRequired,
+    request: RequestPropType.isRequired,
+    profile: UserPropType.isRequired
   };
 
   render() {
+    const {matching, offer, request, profile} = this.props;
     const user = this.props.profile;
-    const userPost = user.ID === this.props.matching.Request.User.ID ? this.props.matching.Request : this.props.matching.Offer;
-    const userPostType = user.ID === this.props.matching.Request.User.ID ? "request" : "offer";
-    const matchedPost = user.ID === this.props.matching.Request.User.ID ? this.props.matching.Offer : this.props.matching.Request;
-    const matchedPostType = user.ID === this.props.matching.Request.User.ID ? "offer" : "request";
+    const userPost = user.ID === this.props.request.User.ID ? this.props.request : this.props.offer;
+    const userPostType = user.ID === this.props.request.User.ID ? "request" : "offer";
+    const matchedPost = user.ID === this.props.request.User.ID ? this.props.offer : this.props.request;
+    const matchedPostType = user.ID === this.props.request.User.ID ? "offer" : "request";
 
-    if (!matchedPost.User) {
+    if (!offer || !request || !profile) {
       return <h1>Loading...</h1>;
     }
 
     return (
       <div>
         <h2>{userPost.Name}</h2>
-        <p>Your {userPostType} for {userPost.Name} has been matched with another user's {matchedPostType}. Here are their contact details:</p>
+        <p>Your {userPostType} for {userPost.Name} has been matched with another user's {matchedPostType}. <br/>Here are their contact details:</p>
         <div style={{display: 'flex', alignItems: 'center', marginBottom: '0.5rem'}}>
           <AccountIcon style={{marginRight: '0.5rem'}} /> {matchedPost.User ? matchedPost.User.Name : "Someone"}
         </div>

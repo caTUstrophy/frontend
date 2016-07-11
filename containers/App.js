@@ -88,7 +88,7 @@ export class App extends Component {
           <Center style={{textAlign: 'center' }}>
             <img src="../images/logo.svg" alt="CaTUstrophy" width="200rem" height="200rem"/>
             <h1>CaTUstrophy</h1>
-            A platform for connecting those in need with aid relief in catastrophe regions across the world.
+            <p>A platform for connecting those in need with aid relief in catastrophe regions across the world.</p>
             <RaisedButton onTouchTap={() => browserHistory.push('/login')} label="login" /> &nbsp;
             <RaisedButton onTouchTap={() => browserHistory.push('/signup')} label="sign up" />
           </Center>

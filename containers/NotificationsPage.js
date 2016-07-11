@@ -5,7 +5,6 @@ import { browserHistory } from 'react-router'
 import autobind from 'autobind-decorator'
 
 import { loadNotifications } from '.././actions/notifications'
-import { loadMatching } from '.././actions/matchings'
 import NotificationList from '.././components/NotificationList'
 import extractNotification from './helpers/extractNotification'
 
@@ -35,15 +34,12 @@ class NotificationsPage extends Component {
 }
 
 NotificationsPage.propTypes = {
-  ID: PropTypes.string.isRequired,
   notifications: PropTypes.array.isRequired,
-  loadNotifications: PropTypes.func.isRequired,
-  matching: PropTypes.array.isRequired,
-  loadMatching: PropTypes.func.isRequired
+  loadNotifications: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
-  const { entities: { notifications, matchings } } = state;
+  const { entities: { notifications } } = state;
 
   return {
     notifications: Object.keys(notifications).map(extractNotification.bind(this, state))

@@ -42,8 +42,7 @@ class MyMatchingsPage extends Component {
 
 MyMatchingsPage.propTypes = {
   matchings: PropTypes.arrayOf(PropTypes.shape({
-    ID: PropTypes.string.isRequired,
-    Name: PropTypes.string.isRequired
+    ID: PropTypes.string.isRequired
   })).isRequired,
   loadUserMatchings: PropTypes.func.isRequired
 };
