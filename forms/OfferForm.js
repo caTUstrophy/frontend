@@ -9,6 +9,7 @@ import FlatButton from 'material-ui/FlatButton';
 import DatePicker from 'material-ui/DatePicker';
 import AutoComplete from 'material-ui/AutoComplete';
 import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card';
+import Chip from 'material-ui/Chip';
 
 import { Polygon } from 'react-leaflet';
 import SimpleMap from '../components/maps/SimpleMap';
@@ -17,13 +18,21 @@ import { LocationPropType } from "../helpers/Location";
 import { OfferFields, OfferFieldKeys } from '../schemas/OfferSchema'
 import Validation from './helpers/Validation';
 import {TagPropType} from "../schemas/TagSchema";
+import {OfferPropType} from "../schemas/OfferSchema";
 
 
 export class OfferForm extends Component {
   static propTypes = {
+    offer: OfferPropType,
     defaultLocation: LocationPropType,
     allowedTags: PropTypes.arrayOf(TagPropType).isRequired
   };
+  
+  componentDidMount() {
+    if (this.props.offer) {
+      this.props.initializeForm(this.props.offer);
+    }
+  }
 
   @autobind
   handleMapClick(event) {
@@ -96,7 +105,7 @@ export class OfferForm extends Component {
                 onChange={(event, value) => ValidityPeriod.onChange(value)}/>
             </div>
             <div>
-              <TextField
+              <TextField {...Radius}
                 ref="Radius"
                 type="text"
                 floatingLabelText="How far can you travel? (km)"

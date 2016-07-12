@@ -96,3 +96,30 @@ export function loadUserOffers(requiredFields = []) {
     return dispatch(authorized(getState().login.jwt)(fetchUserOffers()))
   }
 }
+
+export const UPDATE_OFFER_REQUEST = 'UPDATE_OFFER_REQUEST';
+export const UPDATE_OFFER_SUCCESS = 'UPDATE_OFFER_SUCCESS';
+export const UPDATE_OFFER_FAILURE = 'UPDATE_OFFER_FAILURE';
+
+// Fetches user offer
+// Relies on the custom API middleware defined in ../middleware/api.js.
+function putOffer(offer) {
+  return {
+    [CALL_API]: {
+      types: [ UPDATE_OFFER_REQUEST, UPDATE_OFFER_SUCCESS, UPDATE_OFFER_FAILURE ],
+      endpoint: `offers/${ offer.ID }`,
+      verb: 'PUT',
+      schema: Schemas.OFFER,
+      payload: offer
+    }
+  }
+}
+
+// Fetches user offer
+// Relies on Redux Thunk middleware.
+
+export function updateOffer(offer) {
+  return (dispatch, getState) => {
+    return dispatch(authorized(getState().login.jwt)(putOffer(offer)))
+  }
+}
