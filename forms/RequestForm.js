@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component, PropTypes } from 'react';
 import {reduxForm} from 'redux-form';
 import {browserHistory} from 'react-router';
 
@@ -7,6 +7,8 @@ import autobind from 'autobind-decorator';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import DatePicker from 'material-ui/DatePicker';
+import AutoComplete from 'material-ui/AutoComplete';
+import Chip from 'material-ui/Chip';
 
 import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card'
 
@@ -14,12 +16,36 @@ import { Polygon } from 'react-leaflet';
 import SimpleMap from '../components/maps/SimpleMap';
 import { LocationPropType } from "../helpers/Location";
 
-import { RequestFields } from '../schemas/RequestSchema'
+import { RequestFields, RequestFieldKeys } from '../schemas/RequestSchema'
 import Validation from "./helpers/Validation";
+import {TagPropType} from "../schemas/TagSchema";
 
 export class RequestForm extends Component {
   static propTypes = {
-    defaultLocation: LocationPropType
+    defaultLocation: LocationPropType,
+    allowedTags: PropTypes.arrayOf(TagPropType).isRequired
+  };
+  
+  @autobind
+  tagFilter(searchText, key) {
+    if (this.props.fields.Tags.some(({ value }) => value == key)) {
+      return false;
+    }
+    
+    return AutoComplete.caseInsensitiveFilter(searchText, key);
+  }
+  
+  @autobind
+  handleNewTag(chosenRequest, index) {
+    if (index === -1) {
+      return;
+    }
+        
+    this.props.fields.Tags.addField(chosenRequest.Name);
+  }
+
+  handleRequestDelete = (index) => {
+    this.props.fields.Tags.removeField(index);
   };
 
   @autobind
@@ -45,21 +71,33 @@ export class RequestForm extends Component {
             </div>
             <div>
               <TextField {...Description}
-                ref="Description"
-                type="text"
-                multiLine={true}
-                rowsMax={4}
-                floatingLabelText="Detailed description"
-                errorText={Description.touched && Description.error}/>
+                         ref="Description"
+                         type="text"
+                         multiLine={true}
+                         rowsMax={4}
+                         floatingLabelText="Detailed description"
+                         errorText={Description.touched && Description.error}/>
             </div>
             <div>
-              <TextField {...Tags}
-                ref="Tags"
-                type="text"
-                disabled={true}
+              <AutoComplete
                 floatingLabelText="Add relevant tags"
-                errorText={Tags.touched && Tags.error}/>
+                openOnFocus={true}
+                filter={this.tagFilter}
+                dataSource={this.props.allowedTags}
+                dataSourceConfig={{text: 'Name', value: 'Name'}}
+                onNewRequest={this.handleNewTag}
+                onKeyDown={(event) => event.which == 13 && event.preventDefault() /* this is a hack to prevent form submission on invalid inputs, pressing enter on valid inputs fires 40 (not 13) */} />
             </div>
+            <div style={{display: 'flex', flexWrap: 'wrap'}}>
+              {Tags && Tags.map((tag, tagIndex) =>
+                <Chip key={tag.value}
+                      onRequestDelete={this.handleRequestDelete.bind(this, tagIndex)}
+                      style={{margin: 2}}>
+                  {tag.value}
+                </Chip>
+              )}
+            </div>
+
             <div>
               <DatePicker {...ValidityPeriod}
                 hintText="Until when is this request valid?"
@@ -101,6 +139,6 @@ export class RequestForm extends Component {
 
 export default reduxForm({
   form: 'request-form',
-  fields: Object.keys(RequestFields),
+  fields: RequestFieldKeys,
   validate: Validation(RequestFields)
 })(RequestForm);
