@@ -27,15 +27,16 @@ class AddRequestPage extends Component {
           browserHistory.push('/me/requests'); // todo: improve this
         }
       }).catch(e => {
-        console.log("Catch", e);
-      });
+      console.log("Catch", e);
+    });
   }
 
   render() {
     return (
       <div style={{width: '40rem', margin: '0 auto'}}>
-        <RequestForm onSubmit={this.handleSubmit} 
-                     defaultLocation={this.props.location} />
+        <RequestForm onSubmit={this.handleSubmit}
+                     defaultLocation={this.props.location}
+                     allowedTags={['NSFW', 'Döner', 'Porn', 'Beer']} />
       </div>
     )
   }
