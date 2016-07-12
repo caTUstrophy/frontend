@@ -22,7 +22,9 @@ export default class Request extends Component {
     return (
       <div>
         <h2>{request.Name}</h2>
-        {request.Description ? request.Description : <i>No description</i>}
+        <div style={{marginBottom: '1rem'}}>
+          {request.Description ? request.Description : <i>No description</i>}
+        </div>
         
         <div style={{display: 'flex', alignItems: 'center', marginBottom: '0.5rem'}}>
           <AccountIcon style={{marginRight: '0.5rem'}} /> {request.User ? request.User.Name : "You"}

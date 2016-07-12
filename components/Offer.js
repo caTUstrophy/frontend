@@ -21,7 +21,10 @@ export default class Offer extends Component {
     return (
       <div>
         <h2>{offer.Name}</h2>
-        {offer.Description ? offer.Description : <i>No description</i>}
+        <div style={{marginBottom: '1rem'}}>
+          {offer.Description ? offer.Description : <i>No description</i>}
+        </div>
+        
         <div style={{display: 'flex', alignItems: 'center', marginBottom: '0.5rem'}}>
           <AccountIcon style={{marginRight: '0.5rem'}} /> {offer.User ? offer.User.Name : "You"}
         </div>

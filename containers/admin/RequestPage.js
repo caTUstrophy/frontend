@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { loadRequest } from '../../actions'
 import RequestCard from '../../components/RequestCard'
+import Center from '../layout/Center'
 
 function loadData(props) {
   const { loadRequest, ID } = props;
@@ -30,9 +31,9 @@ class RequestPage extends Component {
     }
 
     return (
-      <div style={{width: '40rem', margin: '0 auto'}}>
+      <Center vertical={true}>
         <RequestCard request={request} />
-      </div>
+      </Center>
     )
   }
 }
