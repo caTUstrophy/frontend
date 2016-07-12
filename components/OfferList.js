@@ -18,6 +18,7 @@ export default class OfferList extends Component {
   
         return <ListItem key={offer.ID}
                          primaryText={description}
+                         secondaryText={offer.Description}
                          onTouchTap={this.props.onTouchTapItem.bind(this, offer)}/>
       });
     }

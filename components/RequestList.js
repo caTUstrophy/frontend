@@ -19,6 +19,7 @@ export default class RequestList extends Component {
                 
                 return <ListItem key={request.ID}
                           primaryText={description}
+                                 secondaryText={request.Description}
                           onTouchTap={this.props.onTouchTapItem.bind(this, request)}/>
             });
         }

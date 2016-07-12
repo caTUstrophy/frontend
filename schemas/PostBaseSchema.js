@@ -13,6 +13,10 @@ export const PostBaseSchema = Object.assign({}, BaseSchema, {
     required: true,
     type: Array
   },
+  Description: {
+    propType: PropTypes.string,
+    required: false
+  },
   Location: {
     propType: LocationPropType,
     required: true,
@@ -21,6 +25,11 @@ export const PostBaseSchema = Object.assign({}, BaseSchema, {
   ValidityPeriod: {
     required: true,
     error: "Please choose a validity period"
+  },
+  Radius: {
+    propType: PropTypes.number,
+    required: true,
+    error: "Please specify a radius"
   }
 });
 
