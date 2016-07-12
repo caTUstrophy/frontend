@@ -1,5 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
+import { browserHistory } from 'react-router'
+
+import autobind from 'autobind-decorator'
+
 import { loadRequest, REQUEST_REQUEST } from '../../actions'
 import RequestCard from '../../components/RequestCard'
 import Center from '../layout/Center'
@@ -52,7 +56,7 @@ RequestPage.propTypes = {
 function mapStateToProps(state, ownProps) {
   const { ID } = ownProps.params;
   const request = state.entities.requests[ID];
-  const loading = state.loading.loading;
+  const loading = state.loading;
 
   return {
     ID,

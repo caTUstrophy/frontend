@@ -66,7 +66,7 @@ function mapStateToProps(state, ownProps) {
   return {
     ID,
     user: users[ID],
-    loading: state.loading.loading.includes(USER_REQUEST)
+    loading: state.loading.includes(USER_REQUEST)
   }
 }
 

@@ -4,9 +4,11 @@ import { browserHistory } from 'react-router'
 
 import autobind from 'autobind-decorator'
 
-import { MATCHINGS_MATCHING, loadUserMatchings } from '../../actions/matchings'
+import { MATCHINGS_REQUEST, loadUserMatchings } from '../../actions/matchings'
 import MatchingList from '../../components/MatchingList'
 import extractMatching from './../helpers/extractMatching'
+
+import Center from '../layout/Center'
 
 function loadData(props) {
   props.loadUserMatchings();
@@ -33,10 +35,10 @@ class MyMatchingsPage extends Component {
     }
 
     return (
-      <div>
+      <Center>
         <h1>Your Matchings</h1>
         <MatchingList matchings={matchings} onTouchTapItem={this.handleTouchTapItem} />
-      </div>
+      </Center>
     )
   }
 }
@@ -55,7 +57,7 @@ function mapStateToProps(state, ownProps) {
     matchings: myMatchings && myMatchings.map(
       matchingId => extractMatching(state, matchingId)
     ),
-    loading: state.loading.loading.includes(MATCHINGS_MATCHING)
+    loading: state.loading.includes(MATCHINGS_REQUEST)
   }
 }
 

@@ -43,7 +43,7 @@ function mapStateToProps(state, ownProps) {
 
   return {
     notifications: Object.keys(notifications).map(extractNotification.bind(this, state)),
-    loading: state.loading.loading.includes(NotificationList)
+    loading: state.loading.includes(NotificationList)
   }
 }
 

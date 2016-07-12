@@ -43,7 +43,7 @@ OffersPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { entities: { offers } } = state;
-  const loading = state.loading.loading;
+  const loading = state.loading;
 
   return {
     offers: Object.values(offers),

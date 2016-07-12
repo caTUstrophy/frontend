@@ -55,7 +55,7 @@ class EditProfilePage extends Component {
 function mapStateToProps(state, ownProps) {
   return {
     profile: state.profile,
-    loading: state.loading.loading.includes(PROFILE_REQUEST)
+    loading: state.loading.includes(PROFILE_REQUEST)
   }
 }
 

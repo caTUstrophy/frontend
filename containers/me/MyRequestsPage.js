@@ -58,7 +58,7 @@ function mapStateToProps(state, ownProps) {
 
   return {
     requests: myRequests && myRequests.map(requestId => requests[requestId]),
-    loading: state.loading.loading.includes(REQUESTS_REQUEST)
+    loading: state.loading.includes(REQUESTS_REQUEST)
   }
 }
 

@@ -44,7 +44,7 @@ class RequestsPage extends Component {
 
 function mapStateToProps(state, ownProps) {
     const { entities: { requests } } = state;
-    const loading = state.loading.loading;
+    const loading = state.loading;
 
     return {
         requests: Object.values(requests),

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { MATCHINGS_MATCHING, loadMatchings } from '../../actions/matchings'
+import { MATCHINGS_REQUEST, loadMatchings } from '../../actions/matchings'
 import MatchingList from '../../components/MatchingList'
 
 function loadData(props) {
@@ -39,7 +39,7 @@ function mapStateToProps(state, ownProps) {
 
     return {
         matchings: Object.values(matchings),
-        loading: loading.includes(MATCHINGS_MATCHING)
+        loading: loading.includes(MATCHINGS_REQUEST)
     }
 }
 

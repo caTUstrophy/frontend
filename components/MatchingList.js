@@ -5,10 +5,6 @@ import { List, ListItem } from 'material-ui/List'
 import { browserHistory } from 'react-router'
 
 export default class MatchingList extends Component {
-    navigateToMatchingPage(id) {
-        browserHistory.push(`/me/matchings/${ id }`);
-    }
-
     render() {
         let matchingsList;
         if (this.props.matchings.length === 0) {

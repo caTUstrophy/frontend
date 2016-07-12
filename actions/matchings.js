@@ -62,18 +62,16 @@ export function loadMatching(matchingId, requiredFields = []) {
     }
 }
 
-export const MATCHINGS_MATCHING = 'MATCHINGS_MATCHING';
+export const MATCHINGS_REQUEST = 'MATCHINGS_REQUEST';
 export const MATCHINGS_SUCCESS = 'MATCHINGS_SUCCESS';
 export const MATCHINGS_FAILURE = 'MATCHINGS_FAILURE';
 
 // Fetches all matchings
 // Relies on the custom API middleware defined in ../middleware/api.js.
 function fetchMatchings(authorization, reference) {
-    console.log("mat-", reference)
-
     return {
         [CALL_API]: {
-            types: [ MATCHINGS_MATCHING, MATCHINGS_SUCCESS, MATCHINGS_FAILURE ],
+            types: [ MATCHINGS_REQUEST, MATCHINGS_SUCCESS, MATCHINGS_FAILURE ],
             endpoint: `me/matchings`,
             schema: Schemas.MATCHING_ARRAY,
             authorization,

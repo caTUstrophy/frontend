@@ -42,7 +42,7 @@ function mapStateToProps(state, ownProps) {
   return {
     ID,
     notification: extractNotification(state, ID),
-    loading: state.loading.loading.includes(NOTIFICATION_REQUEST)
+    loading: state.loading.includes(NOTIFICATION_REQUEST)
   }
 }
 

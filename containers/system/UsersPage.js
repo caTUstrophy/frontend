@@ -47,7 +47,7 @@ function mapStateToProps(state, ownProps) {
 
   return {
     users: Object.values(users),
-    loading: state.loading.loading.includes(USERS_REQUEST)
+    loading: state.loading.includes(USERS_REQUEST)
   }
 }
 
