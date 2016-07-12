@@ -18,7 +18,8 @@ export default class Region extends Component {
     region: RegionPropType.isRequired,
     onClickRequests: PropTypes.func.isRequired,
     onClickOffers: PropTypes.func.isRequired,
-    onClickManageAdmins: PropTypes.func.isRequired
+    onClickManageAdmins: PropTypes.func.isRequired,
+    onClickEditRegion: PropTypes.func.isRequired
   };
   
   renderAdminList(admins) {
@@ -50,7 +51,8 @@ export default class Region extends Component {
           <h4>Administration</h4>
           {this.renderAdminList(region.admins)}
           <div style={{display: 'flex', flexDirection: 'row-reverse'}}>
-            <RaisedButton label="Manage admins" onTouchTap={this.props.onClickManageAdmins} />
+            <RaisedButton label="Edit region" onTouchTap={this.props.onClickEditRegion} />
+            <RaisedButton label="Manage admins" onTouchTap={this.props.onClickManageAdmins} style={{marginRight: '0.5rem'}}/>
           </div>
 
           <h4 style={{marginTop: '2rem'}}>Details</h4>
