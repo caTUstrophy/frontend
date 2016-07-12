@@ -9,6 +9,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add'
 
 import { loadRegions } from '../../../actions/regions'
 import RegionList from '../../../components/regions/RegionList'
+import Center from '../../layout/Center'
 
 class RegionsPage extends Component {
   constructor(props) {
@@ -31,7 +32,7 @@ class RegionsPage extends Component {
     }
 
     return (
-      <div>
+      <Center>
         <h1>Regions</h1>
         <RegionList regions={regions} onTouchTapItem={this.handleTouchTapItem} />
         <FloatingActionButton style={{position: 'fixed', bottom: '2rem', right: '2rem'}}
@@ -39,7 +40,7 @@ class RegionsPage extends Component {
                               onTouchTap={() => browserHistory.push('/admin/regions/create')}>
           <ContentAdd />
         </FloatingActionButton>
-      </div>
+      </Center>
     )
   }
 }

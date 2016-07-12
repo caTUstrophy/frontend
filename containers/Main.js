@@ -30,7 +30,7 @@ export class Main extends Component {
 
     // todo: render notifications too. another snackbar but different color? same, but change color as needed?
 
-    return <main>
+    return <main style={{marginTop: this.props.muiTheme.toolbar.height}}>
       <Snackbar
         open={!!errorMessage}
         message={errorMessage || " " }

@@ -4,6 +4,7 @@ import { browserHistory } from 'react-router'
 
 import { loadRegion, loadRegionAdmins } from '../../../actions'
 import Region from '../../../components/regions/Region'
+import Center from '../../layout/Center'
 import { RegionPropType } from '../../../schemas/RegionSchema'
 import extractRegionWithAdmins from "../../helpers/extractRegionWithAdmins";
 
@@ -38,13 +39,13 @@ class RegionPage extends Component {
     }
 
     return (
-      <div style={{width: '40rem', margin: '0 auto'}}>
+      <Center>
         <Region region={region}
                 admins={admins}
                 onClickRequests={this.navigate.bind(this, 'requests')}
                 onClickOffers={this.navigate.bind(this, 'offers')}
                 onClickManageAdmins={this.navigate.bind(this, 'admins')} />
-      </div>
+      </Center>
     )
   }
 }
