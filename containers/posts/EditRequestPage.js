@@ -9,11 +9,6 @@ import RequestForm from '../../forms/RequestForm'
 import Center from '../layout/Center'
 import {LocationPropType} from "../../helpers/Location";
 
-function loadData(props) {
-  const { loadRequest, ID } = props;
-  loadRequest(ID);
-}
-
 class EditRequestPage extends Component {
   static propTypes = {
     ID: PropTypes.string.isRequired,
@@ -26,7 +21,9 @@ class EditRequestPage extends Component {
   };
 
   componentWillMount() {
-    loadData(this.props)
+    this.props.loadRequest(this.props.ID);
+    this.props.loadRegions();
+    this.props.loadTags();
   }
   
   @autobind
