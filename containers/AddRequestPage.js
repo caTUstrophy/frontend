@@ -24,7 +24,7 @@ class AddRequestPage extends Component {
   @autobind
   handleSubmit(request) {
     request.ValidityPeriod = request.ValidityPeriod.toISOString();
-    request.Tags = request.Tags.map(tag => { Name: tag });
+    
     this.props.createRequest(request)
       .then(response => {
         if (response.type == CREATE_REQUESTS_SUCCESS) {

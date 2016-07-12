@@ -18,11 +18,12 @@ import { LocationPropType } from "../helpers/Location";
 
 import { RequestFields, RequestFieldKeys } from '../schemas/RequestSchema'
 import Validation from "./helpers/Validation";
+import {TagPropType} from "../schemas/TagSchema";
 
 export class RequestForm extends Component {
   static propTypes = {
     defaultLocation: LocationPropType,
-    allowedTags: PropTypes.arrayOf(PropTypes.string).isRequired
+    allowedTags: PropTypes.arrayOf(TagPropType).isRequired
   };
   
   @autobind
@@ -39,8 +40,8 @@ export class RequestForm extends Component {
     if (index === -1) {
       return;
     }
-    
-    this.props.fields.Tags.addField(chosenRequest);
+        
+    this.props.fields.Tags.addField(chosenRequest.Name);
   }
 
   handleRequestDelete = (index) => {
@@ -75,6 +76,7 @@ export class RequestForm extends Component {
                 openOnFocus={true}
                 filter={this.tagFilter}
                 dataSource={this.props.allowedTags}
+                dataSourceConfig={{text: 'Name', value: 'Name'}}
                 onNewRequest={this.handleNewTag}
                 onKeyDown={(event) => event.which == 13 && event.preventDefault() /* this is a hack to prevent form submission on invalid inputs, pressing enter on valid inputs fires 40 (not 13) */} />
             </div>
@@ -122,5 +124,5 @@ export class RequestForm extends Component {
 export default reduxForm({
   form: 'request-form',
   fields: RequestFieldKeys,
-  // validate: Validation(RequestFields)
+  validate: Validation(RequestFields)
 })(RequestForm);
