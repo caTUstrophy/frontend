@@ -50,8 +50,12 @@ MyOffersPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { entities: { offers } } = state;
+  const { myOffers } = state.mappings;
+
   return {
-    offers: Object.values(offers)
+    offers: Object.values(offers).filter(function(offerID){
+      return myOffers.includes(offerID);
+    })
   }
 }
 
