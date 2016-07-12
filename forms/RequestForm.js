@@ -66,7 +66,7 @@ export class RequestForm extends Component {
       <form onSubmit={handleSubmit}>
         <Card>
           <CardHeader style={{backgroundColor: 'lightgray'}}
-                      title="Create request"/>
+                      title={this.props.request ? <span>Edit request <b>{Name.value}</b></span> : "Create request"} />
           <CardText>
             <div>
               <TextField {...Name}
@@ -132,9 +132,9 @@ export class RequestForm extends Component {
 
           <CardActions style={{display: 'flex', flexDirection: 'row-reverse'}}>
             {/* everything is reversed with flex-direction, because the submit button should come first (in DOM) */}
-            <FlatButton ref="submit" label="Create request" disabled={invalid || submitting} style={{marginLeft: 'auto'}}
+            <FlatButton ref="submit" label={this.props.request ? "Save" : "Create request"} disabled={invalid || submitting} style={{marginLeft: 'auto'}}
                         type="submit"/>
-            <FlatButton label="Reset" disabled={pristine || submitting} onTouchTap={resetForm} />
+            {this.props.request ? null : <FlatButton label="Reset" disabled={pristine || submitting} onTouchTap={resetForm} />}
             <FlatButton label="Cancel" disabled={submitting} onTouchTap={() => browserHistory.goBack()} />
           </CardActions>
         </Card>

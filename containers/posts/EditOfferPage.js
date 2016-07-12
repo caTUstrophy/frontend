@@ -9,11 +9,6 @@ import OfferForm from '../../forms/OfferForm'
 import Center from '../layout/Center'
 import {LocationPropType} from "../../helpers/Location";
 
-function loadData(props) {
-  const { loadOffer, ID } = props;
-  loadOffer(ID);
-}
-
 class EditOfferPage extends Component {
   static propTypes = {
     ID: PropTypes.string.isRequired,
@@ -26,7 +21,9 @@ class EditOfferPage extends Component {
   };
 
   componentWillMount() {
-    loadData(this.props)
+    this.props.loadOffer(this.props.ID);
+    this.props.loadRegions();
+    this.props.loadTags();
   }
   
   @autobind

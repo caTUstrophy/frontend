@@ -58,7 +58,7 @@ export class OfferForm extends Component {
       <form onSubmit={handleSubmit}>
         <Card>
           <CardHeader style={{backgroundColor: 'lightgray'}}
-                      title="Create offer"/>
+                      title={this.props.offer ? <span>Edit offer <b>{Name.value}</b></span> : "Create offer"} />
           <CardText>
             <div>
               <TextField {...Name}
@@ -123,9 +123,9 @@ export class OfferForm extends Component {
 
           <CardActions style={{display: 'flex', flexDirection: 'row-reverse'}}>
             {/* everything is reversed with flex-direction, because the submit button should come first (in DOM) */}
-            <FlatButton ref="submit" label="Create offer" disabled={invalid || submitting} style={{marginLeft: 'auto'}}
+            <FlatButton ref="submit" label={this.props.offer ? "Save" : "Create offer"} disabled={invalid || submitting} style={{marginLeft: 'auto'}}
                         type="submit"/>
-            <FlatButton label="Reset" disabled={pristine || submitting} onTouchTap={resetForm} />
+            {this.props.offer ? null : <FlatButton label="Reset" disabled={pristine || submitting} onTouchTap={resetForm} />}
             <FlatButton label="Cancel" disabled={submitting} onTouchTap={() => browserHistory.goBack()} />
           </CardActions>
         </Card>
