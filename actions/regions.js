@@ -53,7 +53,7 @@ export function loadRegion(regionId, requiredFields = []) {
         return null;
       }
     }
-    
+
     return dispatch(authorized(getState().login.jwt)(fetchRegion(regionId)));
   }
 }
@@ -79,5 +79,32 @@ function fetchRegions() {
 export function loadRegions(requiredFields = []) {
   return (dispatch, getState) => {
     return dispatch(authorized(getState().login.jwt)(fetchRegions()))
+  }
+}
+
+
+export const UPDATE_REGION_REQUEST = 'UPDATE_REGION_REQUEST';
+export const UPDATE_REGION_SUCCESS = 'UPDATE_REGION_SUCCESS';
+export const UPDATE_REGION_FAILURE = 'UPDATE_REGION_FAILURE';
+
+// Fetches user region
+// Relies on the custom API middleware defined in ../middleware/api.js.
+function putRegion(region) {
+  return {
+    [CALL_API]: {
+      types: [ UPDATE_REGION_REQUEST, UPDATE_REGION_SUCCESS, UPDATE_REGION_FAILURE ],
+      endpoint: `regions/${region.ID}`,
+      verb: 'PUT',
+      payload: region
+    }
+  }
+}
+
+// Fetches user region
+// Relies on Redux Thunk middleware.
+
+export function updateRegion(region) {
+  return (dispatch, getState) => {
+    return dispatch(authorized(getState().login.jwt)(putRegion(region)))
   }
 }

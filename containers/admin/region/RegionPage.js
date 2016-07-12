@@ -44,7 +44,8 @@ class RegionPage extends Component {
                 admins={admins}
                 onClickRequests={this.navigate.bind(this, 'requests')}
                 onClickOffers={this.navigate.bind(this, 'offers')}
-                onClickManageAdmins={this.navigate.bind(this, 'admins')} />
+                onClickManageAdmins={this.navigate.bind(this, 'admins')}
+                onClickEditRegion={this.navigate.bind(this, 'edit')} />
       </Center>
     )
   }
