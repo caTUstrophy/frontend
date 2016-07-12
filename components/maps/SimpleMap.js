@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react';
 
-import autobind from 'autobind-decorator';
 import { Map, Marker, Polygon, TileLayer, ScaleControl } from 'react-leaflet';
 
 import LocationHelpers from '../../helpers/Location';
@@ -32,10 +31,10 @@ class SimpleMap extends Component {
       content.push(<ScaleControl key="scale" />);
     }
     if (this.props.marker) {
-      content.push(<Marker position={LocationHelpers.toLeaflet(this.props.marker)} key="marker" />);
+      content.push(<Marker position={this.props.marker} key="marker" />);
     }
     if (this.props.area) {
-      content.push(<Polygon positions={LocationHelpers.toLeaflet(this.props.area)} key="area" />);
+      content.push(<Polygon positions={this.props.area} key="area" />);
     }
 
     let center = this.props.center;
@@ -51,7 +50,7 @@ class SimpleMap extends Component {
       lng: 0
     };
 
-    return <Map center={LocationHelpers.toLeaflet(center)} zoom={this.props.zoom} style={style} onClick={this.props.onClick}>
+    return <Map center={center} zoom={this.props.zoom} style={style} onClick={this.props.onClick}>
       <TileLayer
         url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
