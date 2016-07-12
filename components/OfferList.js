@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
 import { List, ListItem } from 'material-ui/List'
+import Chip from 'material-ui/Chip'
 
 export default class OfferList extends Component {
   render() {
