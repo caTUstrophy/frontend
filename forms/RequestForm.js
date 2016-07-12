@@ -26,6 +26,12 @@ export class RequestForm extends Component {
     allowedTags: PropTypes.arrayOf(TagPropType).isRequired
   };
   
+  componentDidMount() {
+    if (this.props.request) {
+      this.props.initializeForm(this.props.request);
+    }
+  }
+  
   @autobind
   tagFilter(searchText, key) {
     if (this.props.fields.Tags.some(({ value }) => value == key)) {
@@ -108,7 +114,7 @@ export class RequestForm extends Component {
                 onChange={(event, value) => ValidityPeriod.onChange(value)}/>
             </div>
             <div>
-              <TextField
+              <TextField {...Radius}
                 ref="Radius"
                 type="text"
                 floatingLabelText="How far can you travel? (km)"

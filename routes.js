@@ -28,6 +28,7 @@ import SignupPage from './containers/user/SignupPage';
 // posts
 import EditOfferPage from './containers/posts/EditOfferPage'
 import OfferPage from './containers/posts/OfferPage'
+import EditRequestPage from './containers/posts/EditRequestPage'
 import RequestPage from './containers/posts/RequestPage'
 
 // me
@@ -97,7 +98,10 @@ export default [
       </Route>
       <Route path="requests">
         <IndexRoute component={MyRequestsPage} />
-        <Route path=":ID" component={RequestPage} />
+        <Route path=":ID">
+          <IndexRoute component={RequestPage} />
+          <Route path="edit" component={EditRequestPage} />
+        </Route>
       </Route>
       <Route path="requests">
         <IndexRoute component={MyRequestsPage} />

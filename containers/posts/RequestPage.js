@@ -1,5 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
+import { browserHistory } from 'react-router'
+
+import autobind from 'autobind-decorator';
+
 import { loadRequest } from '../../actions'
 import RequestCard from '../../components/RequestCard'
 import Center from '../layout/Center'
@@ -23,16 +27,21 @@ class RequestPage extends Component {
       loadData(nextProps)
     }
   }
+  
+  @autobind
+  handleNavigateToEditRequest() {
+    browserHistory.push(`/me/requests/${ this.props.ID }/edit`);
+  }
 
   render() {
-    const { request, ID } = this.props;
+    const { request, isOwnRequest, ID } = this.props;
     if (!request) {
       return <h1><i>Loading request #{ID}...</i></h1>
     }
 
     return (
       <Center vertical={true}>
-        <RequestCard request={request} />
+        <RequestCard request={request} editable={isOwnRequest} navigateToEditRequest={this.handleNavigateToEditRequest} />
       </Center>
     )
   }
@@ -46,11 +55,12 @@ RequestPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { ID } = ownProps.params;
-  const requests = state.entities.requests;
+  const request = state.entities.requests[ID];
 
   return {
     ID,
-    request: requests[ID]
+    isOwnRequest: request && request.User && request.User.Mail == state.login.token.iss,
+    request
   }
 }
 

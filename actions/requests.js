@@ -97,3 +97,30 @@ export function loadUserRequests(requiredFields = []) {
     return dispatch(authorized(getState().login.jwt)(fetchUserRequests()))
   }
 }
+
+export const UPDATE_REQUEST_REQUEST = 'UPDATE_REQUEST_REQUEST';
+export const UPDATE_REQUEST_SUCCESS = 'UPDATE_REQUEST_SUCCESS';
+export const UPDATE_REQUEST_FAILURE = 'UPDATE_REQUEST_FAILURE';
+
+// Fetches user request
+// Relies on the custom API middleware defined in ../middleware/api.js.
+function putRequest(request) {
+  return {
+    [CALL_API]: {
+      types: [ UPDATE_REQUEST_REQUEST, UPDATE_REQUEST_SUCCESS, UPDATE_REQUEST_FAILURE ],
+      endpoint: `requests/${ request.ID }`,
+      verb: 'PUT',
+      schema: Schemas.REQUEST,
+      payload: request
+    }
+  }
+}
+
+// Fetches user request
+// Relies on Redux Thunk middleware.
+
+export function updateRequest(request) {
+  return (dispatch, getState) => {
+    return dispatch(authorized(getState().login.jwt)(putRequest(request)))
+  }
+}

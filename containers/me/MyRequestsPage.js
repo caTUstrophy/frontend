@@ -55,7 +55,6 @@ MyRequestsPage.propTypes = {
 function mapStateToProps(state, ownProps) {
   const { entities: { requests } } = state;
   const { myRequests } = state.mappings;
-  console.log(myRequests)
 
   return {
     requests: Object.values(requests).filter(function(item) {
