@@ -10,12 +10,12 @@ import DatePicker from 'material-ui/DatePicker';
 
 import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card'
 
+import { Polygon } from 'react-leaflet';
+import SimpleMap from '../components/maps/SimpleMap';
+import { LocationPropType } from "../helpers/Location";
+
 import { RequestFields } from '../schemas/RequestSchema'
 import Validation from "./helpers/Validation";
-
-import SimpleMap from '../components/maps/SimpleMap';
-
-import { LocationPropType, fromLeaflet } from "../helpers/Location";
 
 export class RequestForm extends Component {
   static propTypes = {
@@ -24,7 +24,7 @@ export class RequestForm extends Component {
 
   @autobind
   handleMapClick(event) {
-    this.props.fields.Location.onChange(fromLeaflet(event.latlng));
+    this.props.fields.Location.onChange(event.latlng);
   }
 
   render() {
@@ -65,7 +65,9 @@ export class RequestForm extends Component {
           <SimpleMap style={{height: '200px'}}
                      onClick={this.handleMapClick}
                      center={this.props.defaultLocation}
-                     marker={Location.value || null} />
+                     marker={Location.value || null}>
+            {this.props.regions && this.props.regions.map(region => <Polygon positions={region.Boundaries.Points} key={region.ID} />)}
+          </SimpleMap>
 
           <CardActions style={{display: 'flex', flexDirection: 'row-reverse'}}>
             {/* everything is reversed with flex-direction, because the submit button should come first (in DOM) */}

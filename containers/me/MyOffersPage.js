@@ -16,7 +16,7 @@ import Center from '../layout/Center'
 class MyOffersPage extends Component {
   static propTypes = {
     offers: PropTypes.arrayOf(OfferPropType).isRequired,
-    loadOffers: PropTypes.func.isRequired
+    loadUserOffers: PropTypes.func.isRequired
   };
   
   constructor(props) {
