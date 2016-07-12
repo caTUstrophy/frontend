@@ -6,6 +6,7 @@ import autobind from 'autobind-decorator'
 
 import {createRequest, CREATE_REQUESTS_SUCCESS} from '../actions/requests'
 import { getLocation, loadRegions } from '../actions'
+import { loadTags } from '../actions/tags.js'
 import RequestForm from '../forms/RequestForm'
 import { LocationPropType } from '../helpers/Location'
 
@@ -17,6 +18,7 @@ class AddRequestPage extends Component {
   componentWillMount() {
     this.props.getLocation();
     this.props.loadRegions();
+    this.props.loadTags();
   }
 
   @autobind
@@ -38,7 +40,7 @@ class AddRequestPage extends Component {
         <RequestForm onSubmit={this.handleSubmit}
                      defaultLocation={this.props.location}
                      regions={this.props.regions}
-                     allowedTags={['NSFW', 'Döner', 'Porn', 'Beer']} />
+                     allowedTags={this.props.tags} />
       </div>
     )
   }
@@ -46,18 +48,21 @@ class AddRequestPage extends Component {
 
 AddRequestPage.propTypes = {
   request: PropTypes.object,
-  location: LocationPropType
+  location: LocationPropType,
+  loadTags: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => {
   return {
     location: state.location,
-    regions: Object.values(state.entities.regions)
+    regions: Object.values(state.entities.regions),
+    tags: Object.values(state.entities.tags)
   }
 };
 
 export default connect(mapStateToProps, {
   createRequest,
   getLocation,
-  loadRegions
+  loadRegions,
+  loadTags
 })(AddRequestPage)
