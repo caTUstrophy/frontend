@@ -57,9 +57,7 @@ function mapStateToProps(state, ownProps) {
   const { myRequests } = state.mappings;
 
   return {
-    requests: Object.values(requests).filter(function(item) {
-      return myRequests.includes(item.ID)
-    }),
+    requests: myRequests && myRequests.map(requestId => requests[requestId]),
     loading: state.loading.loading.includes(REQUESTS_REQUEST)
   }
 }
