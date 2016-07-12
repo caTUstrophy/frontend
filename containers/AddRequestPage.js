@@ -5,7 +5,7 @@ import {browserHistory} from 'react-router'
 import autobind from 'autobind-decorator'
 
 import {createRequest, CREATE_REQUESTS_SUCCESS} from '../actions/requests'
-import { getLocation } from '../actions/location'
+import { getLocation, loadRegions } from '../actions'
 import RequestForm from '../forms/RequestForm'
 import { LocationPropType } from '../helpers/Location'
 
@@ -16,6 +16,7 @@ class AddRequestPage extends Component {
 
   componentWillMount() {
     this.props.getLocation();
+    this.props.loadRegions();
   }
 
   @autobind
@@ -36,6 +37,7 @@ class AddRequestPage extends Component {
       <div style={{width: '40rem', margin: '0 auto'}}>
         <RequestForm onSubmit={this.handleSubmit}
                      defaultLocation={this.props.location}
+                     regions={this.props.regions}
                      allowedTags={['NSFW', 'Döner', 'Porn', 'Beer']} />
       </div>
     )
@@ -49,11 +51,13 @@ AddRequestPage.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    location: state.location
+    location: state.location,
+    regions: Object.values(state.entities.regions)
   }
 };
 
 export default connect(mapStateToProps, {
   createRequest,
-  getLocation
+  getLocation,
+  loadRegions
 })(AddRequestPage)

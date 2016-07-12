@@ -5,7 +5,7 @@ import {browserHistory} from 'react-router'
 import autobind from 'autobind-decorator'
 
 import OfferForm from '../forms/OfferForm'
-import { getLocation } from '../actions/location'
+import { getLocation, loadRegions } from '../actions'
 import { createOffer, CREATE_OFFERS_SUCCESS } from '../actions/offers'
 import { LocationPropType } from '../helpers/Location'
 
@@ -21,6 +21,7 @@ class AddOfferPage extends Component {
   
   componentWillMount() {
     this.props.getLocation();
+    this.props.loadRegions();
   }
 
   @autobind
@@ -40,7 +41,8 @@ class AddOfferPage extends Component {
     return (
       <div style={{width: '40rem', margin: '0 auto'}}>
         <OfferForm onSubmit={this.handleSubmit}
-                   defaultLocation={this.props.location} />
+                   defaultLocation={this.props.location}
+                   regions={this.props.regions} />
       </div>
     )
   }
@@ -48,11 +50,13 @@ class AddOfferPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    location: state.location
+    location: state.location,
+    regions: Object.values(state.entities.regions)
   }
 };
 
 export default connect(mapStateToProps, {
   createOffer,
-  getLocation
+  getLocation,
+  loadRegions
 })(AddOfferPage)
