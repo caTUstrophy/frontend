@@ -28,7 +28,7 @@ export class RequestForm extends Component {
   }
 
   render() {
-    const {fields: {Name, Tags, Location, ValidityPeriod}, handleSubmit, submitting, invalid, resetForm, pristine} = this.props;
+    const {fields: {Name, Description, Tags, Location, ValidityPeriod, Radius}, handleSubmit, submitting, invalid, resetForm, pristine} = this.props;
 
     return (
       <form onSubmit={handleSubmit}>
@@ -42,6 +42,15 @@ export class RequestForm extends Component {
                 type="text"
                 floatingLabelText="What are you requesting?"
                 errorText={Name.touched && Name.error}/>
+            </div>
+            <div>
+              <TextField {...Description}
+                ref="Description"
+                type="text"
+                multLine={true}
+                rowsMax={4}
+                floatingLabelText="Add a description"
+                errorText={Description.touched && Description.error}/>
             </div>
             <div>
               <TextField {...Tags}
@@ -59,6 +68,14 @@ export class RequestForm extends Component {
                 autoOk={true}
                 minDate={new Date()}
                 onChange={(event, value) => ValidityPeriod.onChange(value)}/>
+            </div>
+            <div>
+              <TextField
+                ref="Radius"
+                type="text"
+                floatingLabelText="Specify a radius in km"
+                errorText={Radius.touched && Radius.error}
+                onChange={(event, value) => Radius.onChange(parseFloat(value))} />
             </div>
           </CardText>
 

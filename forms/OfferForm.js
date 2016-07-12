@@ -28,7 +28,7 @@ export class OfferForm extends Component {
   }
 
   render() {
-    const {fields: {Name, Tags, Location, ValidityPeriod}, handleSubmit, submitting, invalid, pristine, resetForm} = this.props;
+    const {fields: {Name, Tags, Description, Location, ValidityPeriod, Radius}, handleSubmit, submitting, invalid, pristine, resetForm} = this.props;
     return (
       <form onSubmit={handleSubmit}>
         <Card>
@@ -43,10 +43,18 @@ export class OfferForm extends Component {
                 errorText={Name.touched && Name.error}/>
             </div>
             <div>
+              <TextField {...Description}
+                ref="Description"
+                type="text"
+                multLine={true}
+                rowsMax={4}
+                floatingLabelText="Add a description"
+                errorText={Description.touched && Description.error}/>
+            </div>
+            <div>
               <TextField {...Tags}
                 ref="Tags"
                 type="text"
-                disabled={true}
                 floatingLabelText="Add relevant tags"
                 errorText={Tags.touched && Tags.error}/>
             </div>
@@ -58,6 +66,14 @@ export class OfferForm extends Component {
                 autoOk={true}
                 minDate={new Date()}
                 onChange={(event, value) => ValidityPeriod.onChange(value)}/>
+            </div>
+            <div>
+              <TextField
+                ref="Radius"
+                type="text"
+                floatingLabelText="Specify a radius in km"
+                errorText={Radius.touched && Radius.error}
+                onChange={(event, value) => Radius.onChange(parseFloat(value))} />
             </div>
           </CardText>
 

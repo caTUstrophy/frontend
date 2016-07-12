@@ -16,6 +16,10 @@ export const PostBaseSchema = Object.assign({}, BaseSchema, {
       error: ("Invalid tag")
     }
   },
+  Description: {
+    propType: PropTypes.string,
+    required: false
+  },
   Location: {
     propType: LocationPropType,
     required: true,
@@ -24,6 +28,12 @@ export const PostBaseSchema = Object.assign({}, BaseSchema, {
   ValidityPeriod: {
     required: true,
     error: "Please choose a validity period"
+  },
+  Radius: {
+    propType: PropTypes.number,
+    required: true,
+    pattern: /^[0-9.]+$/,
+    error: "Please specify a radius"
   }
 });
 
