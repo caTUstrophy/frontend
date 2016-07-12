@@ -55,3 +55,29 @@ export function loadNotifications(requiredFields = []) {
     return dispatch(authorized(getState().login.jwt)(fetchNotifications()))
   }
 }
+
+export const PUT_READ_NOTIFICATION = 'PUT_READ_NOTIFICATION';
+export const PUT_READ_NOTIFICATION_SUCCESS = 'PUT_READ_NOTIFICATION_SUCCESS';
+export const PUT_READ_NOTIFICATION_FAILURE = 'PUT_READ_NOTIFICATION_FAILURE';
+
+// Fetches user profile
+// Relies on the custom API middleware defined in ../middleware/api.js.
+function putNotificationToRead(notificationID) {
+  return {
+    [CALL_API]: {
+      types: [ PUT_READ_NOTIFICATION, PUT_READ_NOTIFICATION_SUCCESS, PUT_READ_NOTIFICATION_FAILURE ],
+      endpoint: `notifications/${notificationID}`,
+      verb: 'PUT',
+      payload: {Read: true}
+    }
+  }
+}
+
+// Fetches user profile
+// Relies on Redux Thunk middleware.
+
+export function updateNotificationToRead(notificationID) {
+  return (dispatch, getState) => {
+    return dispatch(authorized(getState().login.jwt)(putNotificationToRead(notificationID)))
+  }
+}

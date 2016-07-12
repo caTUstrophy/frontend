@@ -1,5 +1,10 @@
 import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
+import { browserHistory } from 'react-router'
+import autobind from 'autobind-decorator'
+
 import { NotificationPropType } from '../schemas/NotificationSchema'
+import { updateNotificationToRead, PUT_READ_NOTIFICATION_SUCCESS } from '../actions/notifications'
 
 import AccountIcon from 'material-ui/svg-icons/action/account-circle'
 import HardwarePhoneIphone from 'material-ui/svg-icons/hardware/phone-iphone'
@@ -9,14 +14,27 @@ import LocationIcon from 'material-ui/svg-icons/communication/location-on'
 import TimerIcon from 'material-ui/svg-icons/image/timer'
 import LabelIcon from 'material-ui/svg-icons/action/label'
 import { toString } from "../helpers/Location"
+import RaisedButton from 'material-ui/RaisedButton';
 
 export default class Notification extends Component {
   static propTypes = {
     notification: NotificationPropType.isRequired,
-    profile: PropTypes.object.isRequired
+    profile: PropTypes.object.isRequired,
+    updateNotificationToRead: PropTypes.func.isRequired
   };
 
+  @autobind
+  handleSubmit(notificationID) {
+      this.props.updateNotificationToRead(notificationID)
+      .then(result => {
+        if (result.type == PUT_READ_NOTIFICATION_SUCCESS) {
+          browserHistory.push('/')
+        }
+      }); // todo: handle error cases
+  }
+
   render() {
+    const notificationID = this.props.notification.ID;
     const user = this.props.profile;
     const userPost = user.ID === this.props.notification.matching.Request.User.ID ? this.props.notification.matching.Request : this.props.notification.matching.Offer;
     const userPostType = user.ID === this.props.notification.matching.Request.User.ID ? "request" : "offer";
@@ -51,7 +69,19 @@ export default class Notification extends Component {
         <div style={{display: 'flex', alignItems: 'center'}}>
           <TimerIcon style={{marginRight: '0.5rem'}} /> {new Date(matchedPost.ValidityPeriod).toString()}
         </div>
+        <div style={{marginTop: '2rem'}}>
+          <RaisedButton onTouchTap={() => this.handleSubmit(notificationID)} label="Mark as read" />
+        </div>
       </div>
     )
   }
 }
+
+function mapStateToProps(state, ownProps) {
+  return {
+  }
+}
+
+export default connect(mapStateToProps, {
+  updateNotificationToRead
+})(Notification)
