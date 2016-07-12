@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {reduxForm} from 'redux-form';
 import {browserHistory} from 'react-router';
 
@@ -7,25 +7,41 @@ import autobind from 'autobind-decorator'
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import DatePicker from 'material-ui/DatePicker';
+import AutoComplete from 'material-ui/AutoComplete';
 import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card';
 
 import { Polygon } from 'react-leaflet';
 import SimpleMap from '../components/maps/SimpleMap';
 import { LocationPropType } from "../helpers/Location";
 
-import { OfferFields } from '../schemas/OfferSchema'
+import { OfferFields, OfferFieldKeys } from '../schemas/OfferSchema'
 import Validation from './helpers/Validation';
+import {TagPropType} from "../schemas/TagSchema";
 
 
 export class OfferForm extends Component {
   static propTypes = {
-    defaultLocation: LocationPropType
+    defaultLocation: LocationPropType,
+    allowedTags: PropTypes.arrayOf(TagPropType).isRequired
   };
 
   @autobind
   handleMapClick(event) {
     this.props.fields.Location.onChange(event.latlng);
   }
+  
+  @autobind
+  handleNewTag(chosenRequest, index) {
+    if (index === -1) {
+      return;
+    }
+    
+    this.props.fields.Tags.addField(chosenRequest.Name);
+  }
+  
+  handleRequestDelete = (index) => {
+    this.props.fields.Tags.removeField(index);
+  };
 
   render() {
     const {fields: {Name, Tags, Description, Location, ValidityPeriod, Radius}, handleSubmit, submitting, invalid, pristine, resetForm} = this.props;
@@ -52,11 +68,23 @@ export class OfferForm extends Component {
                 errorText={Description.touched && Description.error}/>
             </div>
             <div>
-              <TextField {...Tags}
-                ref="Tags"
-                type="text"
+              <AutoComplete
                 floatingLabelText="Add relevant tags"
-                errorText={Tags.touched && Tags.error}/>
+                openOnFocus={true}
+                filter={this.tagFilter}
+                dataSource={this.props.allowedTags}
+                dataSourceConfig={{text: 'Name', value: 'Name'}}
+                onNewRequest={this.handleNewTag}
+                onKeyDown={(event) => event.which == 13 && event.preventDefault() /* this is a hack to prevent form submission on invalid inputs, pressing enter on valid inputs fires 40 (not 13) */} />
+            </div>
+            <div style={{display: 'flex', flexWrap: 'wrap'}}>
+              {Tags && Tags.map((tag, tagIndex) =>
+                <Chip key={tag.value}
+                      onRequestDelete={this.handleRequestDelete.bind(this, tagIndex)}
+                      style={{margin: 2}}>
+                  {tag.value}
+                </Chip>
+              )}
             </div>
             <div>
               <DatePicker {...ValidityPeriod}
@@ -99,6 +127,6 @@ export class OfferForm extends Component {
 
 export default reduxForm({
   form: 'offer-form',
-  fields: Object.keys(OfferFields),
+  fields: OfferFieldKeys,
   validate: Validation(OfferFields)
 })(OfferForm);
