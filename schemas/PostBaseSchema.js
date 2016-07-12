@@ -32,7 +32,6 @@ export const PostBaseSchema = Object.assign({}, BaseSchema, {
   Radius: {
     propType: PropTypes.number,
     required: true,
-    pattern: /^[0-9.]+$/,
     error: "Please specify a radius"
   }
 });

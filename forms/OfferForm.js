@@ -46,9 +46,9 @@ export class OfferForm extends Component {
               <TextField {...Description}
                 ref="Description"
                 type="text"
-                multLine={true}
+                multiLine={true}
                 rowsMax={4}
-                floatingLabelText="Add a description"
+                floatingLabelText="Detailed  description"
                 errorText={Description.touched && Description.error}/>
             </div>
             <div>
@@ -60,7 +60,7 @@ export class OfferForm extends Component {
             </div>
             <div>
               <DatePicker {...ValidityPeriod}
-                hintText="ValidityPeriod"
+                hintText="Until when is this offer valid?"
                 container="inline"
                 mode="landscape"
                 autoOk={true}
@@ -71,7 +71,7 @@ export class OfferForm extends Component {
               <TextField
                 ref="Radius"
                 type="text"
-                floatingLabelText="Specify a radius in km"
+                floatingLabelText="How far can you travel? (km)"
                 errorText={Radius.touched && Radius.error}
                 onChange={(event, value) => Radius.onChange(parseFloat(value))} />
             </div>

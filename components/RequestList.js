@@ -12,7 +12,8 @@ export default class RequestList extends Component {
         } else {
             requestList = this.props.requests.map(request =>
               <ListItem key={request.ID}
-                        primaryText={`${request.Name}`}
+                        primaryText={request.Name}
+                        secondaryText={request.Description}
                         onTouchTap={this.props.onTouchTapItem.bind(this, request)} />
             );
         }
