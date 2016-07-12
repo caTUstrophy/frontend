@@ -6,6 +6,7 @@ import autobind from 'autobind-decorator'
 
 import { loadUserMatchings } from '../../actions/matchings'
 import MatchingList from '../../components/MatchingList'
+import extractMatching from './../helpers/extractMatching'
 
 function loadData(props) {
   props.loadUserMatchings();
@@ -50,7 +51,9 @@ MyMatchingsPage.propTypes = {
 function mapStateToProps(state, ownProps) {
   const { entities: { matchings } } = state;
   return {
-    matchings: Object.values(matchings)
+    matchings: Object.keys(matchings).map(
+      matchingId => extractMatching(state, matchingId)
+    )
   }
 }
 

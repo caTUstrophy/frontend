@@ -18,7 +18,7 @@ export default class MatchingList extends Component {
         } else {
             matchingsList = this.props.matchings.map(matching =>
               <ListItem key={matching.ID}
-                        primaryText={`${matching.Offer} and ${matching.Request}`}
+                        primaryText={`${matching.Offer.Name} and ${matching.Request.Name}`}
                         onTouchTap={this.props.onTouchTapItem.bind(this, matching)} />
             );
         }
