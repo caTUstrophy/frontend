@@ -7,7 +7,7 @@ import autobind from 'autobind-decorator'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 
-import { loadRegions } from '../../../actions/regions'
+import { REGIONS_REQUEST, loadRegions } from '../../../actions/regions'
 import RegionList from '../../../components/regions/RegionList'
 
 class RegionsPage extends Component {
@@ -25,8 +25,8 @@ class RegionsPage extends Component {
   }
 
   render() {
-    const { regions } = this.props;
-    if (!regions) {
+    const { regions, loading } = this.props;
+    if (loading) {
       return <h1><i>Loading regions...</i></h1>
     }
 
@@ -51,9 +51,11 @@ RegionsPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { entities: { regions } } = state;
+  const { loading} = state.loading;
 
   return {
-    regions: Object.values(regions)
+    regions: Object.values(regions),
+    loading: loading.includes(REGIONS_REQUEST)
   }
 }
 

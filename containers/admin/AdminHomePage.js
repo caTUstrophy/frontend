@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router';
 import { Polygon } from 'react-leaflet';
 import Paper from 'material-ui/Paper';
 
-import { loadRequests, loadOffers, loadRegions } from '../../actions'
+import { REQUESTS_REQUEST, OFFERS_REQUEST, REGIONS_REQUEST, loadRequests, loadOffers, loadRegions } from '../../actions'
 import RequestList from '../../components/RequestList'
 import OfferList from '../../components/OfferList';
 import RegionList from '../../components/regions/RegionList';
@@ -36,7 +36,7 @@ export class AdminHomePage extends Component {
   }
 
   renderRequests(requests) {
-    if (!requests) {
+    if (this.props.loadingRequests) {
       return <h1><i>Loading requests...</i></h1>
     }
 
@@ -46,7 +46,7 @@ export class AdminHomePage extends Component {
   }
 
   renderOffers(offers) {
-    if (!offers) {
+    if (this.props.loadingOffers) {
       return <h1><i>Loading offers...</i></h1>
     }
 
@@ -56,10 +56,10 @@ export class AdminHomePage extends Component {
   }
   
   render() {
-    const { requests, offers, regions } = this.props;
+    const { requests, offers, regions, loadingRequests, loadingOffers, loadingRegions } = this.props;
     const halfWidth = {width: '50%', margin: '1rem'};
 
-    if (!regions || regions.length === 0) {
+    if (loadingRegions) {
       return <h2>Loading...</h2>; // todo: display loading animation
     }
 
@@ -79,11 +79,15 @@ export class AdminHomePage extends Component {
 
 function mapStateToProps(state, ownProps) {
   const { entities: { requests, offers, regions } } = state;
+  const { loading } = state.loading;
   
   return {
     requests: Object.values(requests),
     offers: Object.values(offers),
-    regions: Object.values(regions)
+    regions: Object.values(regions),
+    requestsLoading: loading.includes(REQUESTS_REQUEST),
+    offersLoading: loading.includes(OFFERS_REQUEST),
+    regionsLoading: loading.includes(REGIONS_REQUEST)
   }
 }
 

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { loadMatchings } from '../../actions/matchings'
+import { MATCHINGS_MATCHING, loadMatchings } from '../../actions/matchings'
 import MatchingList from '../../components/MatchingList'
 
 function loadData(props) {
@@ -17,8 +17,8 @@ class MatchingsPage extends Component {
     }
 
     render() {
-        const { matchings } = this.props;
-        if (!matchings) {
+        const { matchings, loading } = this.props;
+        if (loading) {
             return <h1><i>Loading matches...</i></h1>
         }
 
@@ -35,9 +35,11 @@ MatchingsPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
     const { entities: { matchings } } = state;
+    const { loading } = state.loading;
 
     return {
-        matchings: Object.values(matchings)
+        matchings: Object.values(matchings),
+        loading: loading.includes(MATCHINGS_MATCHING)
     }
 }
 

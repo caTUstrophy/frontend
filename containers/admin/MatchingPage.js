@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { loadMatching } from '../../actions'
+import { MATCHING_REQUEST, loadMatching } from '../../actions'
 import MatchingCard from '../../components/MatchingCard'
 import extractMatching from './../helpers/extractMatching'
 
@@ -16,9 +16,9 @@ class MatchingPage extends Component {
   }
 
   render() {
-    const { matching, ID } = this.props;
+    const { matching, ID, loading } = this.props;
 
-    if (!matching) {
+    if (loading) {
       return <h1><i>Loading matching #{ID}...</i></h1>
     }
 
@@ -42,10 +42,12 @@ MatchingPage.propTypes = {
 function mapStateToProps(state, ownProps) {
   const { ID } = ownProps.params;
   const { entities: { matchings } } = state;
+  const { loading} = state.loading;
 
   return {
     ID,
-    matching: extractMatching(state, ID)
+    matching: extractMatching(state, ID),
+    loading: loading.includes(MATCHING_REQUEST)
   }
 }
 

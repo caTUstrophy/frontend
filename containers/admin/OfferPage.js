@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { loadOffer } from '../../actions'
+import { OFFER_REQUEST, loadOffer } from '../../actions'
 import OfferCard from '../../components/OfferCard'
 
 function loadData(props) {
@@ -24,8 +24,8 @@ class OfferPage extends Component {
   }
 
   render() {
-    const { offer, ID } = this.props;
-    if (!offer) {
+    const { offer, ID, loading } = this.props;
+    if (loading) {
       return <h1><i>Loading offer #{ID}...</i></h1>
     }
 
@@ -46,10 +46,12 @@ OfferPage.propTypes = {
 function mapStateToProps(state, ownProps) {
   const { ID } = ownProps.params;
   const offers = state.entities.offers;
+  const loading = state.loading.loading;
 
   return {
     ID,
-    offer: offers[ID]
+    offer: offers[ID],
+    loading: loading.includes(OFFER_REQUEST)
   }
 }
 

@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router'
 
 import autobind from 'autobind-decorator'
 
-import { loadUserMatchings } from '../../actions/matchings'
+import { MATCHINGS_MATCHING, loadUserMatchings } from '../../actions/matchings'
 import MatchingList from '../../components/MatchingList'
 import extractMatching from './../helpers/extractMatching'
 
@@ -27,8 +27,8 @@ class MyMatchingsPage extends Component {
   }
 
   render() {
-    const { matchings } = this.props;
-    if (!matchings) {
+    const { matchings, loading } = this.props;
+    if (loading) {
       return <h1><i>Loading your matchings...</i></h1>
     }
 
@@ -50,10 +50,13 @@ MyMatchingsPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { entities: { matchings } } = state;
+
+
   return {
     matchings: Object.keys(matchings).map(
       matchingId => extractMatching(state, matchingId)
-    )
+    ),
+    loading: state.loading.loading.includes(MATCHINGS_MATCHING)
   }
 }
 

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
-import { loadNotifications } from './../actions/notifications'
+import { NOTIFICATION_REQUEST, loadNotifications } from './../actions/notifications'
 import NotificationCard from './../components/NotificationCard'
 import extractNotification from './helpers/extractNotification'
 
@@ -17,8 +17,8 @@ class NotificationPage extends Component {
   }
 
   render() {
-    const { notification, ID } = this.props;
-    if (!notification) {
+    const { notification, ID, loading } = this.props;
+    if (loading) {
       return <h1><i>Loading notification #{ID}...</i></h1>
     }
 
@@ -41,7 +41,8 @@ function mapStateToProps(state, ownProps) {
 
   return {
     ID,
-    notification: extractNotification(state, ID)
+    notification: extractNotification(state, ID),
+    loading: state.loading.loading.includes(NOTIFICATION_REQUEST)
   }
 }
 

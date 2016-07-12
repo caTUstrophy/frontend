@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { loadRequest } from '../../actions'
+import { REQUEST_REQUEST, loadRequest } from '../../actions'
 import RequestCard from '../../components/RequestCard'
 
 function loadData(props) {
@@ -24,8 +24,8 @@ class RequestPage extends Component {
   }
 
   render() {
-    const { request, ID } = this.props;
-    if (!request) {
+    const { request, ID, loading } = this.props;
+    if (loading) {
       return <h1><i>Loading request #{ID}...</i></h1>
     }
 
@@ -46,10 +46,12 @@ RequestPage.propTypes = {
 function mapStateToProps(state, ownProps) {
   const { ID } = ownProps.params;
   const requests = state.entities.requests;
+  const loading = state.loading.loading;
 
   return {
     ID,
-    request: requests[ID]
+    request: requests[ID],
+    loading: loading.includes(REQUEST_REQUEST)
   }
 }
 

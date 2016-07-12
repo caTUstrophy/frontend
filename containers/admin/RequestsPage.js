@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router'
 
 import autobind from 'autobind-decorator'
 
-import { loadRequests } from '../../actions/requests'
+import { REQUESTS_REQUEST, loadRequests } from '../../actions/requests'
 import RequestList from '../../components/RequestList'
 
 class RequestsPage extends Component {
@@ -28,8 +28,8 @@ class RequestsPage extends Component {
     }
 
     render() {
-        const { requests } = this.props;
-        if (!requests) {
+        const { requests, loading } = this.props;
+        if (loading) {
             return <h1><i>Loading requests...</i></h1>
         }
 
@@ -44,10 +44,12 @@ class RequestsPage extends Component {
 
 function mapStateToProps(state, ownProps) {
     const { entities: { requests } } = state;
+    const loading = state.loading.loading;
 
     return {
         requests: Object.values(requests),
-        regionId: ownProps.params.ID
+        regionId: ownProps.params.ID,
+        loading: loading.includes(REQUESTS_REQUEST)
     }
 }
 

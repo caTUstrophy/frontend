@@ -19,8 +19,8 @@ class NotificationsPage extends Component {
   }
 
   render() {
-    const { notifications } = this.props;
-    if (!notifications) {
+    const { notifications, loading } = this.props;
+    if (loading) {
       return <h1><i>Loading your notifications...</i></h1>
     }
 
@@ -42,7 +42,8 @@ function mapStateToProps(state, ownProps) {
   const { entities: { notifications } } = state;
 
   return {
-    notifications: Object.keys(notifications).map(extractNotification.bind(this, state))
+    notifications: Object.keys(notifications).map(extractNotification.bind(this, state)),
+    loading: state.loading.loading.includes(NotificationList)
   }
 }
 
