@@ -35,7 +35,7 @@ export class RegionForm extends Component {
   }
 
   render() {
-    const {fields: { Name, Description }, handleSubmit, submitting, invalid, resetForm, pristine} = this.props;
+    const {fields: { Name, Description, Boundaries }, handleSubmit, submitting, invalid, resetForm, pristine} = this.props;
 
     return (
       <form onSubmit={handleSubmit}>
@@ -61,7 +61,8 @@ export class RegionForm extends Component {
           </CardText>
 
           <SimpleMap center={this.props.defaultLocation} style={{height: 400}}>
-            <FreeDraw onMarkers={this.handleMarkers} />
+            <FreeDraw onMarkers={this.handleMarkers}
+                      polygon={Boundaries && Boundaries.value.Points} />
           </SimpleMap>
           {/* todo: Area.touched && Area.error */}
 

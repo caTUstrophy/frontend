@@ -10,11 +10,6 @@ import { loadRegion, updateRegion, UPDATE_REGION_SUCCESS } from '../../../action
 import {LocationPropType} from "../../../helpers/Location";
 import Center from '../../layout/Center'
 
-function loadData(props) {
-  const { loadRegion, ID } = props;
-  loadRegion(ID);
-}
-
 class EditRegionPage extends Component {
   static propTypes = {
     ID: PropTypes.string.isRequired,
@@ -30,7 +25,8 @@ class EditRegionPage extends Component {
   }
 
   componentWillMount() {
-    loadData(this.props)
+    this.props.loadRegion(this.props.ID);
+    this.props.getLocation();
   }
   
   @autobind
@@ -47,6 +43,10 @@ class EditRegionPage extends Component {
   }
 
   render() {
+    if (!this.props.region) {
+      return <h1>Loading region {this.props.ID}...</h1>;
+    }
+    
     return (
       <Center vertical={true}>
         <RegionForm onSubmit={this.handleSubmit}
