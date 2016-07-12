@@ -20,6 +20,10 @@ export function toString(location) {
 }
 
 export function calculateCenter(arrayOfLocations) {
+  if (arrayOfLocations.length === 0) {
+    return { lat: 0, lng: 0 };
+  }
+  
   return {
     lat: arrayOfLocations.map(point => point.lat).reduce((a, b) => a + b) / arrayOfLocations.length,
     lng: arrayOfLocations.map(point => point.lng).reduce((a, b) => a + b) / arrayOfLocations.length

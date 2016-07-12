@@ -6,18 +6,12 @@ import { Polygon } from 'react-leaflet';
 import Paper from 'material-ui/Paper';
 
 import { REQUESTS_REQUEST, OFFERS_REQUEST, REGIONS_REQUEST, loadRequests, loadOffers, loadRegions } from '../../actions'
-import RequestList from '../../components/RequestList'
-import OfferList from '../../components/OfferList';
 import RegionList from '../../components/regions/RegionList';
 import SimpleMap from '../../components/maps/SimpleMap';
 import { calculateCenter } from '../../helpers/Location';
 
 export class AdminHomePage extends Component {
   static propTypes = {
-    requests: PropTypes.array.isRequired,
-    offers: PropTypes.array.isRequired,
-    loadRequests: PropTypes.func.isRequired,
-    loadOffers: PropTypes.func.isRequired,
     loadRegions: PropTypes.func.isRequired
   };
 
@@ -26,40 +20,17 @@ export class AdminHomePage extends Component {
   }
   
   componentWillMount() {
-    // this.props.loadRequests();
-    // this.props.loadOffers();
     this.props.loadRegions();
   }
 
   handleFocusRegion(region) {
     browserHistory.push(`/admin/manage/${ region.ID }`);
   }
-
-  renderRequests(requests) {
-    if (this.props.loadingRequests) {
-      return <h1><i>Loading requests...</i></h1>
-    }
-
-    return (
-      <RequestList requests={requests} onTouchTapItem={(request) => browserHistory.push(`/admin/requests/${ request.ID }`)} />
-    )
-  }
-
-  renderOffers(offers) {
-    if (this.props.loadingOffers) {
-      return <h1><i>Loading offers...</i></h1>
-    }
-
-    return (
-      <OfferList offers={offers} onTouchTapItem={(offer) => browserHistory.push(`/admin/offers/${ offer.ID }`)} />
-    )
-  }
   
   render() {
-    const { requests, offers, regions, loadingRequests, loadingOffers, loadingRegions } = this.props;
-    const halfWidth = {width: '50%', margin: '1rem'};
+    const { regions, loadingRegions } = this.props;
 
-    if (loadingRegions) {
+    if (!regions && loadingRegions) {
       return <h2>Loading...</h2>; // todo: display loading animation
     }
 
@@ -78,21 +49,14 @@ export class AdminHomePage extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { entities: { requests, offers, regions } } = state;
-  const { loading } = state.loading;
+  const { entities: { regions }, loading } = state;
   
   return {
-    requests: Object.values(requests),
-    offers: Object.values(offers),
     regions: Object.values(regions),
-    requestsLoading: loading.includes(REQUESTS_REQUEST),
-    offersLoading: loading.includes(OFFERS_REQUEST),
     regionsLoading: loading.includes(REGIONS_REQUEST)
   }
 }
 
 export default connect(mapStateToProps, {
-  loadRequests,
-  loadOffers,
   loadRegions
 })(AdminHomePage)
