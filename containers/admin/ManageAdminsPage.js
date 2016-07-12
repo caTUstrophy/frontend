@@ -8,6 +8,7 @@ import autobind from 'autobind-decorator'
 import { INLINE_EMAIL_FORM_ID } from '../../forms/InlineEmailForm'
 import { REGION_REQUEST, loadRegionAdmins, loadRegion, promoteAdmin } from '../../actions'
 import ManageAdminsForm from '../../forms/ManageAdminsForm'
+import Loading from '../misc/Loading'
 
 import { RegionPropType, UserPropType } from "../../schemas"
 import extractRegionWithAdmins from "../helpers/extractRegionWithAdmins";
@@ -46,9 +47,9 @@ class ManageAdminsPage extends Component {
   }
 
   render() {
-    const { region } = this.props;
+    const { region, loading } = this.props;
     if (loading) { // todo: check if last action was "request" and note "success"
-      return <h1><i>Loading region...</i></h1>; // todo: loading animation
+      return <Loading resourceName="region" />;
     }
 
     return (

@@ -7,6 +7,8 @@ import autobind from 'autobind-decorator'
 import { REQUESTS_REQUEST, loadRequests } from '../../actions/requests'
 import RequestList from '../../components/RequestList'
 
+import Loading from '../misc/Loading'
+
 class RequestsPage extends Component {
     static propTypes = {
         regionId: PropTypes.string.isRequired,
@@ -30,7 +32,7 @@ class RequestsPage extends Component {
     render() {
         const { requests, loading } = this.props;
         if (loading) {
-            return <h1><i>Loading requests...</i></h1>
+            return <Loading resourceName="requests" />;
         }
 
         return (

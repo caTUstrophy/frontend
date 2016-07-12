@@ -5,6 +5,8 @@ import { browserHistory } from 'react-router'
 import { REGION_REQUEST, loadRegion, loadRegionAdmins } from '../../../actions'
 import Region from '../../../components/regions/Region'
 import Center from '../../layout/Center'
+import Loading from '../../misc/Loading'
+
 import { RegionPropType } from '../../../schemas/RegionSchema'
 import extractRegionWithAdmins from "../../helpers/extractRegionWithAdmins";
 
@@ -36,7 +38,7 @@ class RegionPage extends Component {
     const { region, admins, ID, loading } = this.props;
 
     if (loading) {
-      return <h1><i>Loading region {ID}...</i></h1>; // todo: show loading animation
+      return <Loading resourceName="region" />;
     }
 
     return (

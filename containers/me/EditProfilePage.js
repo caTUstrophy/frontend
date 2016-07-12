@@ -9,7 +9,9 @@ import { UserFields } from '../../schemas/UserSchema'
 
 import { PROFILE_REQUEST, loadUserProfile, updateUserProfile, UPDATE_PROFILE_SUCCESS } from '../../actions'
 import UserForm from '../../forms/UserForm';
+
 import Center from '../layout/Center';
+import Loading from '../misc/Loading'
 
 const cleanUserBeforeSubmit = cleanBeforeSubmit(UserFields)
 
@@ -41,7 +43,7 @@ class EditProfilePage extends Component {
     const { profile, loading } = this.props;
 
     if (loading) {
-      return <h1><i>Loading your profile...</i></h1>
+      return <Loading resourceName="your profile" />;
     }
 
     return (

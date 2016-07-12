@@ -15,6 +15,7 @@ import OfferList from '../../components/OfferList';
 import Request from '../../components/Request';
 import RequestList from '../../components/RequestList';
 import { calculateCenter } from '../../helpers/Location';
+import Loading from '../misc/Loading'
 
 import { loadRequests, loadOffers, loadRegion, managePageSelectItem, managePageUnselectItem, createMatching } from '../../actions'
 
@@ -102,6 +103,10 @@ export class ManagePage extends Component {
 
   render() {
     const { requests, offers, region } = this.props;
+  
+    if (!region) {
+      return <Loading resourceName="region" />;
+    }
 
     const hasSelectedItem = !!this.props.selectedItem;
     let mapCenter = calculateCenter(region.Boundaries.Points);
@@ -128,10 +133,6 @@ export class ManagePage extends Component {
       }
     } else {
       markers = this.generateOfferMarkers().concat(this.generateRequestMarkers());
-    }
-
-    if (!region) {
-      return <h2>Loading...</h2>; // todo: add loading animation
     }
 
     return (

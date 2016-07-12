@@ -11,6 +11,8 @@ import { OfferPropType } from '../schemas/OfferSchema'
 import { RequestPropType } from '../schemas/RequestSchema'
 import SimpleMap from '../components/maps/SimpleMap';
 
+import Loading from '../containers/misc/Loading'
+
 import Matching from './Matching'
 
 import { loadUserProfile } from './../actions/profile'
@@ -40,7 +42,7 @@ export default class MatchingCard extends Component {
     const {matching, profile, offer, request} = this.props;
 
     if (!matching || !profile || !offer || !request) {
-      return <h1>Loading matching...</h1>; // todo: loading animation
+      return <Loading />;
     }
 
     return (

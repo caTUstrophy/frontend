@@ -8,7 +8,8 @@ import { MATCHINGS_REQUEST, loadUserMatchings } from '../../actions/matchings'
 import MatchingList from '../../components/MatchingList'
 import extractMatching from './../helpers/extractMatching'
 
-import Center from '../layout/Center'
+import Center from '../layout/Center';
+import Loading from '../misc/Loading';
 
 function loadData(props) {
   props.loadUserMatchings();
@@ -31,7 +32,7 @@ class MyMatchingsPage extends Component {
   render() {
     const { matchings, loading } = this.props;
     if (loading) {
-      return <h1><i>Loading your matchings...</i></h1>
+      return <Loading resourceName="your matches" />;
     }
 
     return (

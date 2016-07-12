@@ -9,6 +9,7 @@ import { getLocation } from '../../../actions/location'
 import { loadRegion, updateRegion, UPDATE_REGION_SUCCESS } from '../../../actions'
 import {LocationPropType} from "../../../helpers/Location";
 import Center from '../../layout/Center'
+import Loading from '../../misc/Loading'
 
 class EditRegionPage extends Component {
   static propTypes = {
@@ -44,7 +45,7 @@ class EditRegionPage extends Component {
 
   render() {
     if (!this.props.region) {
-      return <h1>Loading region {this.props.ID}...</h1>;
+      return <Loading resourceName="region" />;
     }
     
     return (

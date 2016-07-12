@@ -7,6 +7,9 @@ import autobind from 'autobind-decorator'
 import { USERS_REQUEST, loadUsers } from '../../actions'
 import UserList from '../../components/UserList'
 
+import Center from '../layout/Center';
+import Loading from '../misc/Loading';
+
 function loadData(props) {
   props.loadUsers();
 }
@@ -28,11 +31,14 @@ class UsersPage extends Component {
   render() {
     const { users, loading } = this.props;
     if (loading) {
-      return <h1><i>Loading users...</i></h1>
+      return <Loading resourceName="users" />;
     }
 
     return (
-      <UserList users={users} onTouchTapItem={this.handleTouchTapItem} />
+      <Center>
+        <h1>Users</h1>
+        <UserList users={users} onTouchTapItem={this.handleTouchTapItem} />
+      </Center>
     )
   }
 }

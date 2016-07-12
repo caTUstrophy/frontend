@@ -5,10 +5,11 @@ import { browserHistory } from 'react-router';
 import { Polygon } from 'react-leaflet';
 import Paper from 'material-ui/Paper';
 
-import { REQUESTS_REQUEST, OFFERS_REQUEST, REGIONS_REQUEST, loadRequests, loadOffers, loadRegions } from '../../actions'
+import { loadRegions, REGIONS_REQUEST } from '../../actions'
 import RegionList from '../../components/regions/RegionList';
 import SimpleMap from '../../components/maps/SimpleMap';
 import { calculateCenter } from '../../helpers/Location';
+import Loading from '../misc/Loading'
 
 export class AdminHomePage extends Component {
   static propTypes = {
@@ -31,7 +32,7 @@ export class AdminHomePage extends Component {
     const { regions, loadingRegions } = this.props;
 
     if (!regions && loadingRegions) {
-      return <h2>Loading...</h2>; // todo: display loading animation
+      return <Loading resourceName="region" />;
     }
 
     return (

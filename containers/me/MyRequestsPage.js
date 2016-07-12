@@ -11,6 +11,7 @@ import { loadUserRequests, REQUESTS_REQUEST } from '../../actions/requests'
 import RequestList from '../../components/RequestList'
 
 import Center from '../layout/Center'
+import Loading from '../misc/Loading'
 
 class MyRequestsPage extends Component {
   constructor(props) {
@@ -29,7 +30,7 @@ class MyRequestsPage extends Component {
   render() {
     const { requests, loading } = this.props;
     if (loading) {
-      return <h1><i>Loading your requests...</i></h1>
+      return <Loading resourceName="your requests" />;
     }
 
     return (

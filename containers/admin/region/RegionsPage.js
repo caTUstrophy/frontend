@@ -9,7 +9,9 @@ import ContentAdd from 'material-ui/svg-icons/content/add'
 
 import { REGIONS_REQUEST, loadRegions } from '../../../actions/regions'
 import RegionList from '../../../components/regions/RegionList'
+
 import Center from '../../layout/Center'
+import Loading from '../../misc/Loading'
 
 class RegionsPage extends Component {
   constructor(props) {
@@ -28,7 +30,7 @@ class RegionsPage extends Component {
   render() {
     const { regions, loading } = this.props;
     if (loading) {
-      return <h1><i>Loading regions...</i></h1>
+      return <Loading resourceName="regions" />;
     }
 
     return (

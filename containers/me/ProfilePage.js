@@ -7,6 +7,7 @@ import autobind from 'autobind-decorator'
 import { PROFILE_REQUEST, loadUserProfile } from '../../actions/profile'
 import Profile from '../../components/Profile'
 import Center from '../layout/Center';
+import Loading from '../misc/Loading';
 
 class ProfilePage extends Component {
   constructor(props) {
@@ -24,9 +25,9 @@ class ProfilePage extends Component {
 
   render() {
     const { profile, loading } = this.props;
-
+  
     if (loading) {
-      return <h1><i>Loading your profile...</i></h1>
+      return <Loading resourceName="your profile" />;
     }
 
     return (

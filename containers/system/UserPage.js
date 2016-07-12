@@ -7,6 +7,9 @@ import { USER_REQUEST, loadUser, updateUser } from '../../actions'
 import Profile from '../../components/Profile'
 import PermissionsForm from '../../forms/PermissionsForm'
 
+import Center from '../layout/Center';
+import Loading from '../misc/Loading';
+
 function loadData(props) {
   const { ID } = props;
   props.loadUser(ID, [ 'name' ]);
@@ -36,9 +39,9 @@ class UserPage extends Component {
   }
 
   render() {
-    const { user, ID, loading } = this.props;
+    const { user, loading } = this.props;
     if (loading) {
-      return <h1><i>Loading {ID}’s profile...</i></h1>
+      return <Loading resourceName="user profile" />;
     }
 
     let permissionsForm = this.props.user.Groups
@@ -46,9 +49,9 @@ class UserPage extends Component {
       : <i>Loading...</i>;
     
     return (
-      <div style={{width: '40rem', margin: '0 auto'}}>
+      <Center>
         <Profile profile={user} permissionsComponent={permissionsForm} />
-      </div>
+      </Center>
     )
   }
 }

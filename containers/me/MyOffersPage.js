@@ -12,6 +12,7 @@ import OfferList from '../../components/OfferList'
 import {OfferPropType} from "../../schemas/OfferSchema";
 
 import Center from '../layout/Center'
+import Loading from '../misc/Loading'
 
 class MyOffersPage extends Component {
   static propTypes = {
@@ -37,7 +38,7 @@ class MyOffersPage extends Component {
     const { loading } = this.props;
 
     if (loading) {
-      return <h1><i>Loading your offers...</i></h1>
+      return <Loading resourceName="your offers" />;
     }
 
     return (

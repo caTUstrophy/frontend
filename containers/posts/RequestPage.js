@@ -6,7 +6,9 @@ import autobind from 'autobind-decorator'
 
 import { loadRequest, REQUEST_REQUEST } from '../../actions'
 import RequestCard from '../../components/RequestCard'
-import Center from '../layout/Center'
+
+import Center from '../layout/Center';
+import Loading from '../misc/Loading';
 
 function loadData(props) {
   const { loadRequest, ID } = props;
@@ -34,9 +36,9 @@ class RequestPage extends Component {
   }
 
   render() {
-    const { request, isOwnRequest, loading, ID } = this.props;
+    const { request, isOwnRequest, loading } = this.props;
     if (loading) {
-      return <h1><i>Loading request #{ID}...</i></h1>
+      return <Loading resourceName="request" />;
     }
 
     return (

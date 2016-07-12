@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { MATCHINGS_REQUEST, loadMatchings } from '../../actions/matchings'
 import MatchingList from '../../components/MatchingList'
 
+import Loading from '../misc/Loading'
+
 function loadData(props) {
     props.loadMatchings();
 }
@@ -19,7 +21,7 @@ class MatchingsPage extends Component {
     render() {
         const { matchings, loading } = this.props;
         if (loading) {
-            return <h1><i>Loading matches...</i></h1>
+            return <Loading resourceName="matches" />;
         }
 
         return (

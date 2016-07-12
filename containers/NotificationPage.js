@@ -5,6 +5,9 @@ import { NOTIFICATION_REQUEST, loadNotifications } from './../actions/notificati
 import NotificationCard from './../components/NotificationCard'
 import extractNotification from './helpers/extractNotification'
 
+import Center from './layout/Center'
+import Loading from './misc/Loading'
+
 class NotificationPage extends Component {
   constructor(props) {
     super(props);
@@ -17,15 +20,15 @@ class NotificationPage extends Component {
   }
 
   render() {
-    const { notification, ID, loading } = this.props;
+    const { notification, loading } = this.props;
     if (loading) {
-      return <h1><i>Loading notification #{ID}...</i></h1>
+      return <Loading resourceName="notification" />;
     }
 
     return (
-      <div style={{width: '40rem', margin: '0 auto'}}>
+      <Center>
         <NotificationCard notification={notification} />
-      </div>
+      </Center>
     )
   }
 }

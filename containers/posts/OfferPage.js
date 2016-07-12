@@ -6,7 +6,9 @@ import autobind from 'autobind-decorator';
 
 import { loadOffer, OFFER_REQUEST } from '../../actions'
 import OfferCard from '../../components/OfferCard'
-import Center from '../layout/Center'
+
+import Center from '../layout/Center';
+import Loading from '../misc/Loading';
 
 class OfferPage extends Component {
   constructor(props) {
@@ -33,9 +35,9 @@ class OfferPage extends Component {
   }
 
   render() {
-    const { offer, ID, isOwnOffer, loading } = this.props;
+    const { offer, isOwnOffer, loading } = this.props;
     if (loading) {
-      return <h1><i>Loading offer #{ID}...</i></h1>
+      return <Loading resourceName="offer" />;
     }
 
     return (

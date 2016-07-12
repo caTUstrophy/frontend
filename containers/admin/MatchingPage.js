@@ -4,6 +4,8 @@ import { MATCHING_REQUEST, loadMatching } from '../../actions'
 import MatchingCard from '../../components/MatchingCard'
 import extractMatching from './../helpers/extractMatching'
 
+import Loading from '../misc/Loading'
+
 class MatchingPage extends Component {
   constructor(props) {
     super(props);
@@ -16,10 +18,10 @@ class MatchingPage extends Component {
   }
 
   render() {
-    const { matching, ID, loading } = this.props;
+    const { matching, loading } = this.props;
 
     if (loading) {
-      return <h1><i>Loading matching #{ID}...</i></h1>
+      return <Loading resourceName="matching" />;
     }
 
     const offer = this.props.matching.Offer;

@@ -8,6 +8,9 @@ import { loadNotifications } from '.././actions/notifications'
 import NotificationList from '.././components/NotificationList'
 import extractNotification from './helpers/extractNotification'
 
+import Center from './layout/Center'
+import Loading from './misc/Loading'
+
 class NotificationsPage extends Component {
   constructor(props) {
     super(props);
@@ -21,14 +24,14 @@ class NotificationsPage extends Component {
   render() {
     const { notifications, loading } = this.props;
     if (loading) {
-      return <h1><i>Loading your notifications...</i></h1>
+      return <Loading resourceName="your notifications" />;
     }
 
     return (
-      <div>
+      <Center>
         <h1>Your Notifications</h1>
         <NotificationList notifications={notifications} onTouchTapItem={this.handleTouchTapItem} />
-      </div>
+      </Center>
     )
   }
 }
