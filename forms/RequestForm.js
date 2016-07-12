@@ -20,49 +20,32 @@ import { RequestFields, RequestFieldKeys } from '../schemas/RequestSchema'
 import Validation from "./helpers/Validation";
 
 export class RequestForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {chipData: this.props.allowedTags};
-    this.styles = {
-      chip: {
-        margin: 2
-      },
-      wrapper: {
-        display: 'flex',
-        flexWrap: 'wrap'
-      }
-    };
-  }
-
   static propTypes = {
     defaultLocation: LocationPropType,
     allowedTags: PropTypes.arrayOf(PropTypes.string).isRequired
   };
-
+  
+  @autobind
+  tagFilter(searchText, key) {
+    if (this.props.fields.Tags.some(({ value }) => value == key)) {
+      return false;
+    }
+    
+    return AutoComplete.caseInsensitiveFilter(searchText, key);
+  }
+  
   @autobind
   handleNewTag(chosenRequest, index) {
-    const newTag = this.props.allowedTags[index];
-    this.props.fields.Tags.addField(newTag);
+    if (index === -1) {
+      return;
+    }
+    
+    this.props.fields.Tags.addField(chosenRequest);
   }
 
-  handleRequestDelete = (key) => {
-    this.chipData = this.state.chipData;
-    const chipToDelete = this.chipData.map((chip) => chip.key).indexOf(key);
-    this.chipData.splice(chipToDelete, 1);
-    this.setState({chipData: this.chipData});
+  handleRequestDelete = (index) => {
+    this.props.fields.Tags.removeField(index);
   };
-
-  renderChip(data) {
-    return (
-      <Chip
-        key={data.value}
-        onRequestDelete={() => this.handleRequestDelete(data.key)}
-        style={this.styles.chip}
-      >
-        {data.value}
-      </Chip>
-    );
-  }
 
   @autobind
   handleMapClick(event) {
@@ -71,8 +54,7 @@ export class RequestForm extends Component {
 
   render() {
     const {fields: {Name, Tags, Location, ValidityPeriod}, handleSubmit, submitting, invalid, resetForm, pristine} = this.props;
-    const dataSource = this.props.allowedTags;
-    console.log(Tags, RequestFieldKeys);
+    
     return (
       <form onSubmit={handleSubmit}>
         <Card>
@@ -90,13 +72,20 @@ export class RequestForm extends Component {
             <div>
               <AutoComplete
                 floatingLabelText="Add relevant tags"
-                filter={AutoComplete.caseInsensitiveFilter}
-                dataSource={dataSource}
+                openOnFocus={true}
+                filter={this.tagFilter}
+                dataSource={this.props.allowedTags}
                 onNewRequest={this.handleNewTag}
-              />
+                onKeyDown={(event) => event.which == 13 && event.preventDefault() /* this is a hack to prevent form submission on invalid inputs, pressing enter on valid inputs fires 40 (not 13) */} />
             </div>
-            <div style={this.styles.wrapper}>
-              {Tags && Tags.map(this.renderChip, this)}
+            <div style={{display: 'flex', flexWrap: 'wrap'}}>
+              {Tags && Tags.map((tag, tagIndex) =>
+                <Chip key={tag.value}
+                      onRequestDelete={this.handleRequestDelete.bind(this, tagIndex)}
+                      style={{margin: 2}}>
+                  {tag.value}
+                </Chip>
+              )}
             </div>
 
             <div>
@@ -133,5 +122,5 @@ export class RequestForm extends Component {
 export default reduxForm({
   form: 'request-form',
   fields: RequestFieldKeys,
-  validate: Validation(RequestFields)
+  // validate: Validation(RequestFields)
 })(RequestForm);
