@@ -4,9 +4,11 @@ import { browserHistory } from 'react-router'
 
 import autobind from 'autobind-decorator'
 
-import { loadUserMatchings } from '../../actions/matchings'
+import { MATCHINGS_REQUEST, loadUserMatchings } from '../../actions/matchings'
 import MatchingList from '../../components/MatchingList'
 import extractMatching from './../helpers/extractMatching'
+
+import Center from '../layout/Center'
 
 function loadData(props) {
   props.loadUserMatchings();
@@ -27,16 +29,16 @@ class MyMatchingsPage extends Component {
   }
 
   render() {
-    const { matchings } = this.props;
-    if (!matchings) {
+    const { matchings, loading } = this.props;
+    if (loading) {
       return <h1><i>Loading your matchings...</i></h1>
     }
 
     return (
-      <div>
+      <Center>
         <h1>Your Matchings</h1>
         <MatchingList matchings={matchings} onTouchTapItem={this.handleTouchTapItem} />
-      </div>
+      </Center>
     )
   }
 }
@@ -49,15 +51,13 @@ MyMatchingsPage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  const { entities: { matchings } } = state;
   const { myMatchings } = state.mappings;
 
   return {
-    matchings: Object.keys(matchings).filter(function(matchingID){
-      return myMatchings.includes(matchingID)
-    }).map(
+    matchings: myMatchings && myMatchings.map(
       matchingId => extractMatching(state, matchingId)
-    )
+    ),
+    loading: state.loading.includes(MATCHINGS_REQUEST)
   }
 }
 

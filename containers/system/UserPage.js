@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import autobind from 'autobind-decorator'
 
-import { loadUser, updateUser } from '../../actions'
+import { USER_REQUEST, loadUser, updateUser } from '../../actions'
 import Profile from '../../components/Profile'
 import PermissionsForm from '../../forms/PermissionsForm'
 
@@ -36,8 +36,8 @@ class UserPage extends Component {
   }
 
   render() {
-    const { user, ID } = this.props;
-    if (!user) {
+    const { user, ID, loading } = this.props;
+    if (loading) {
       return <h1><i>Loading {ID}’s profile...</i></h1>
     }
 
@@ -65,7 +65,8 @@ function mapStateToProps(state, ownProps) {
 
   return {
     ID,
-    user: users[ID]
+    user: users[ID],
+    loading: state.loading.includes(USER_REQUEST)
   }
 }
 

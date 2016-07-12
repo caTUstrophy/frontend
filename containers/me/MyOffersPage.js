@@ -7,7 +7,7 @@ import autobind from 'autobind-decorator'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 
-import { loadUserOffers } from '../../actions/offers'
+import { loadUserOffers, OFFERS_REQUEST } from '../../actions/offers'
 import OfferList from '../../components/OfferList'
 import {OfferPropType} from "../../schemas/OfferSchema";
 
@@ -34,7 +34,9 @@ class MyOffersPage extends Component {
 
   render() {
     const { offers } = this.props;
-    if (!offers) {
+    const { loading } = this.props;
+
+    if (loading) {
       return <h1><i>Loading your offers...</i></h1>
     }
 
@@ -54,11 +56,12 @@ class MyOffersPage extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { entities: { offers } } = state;
+  const { entities: { offers }, loading } = state;
   const { myOffers } = state.mappings;
   
   return {
-    offers: myOffers && myOffers.map(offerId => offers[offerId])
+    offers: myOffers && myOffers.map(offerId => offers[offerId]),
+    loading : loading.includes(OFFERS_REQUEST)
   }
 }
 

@@ -7,7 +7,7 @@ import autobind from 'autobind-decorator'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 
-import { loadUserRequests } from '../../actions/requests'
+import { loadUserRequests, REQUESTS_REQUEST } from '../../actions/requests'
 import RequestList from '../../components/RequestList'
 
 import Center from '../layout/Center'
@@ -27,8 +27,8 @@ class MyRequestsPage extends Component {
   }
 
   render() {
-    const { requests } = this.props;
-    if (!requests) {
+    const { requests, loading } = this.props;
+    if (loading) {
       return <h1><i>Loading your requests...</i></h1>
     }
 
@@ -57,9 +57,8 @@ function mapStateToProps(state, ownProps) {
   const { myRequests } = state.mappings;
 
   return {
-    requests: Object.values(requests).filter(function(item) {
-      return myRequests.includes(item.ID)
-    })
+    requests: myRequests && myRequests.map(requestId => requests[requestId]),
+    loading: state.loading.includes(REQUESTS_REQUEST)
   }
 }
 

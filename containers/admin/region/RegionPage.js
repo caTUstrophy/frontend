@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 
-import { loadRegion, loadRegionAdmins } from '../../../actions'
+import { REGION_REQUEST, loadRegion, loadRegionAdmins } from '../../../actions'
 import Region from '../../../components/regions/Region'
 import Center from '../../layout/Center'
 import { RegionPropType } from '../../../schemas/RegionSchema'
@@ -33,8 +33,9 @@ class RegionPage extends Component {
   }
 
   render() {
-    const { region, admins, ID } = this.props;
-    if (!region) {
+    const { region, admins, ID, loading } = this.props;
+
+    if (loading) {
       return <h1><i>Loading region {ID}...</i></h1>; // todo: show loading animation
     }
 
@@ -58,10 +59,12 @@ RegionPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { ID } = ownProps.params;
+  const { loading } = state.loading;
 
   return {
     ID,
-    region: extractRegionWithAdmins(state, ID)
+    region: extractRegionWithAdmins(state, ID),
+    loading : loading.includes(REGION_REQUEST)
   }
 }
 

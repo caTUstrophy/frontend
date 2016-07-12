@@ -7,7 +7,7 @@ import autobind from 'autobind-decorator'
 import cleanBeforeSubmit from '../../schemas/helpers/cleanBeforeSubmit'
 import { UserFields } from '../../schemas/UserSchema'
 
-import { loadUserProfile, updateUserProfile, UPDATE_PROFILE_SUCCESS } from '../../actions'
+import { PROFILE_REQUEST, loadUserProfile, updateUserProfile, UPDATE_PROFILE_SUCCESS } from '../../actions'
 import UserForm from '../../forms/UserForm';
 import Center from '../layout/Center';
 
@@ -38,9 +38,9 @@ class EditProfilePage extends Component {
   }
 
   render() {
-    const { profile } = this.props;
+    const { profile, loading } = this.props;
 
-    if (!profile) {
+    if (loading) {
       return <h1><i>Loading your profile...</i></h1>
     }
 
@@ -54,7 +54,8 @@ class EditProfilePage extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    profile: state.profile
+    profile: state.profile,
+    loading: state.loading.includes(PROFILE_REQUEST)
   }
 }
 

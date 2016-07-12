@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router'
 
 import autobind from 'autobind-decorator'
 
-import { loadOffers } from '../../actions/offers'
+import { OFFERS_REQUEST, loadOffers } from '../../actions/offers'
 import OfferList from '../../components/OfferList'
 
 class OffersPage extends Component {
@@ -22,8 +22,8 @@ class OffersPage extends Component {
   }
 
   render() {
-    const { offers } = this.props;
-    if (!offers) {
+    const { offers , loading} = this.props;
+    if (loading) {
       return <h1><i>Loading offers...</i></h1>
     }
 
@@ -43,10 +43,12 @@ OffersPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { entities: { offers } } = state;
+  const loading = state.loading;
 
   return {
     offers: Object.values(offers),
-    regionId: ownProps.params.ID
+    regionId: ownProps.params.ID,
+    loading: loading.includes(OFFERS_REQUEST)
   }
 }
 

@@ -1,6 +1,7 @@
 import paginate from './paginate'
 import userInterface from './userInterface'
 import login from './login'
+import loading from './loading'
 import location from './location'
 import entities from './entities'
 import mappings from './mappings'
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   // pagination,
   userInterface,
   error,
+  loading,
   routing,
   form: formReducer
 });

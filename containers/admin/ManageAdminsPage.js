@@ -6,11 +6,12 @@ import { browserHistory } from 'react-router'
 import autobind from 'autobind-decorator'
 
 import { INLINE_EMAIL_FORM_ID } from '../../forms/InlineEmailForm'
-import { loadRegionAdmins, loadRegion, promoteAdmin } from '../../actions'
+import { REGION_REQUEST, loadRegionAdmins, loadRegion, promoteAdmin } from '../../actions'
 import ManageAdminsForm from '../../forms/ManageAdminsForm'
 
 import { RegionPropType, UserPropType } from "../../schemas"
 import extractRegionWithAdmins from "../helpers/extractRegionWithAdmins";
+
 
 class ManageAdminsPage extends Component {
   static propTypes = {
@@ -46,7 +47,7 @@ class ManageAdminsPage extends Component {
 
   render() {
     const { region } = this.props;
-    if (!region) { // todo: check if last action was "request" and note "success"
+    if (loading) { // todo: check if last action was "request" and note "success"
       return <h1><i>Loading region...</i></h1>; // todo: loading animation
     }
 
@@ -63,10 +64,12 @@ class ManageAdminsPage extends Component {
 
 function mapStateToProps(state, ownProps) {
   let regionId = ownProps.params.ID;
+  const { loading } = state.loading;
 
   return {
     region: extractRegionWithAdmins(state, regionId),
-    regionId
+    regionId,
+    loading: loading.includes(REGION_REQUEST)
   }
 }
 

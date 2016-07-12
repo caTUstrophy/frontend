@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router'
 
 import autobind from 'autobind-decorator';
 
-import { loadOffer } from '../../actions'
+import { loadOffer, OFFER_REQUEST } from '../../actions'
 import OfferCard from '../../components/OfferCard'
 import Center from '../layout/Center'
 
@@ -33,8 +33,8 @@ class OfferPage extends Component {
   }
 
   render() {
-    const { offer, isOwnOffer, ID } = this.props;
-    if (!offer) {
+    const { offer, ID, isOwnOffer, loading } = this.props;
+    if (loading) {
       return <h1><i>Loading offer #{ID}...</i></h1>
     }
 
@@ -55,11 +55,13 @@ OfferPage.propTypes = {
 function mapStateToProps(state, ownProps) {
   const { ID } = ownProps.params;
   const offer = state.entities.offers[ID];
+  const loading = state.loading;
   
   return {
     ID,
     isOwnOffer: offer && offer.User && offer.User.Mail == state.login.token.iss,
-    offer
+    offer,
+    loading: loading.includes(OFFER_REQUEST)
   }
 }
 

@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router'
 
 import autobind from 'autobind-decorator'
 
-import { loadUserProfile } from '../../actions/profile'
+import { PROFILE_REQUEST, loadUserProfile } from '../../actions/profile'
 import Profile from '../../components/Profile'
 import Center from '../layout/Center';
 
@@ -23,9 +23,9 @@ class ProfilePage extends Component {
   }
 
   render() {
-    const { profile } = this.props;
+    const { profile, loading } = this.props;
 
-    if (!profile) {
+    if (loading) {
       return <h1><i>Loading your profile...</i></h1>
     }
 
@@ -43,7 +43,8 @@ ProfilePage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    profile: state.profile
+    profile: state.profile,
+    loading: state.loading.includes(PROFILE_REQUEST)
   }
 }
 

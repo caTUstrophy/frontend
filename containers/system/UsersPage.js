@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router'
 
 import autobind from 'autobind-decorator'
 
-import { loadUsers } from '../../actions'
+import { USERS_REQUEST, loadUsers } from '../../actions'
 import UserList from '../../components/UserList'
 
 function loadData(props) {
@@ -26,8 +26,8 @@ class UsersPage extends Component {
   }
 
   render() {
-    const { users } = this.props;
-    if (!users) {
+    const { users, loading } = this.props;
+    if (loading) {
       return <h1><i>Loading users...</i></h1>
     }
 
@@ -46,7 +46,8 @@ function mapStateToProps(state, ownProps) {
   const { entities: { users } } = state;
 
   return {
-    users: Object.values(users)
+    users: Object.values(users),
+    loading: state.loading.includes(USERS_REQUEST)
   }
 }
 
