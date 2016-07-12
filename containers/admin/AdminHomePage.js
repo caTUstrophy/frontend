@@ -10,7 +10,7 @@ import RequestList from '../../components/RequestList'
 import OfferList from '../../components/OfferList';
 import RegionList from '../../components/regions/RegionList';
 import SimpleMap from '../../components/maps/SimpleMap';
-import { calculateCenter, toLeaflet } from '../../helpers/Location';
+import { calculateCenter } from '../../helpers/Location';
 
 export class AdminHomePage extends Component {
   static propTypes = {
@@ -70,7 +70,7 @@ export class AdminHomePage extends Component {
         </Paper>
         <SimpleMap center={calculateCenter(regions.map((region) => calculateCenter(region.Boundaries.Points)))}
                    style={{width: '80%', height: 400}}>
-          {regions.map(region => <Polygon positions={toLeaflet(region.Boundaries.Points)} onClick={this.handleFocusRegion.bind(this, region)} key={region.ID} />) /* todo: style */}
+          {regions.map(region => <Polygon positions={region.Boundaries.Points} onClick={this.handleFocusRegion.bind(this, region)} key={region.ID} />) /* todo: style */}
         </SimpleMap>
       </div>
     )

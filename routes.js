@@ -12,10 +12,8 @@ import AdminHomePage from './containers/admin/AdminHomePage'
 import ManagePage from './containers/admin/ManagePage'
 import ManageAdminsPage from './containers/admin/ManageAdminsPage'
 import OffersPage from './containers/admin/OffersPage'
-import OfferPage from './containers/admin/OfferPage'
 import MatchingPage from './containers/admin/MatchingPage'
 import RequestsPage from './containers/admin/RequestsPage'
-import RequestPage from './containers/admin/RequestPage'
 import AddRegionPage from './containers/admin/region/AddRegionPage'
 import RegionsPage from './containers/admin/region/RegionsPage'
 import RegionPage from './containers/admin/region/RegionPage'
@@ -26,6 +24,12 @@ import UsersPage from './containers/system/UsersPage'
 
 // user
 import SignupPage from './containers/user/SignupPage';
+
+// posts
+import EditOfferPage from './containers/posts/EditOfferPage'
+import OfferPage from './containers/posts/OfferPage'
+import EditRequestPage from './containers/posts/EditRequestPage'
+import RequestPage from './containers/posts/RequestPage'
 
 // me
 import ProfilePage from "./containers/me/ProfilePage";
@@ -83,7 +87,10 @@ export default [
       <Route path="edit" component={EditProfilePage} />
       <Route path="offers">
         <IndexRoute component={MyOffersPage} />
-        <Route path=":ID" component={OfferPage} />
+        <Route path=":ID">
+          <IndexRoute component={OfferPage} />
+          <Route path="edit" component={EditOfferPage} />
+        </Route>
       </Route>
       <Route path="matchings">
         <IndexRoute component={MyMatchingsPage} />
@@ -91,7 +98,10 @@ export default [
       </Route>
       <Route path="requests">
         <IndexRoute component={MyRequestsPage} />
-        <Route path=":ID" component={RequestPage} />
+        <Route path=":ID">
+          <IndexRoute component={RequestPage} />
+          <Route path="edit" component={EditRequestPage} />
+        </Route>
       </Route>
       <Route path="requests">
         <IndexRoute component={MyRequestsPage} />

@@ -38,7 +38,8 @@ function fetchRequest(requestId) {
     [CALL_API]: {
       types: [ REQUEST_REQUEST, REQUEST_SUCCESS, REQUEST_FAILURE ],
       endpoint: `requests/${requestId}`,
-      schema: Schemas.REQUEST
+      schema: Schemas.REQUEST,
+      reference: "requestID"
     }
   }
 }
@@ -64,12 +65,13 @@ export const REQUESTS_FAILURE = 'REQUESTS_FAILURE';
 
 // Fetches all requests
 // Relies on the custom API middleware defined in ../middleware/api.js.
-function fetchRequestsBase(endpoint) {
+function fetchRequestsBase(endpoint, reference) {
   return {
     [CALL_API]: {
       types: [ REQUESTS_REQUEST, REQUESTS_SUCCESS, REQUESTS_FAILURE ],
       endpoint,
-      schema: Schemas.REQUEST_ARRAY
+      schema: Schemas.REQUEST_ARRAY,
+      reference
     }
   }
 }
@@ -79,7 +81,7 @@ function fetchRequests(regionId) {
 }
 
 function fetchUserRequests() {
-  return fetchRequestsBase(`me/requests`)
+  return fetchRequestsBase(`me/requests`, {key:"myRequests"})
 }
 
 // Fetches all requests (unless it is cached)
@@ -93,5 +95,32 @@ export function loadRequests(regionId, requiredFields = []) {
 export function loadUserRequests(requiredFields = []) {
   return (dispatch, getState) => {
     return dispatch(authorized(getState().login.jwt)(fetchUserRequests()))
+  }
+}
+
+export const UPDATE_REQUEST_REQUEST = 'UPDATE_REQUEST_REQUEST';
+export const UPDATE_REQUEST_SUCCESS = 'UPDATE_REQUEST_SUCCESS';
+export const UPDATE_REQUEST_FAILURE = 'UPDATE_REQUEST_FAILURE';
+
+// Fetches user request
+// Relies on the custom API middleware defined in ../middleware/api.js.
+function putRequest(request) {
+  return {
+    [CALL_API]: {
+      types: [ UPDATE_REQUEST_REQUEST, UPDATE_REQUEST_SUCCESS, UPDATE_REQUEST_FAILURE ],
+      endpoint: `requests/${ request.ID }`,
+      verb: 'PUT',
+      schema: Schemas.REQUEST,
+      payload: request
+    }
+  }
+}
+
+// Fetches user request
+// Relies on Redux Thunk middleware.
+
+export function updateRequest(request) {
+  return (dispatch, getState) => {
+    return dispatch(authorized(getState().login.jwt)(putRequest(request)))
   }
 }

@@ -102,6 +102,10 @@ const regionSchema = new Schema('regions', {
   idAttribute: matching => matching.ID
 });
 
+const tagSchema = new Schema('tags', {
+  idAttribute: tag => tag.Name
+});
+
 const notificationSchema = new Schema('notifications', {
   idAttribute: notification => notification.ID
 });
@@ -122,7 +126,9 @@ export const Schemas = {
   REGION: regionSchema,
   REGION_ARRAY: arrayOf(regionSchema),
   NOTIFICATION: notificationSchema,
-  NOTIFICATION_ARRAY: arrayOf(notificationSchema)
+  NOTIFICATION_ARRAY: arrayOf(notificationSchema),
+  TAG: tagSchema,
+  TAG_ARRAY: arrayOf(tagSchema)
 };
 
 // Action key that carries API call info interpreted by this Redux middleware.

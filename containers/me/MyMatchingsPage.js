@@ -50,10 +50,12 @@ MyMatchingsPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { entities: { matchings } } = state;
-
+  const { myMatchings } = state.mappings;
 
   return {
-    matchings: Object.keys(matchings).map(
+    matchings: Object.keys(matchings).filter(function(matchingID){
+      return myMatchings.includes(matchingID)
+    }).map(
       matchingId => extractMatching(state, matchingId)
     ),
     loading: state.loading.loading.includes(MATCHINGS_MATCHING)

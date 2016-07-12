@@ -8,18 +8,6 @@ export const LocationPropType = PropTypes.shape({
 export function isLocation(location) {
   return location && location.lat && location.lng;
 }
-export function toLeaflet(location) {
-  if (Array.isArray(location)) {
-    return location.map(toLeaflet);
-  }
-  return {lat: location.lat, lng: location.lng};
-}
-export function fromLeaflet(location) {
-  if (Array.isArray(location)) {
-    return location.map(fromLeaflet);
-  }
-  return {lat: location.lat, lng: location.lng};
-}
 
 function toArcMinutes(decimalDegrees) {
   let degrees = Math.floor(decimalDegrees);
@@ -60,8 +48,6 @@ export function geodesicArea(latLngs) {
 
 export default {
   LocationPropType,
-  toLeaflet,
-  fromLeaflet,
   isLocation,
   calculateCenter
 }

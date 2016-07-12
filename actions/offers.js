@@ -64,12 +64,13 @@ export const OFFERS_FAILURE = 'OFFERS_FAILURE';
 
 // Fetches all offers
 // Relies on the custom API middleware defined in ../middleware/api.js.
-function fetchOffersBase(endpoint) {
+function fetchOffersBase(endpoint, reference) {
   return {
     [CALL_API]: {
       types: [ OFFERS_REQUEST, OFFERS_SUCCESS, OFFERS_FAILURE ],
       endpoint,
-      schema: Schemas.OFFER_ARRAY
+      schema: Schemas.OFFER_ARRAY,
+      reference
     }
   }
 }
@@ -79,7 +80,7 @@ function fetchOffers(regionId) {
 }
 
 function fetchUserOffers() {
-  return fetchOffersBase(`me/offers`)
+  return fetchOffersBase(`me/offers`, {key : "myOffers"})
 }
 
 // Fetches all offers (unless it is cached)
@@ -93,5 +94,32 @@ export function loadOffers(regionId, requiredFields = []) {
 export function loadUserOffers(requiredFields = []) {
   return (dispatch, getState) => {
     return dispatch(authorized(getState().login.jwt)(fetchUserOffers()))
+  }
+}
+
+export const UPDATE_OFFER_REQUEST = 'UPDATE_OFFER_REQUEST';
+export const UPDATE_OFFER_SUCCESS = 'UPDATE_OFFER_SUCCESS';
+export const UPDATE_OFFER_FAILURE = 'UPDATE_OFFER_FAILURE';
+
+// Fetches user offer
+// Relies on the custom API middleware defined in ../middleware/api.js.
+function putOffer(offer) {
+  return {
+    [CALL_API]: {
+      types: [ UPDATE_OFFER_REQUEST, UPDATE_OFFER_SUCCESS, UPDATE_OFFER_FAILURE ],
+      endpoint: `offers/${ offer.ID }`,
+      verb: 'PUT',
+      schema: Schemas.OFFER,
+      payload: offer
+    }
+  }
+}
+
+// Fetches user offer
+// Relies on Redux Thunk middleware.
+
+export function updateOffer(offer) {
+  return (dispatch, getState) => {
+    return dispatch(authorized(getState().login.jwt)(putOffer(offer)))
   }
 }

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
-import { Card, CardHeader, CardText } from 'material-ui/Card'
+import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card'
+import FlatButton from 'material-ui/FlatButton'
 
 import { OfferPropType } from '../schemas/OfferSchema'
 import SimpleMap from '../components/maps/SimpleMap';
@@ -9,11 +10,20 @@ import Offer from './Offer'
 
 export default class OfferCard extends Component {
   static propTypes = {
-    offer: OfferPropType.isRequired
+    offer: OfferPropType.isRequired,
+    editable: PropTypes.boolean,
+    navigateToEditOffer: PropTypes.func.isRequired
   };
   
   render() {
     const offer = this.props.offer;
+    
+    let cardActions;
+    if (this.props.editable) {
+      cardActions = <CardActions style={{display: 'flex', flexDirection: 'row-reverse'}}>
+        <FlatButton label="Edit offer" onTouchTap={this.props.navigateToEditOffer.bind(this)} disabled={offer.Matched} />;
+      </CardActions>;
+    }
     
     return (
       <Card>
@@ -24,6 +34,7 @@ export default class OfferCard extends Component {
         <CardText>
           <Offer offer={offer} />
         </CardText>
+        {cardActions}
       </Card>
     )
   }

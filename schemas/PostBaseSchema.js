@@ -10,11 +10,12 @@ export const PostBaseSchema = Object.assign({}, BaseSchema, {
     error: "Please provide a name"
   },
   Tags: {
-    required: false,
-    regExp: {
-      pattern: /^[a-zA-Z0-9,. ]+$/,
-      error: ("Invalid tag")
-    }
+    required: true,
+    type: Array
+  },
+  Description: {
+    propType: PropTypes.string,
+    required: false
   },
   Location: {
     propType: LocationPropType,
@@ -24,6 +25,11 @@ export const PostBaseSchema = Object.assign({}, BaseSchema, {
   ValidityPeriod: {
     required: true,
     error: "Please choose a validity period"
+  },
+  Radius: {
+    propType: PropTypes.number,
+    required: true,
+    error: "Please specify a radius"
   }
 });
 

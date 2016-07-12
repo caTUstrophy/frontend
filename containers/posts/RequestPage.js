@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { REQUEST_REQUEST, loadRequest } from '../../actions'
+import { loadRequest, REQUEST_REQUEST } from '../../actions'
 import RequestCard from '../../components/RequestCard'
+import Center from '../layout/Center'
 
 function loadData(props) {
   const { loadRequest, ID } = props;
@@ -22,17 +23,22 @@ class RequestPage extends Component {
       loadData(nextProps)
     }
   }
+  
+  @autobind
+  handleNavigateToEditRequest() {
+    browserHistory.push(`/me/requests/${ this.props.ID }/edit`);
+  }
 
   render() {
-    const { request, ID, loading } = this.props;
+    const { request, isOwnRequest, loading, ID } = this.props;
     if (loading) {
       return <h1><i>Loading request #{ID}...</i></h1>
     }
 
     return (
-      <div style={{width: '40rem', margin: '0 auto'}}>
-        <RequestCard request={request} />
-      </div>
+      <Center vertical={true}>
+        <RequestCard request={request} editable={isOwnRequest} navigateToEditRequest={this.handleNavigateToEditRequest} />
+      </Center>
     )
   }
 }
@@ -45,12 +51,13 @@ RequestPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { ID } = ownProps.params;
-  const requests = state.entities.requests;
+  const request = state.entities.requests[ID];
   const loading = state.loading.loading;
 
   return {
     ID,
-    request: requests[ID],
+    isOwnRequest: request && request.User && request.User.Mail == state.login.token.iss,
+    request,
     loading: loading.includes(REQUEST_REQUEST)
   }
 }

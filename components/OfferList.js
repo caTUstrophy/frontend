@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
 import { List, ListItem } from 'material-ui/List'
+import Chip from 'material-ui/Chip'
 
 export default class OfferList extends Component {
   render() {
@@ -10,12 +11,17 @@ export default class OfferList extends Component {
                               primaryText="No offers"
                               disabled={true}/>
     } else {
-      offerList = this.props.offers.map(offer =>
-        <ListItem key={offer.ID}
-                  primaryText={`${offer.Name}`}
-                  secondaryText={offer.Description}
-                  onTouchTap={this.props.onTouchTapItem.bind(this, offer)} />
-      );
+      offerList = this.props.offers.map(offer => {
+        let description = <div style={{display: 'flex'}}>
+          <div style={{marginRight: 'auto'}}>{offer.Name}</div>
+          {offer.Tags.map(({Name}) => <Chip key={Name} style={{margin: '0 2px'}}>{Name}</Chip>)}
+        </div>;
+  
+        return <ListItem key={offer.ID}
+                         primaryText={description}
+                         secondaryText={offer.Description}
+                         onTouchTap={this.props.onTouchTapItem.bind(this, offer)}/>
+      });
     }
     return (
       <List>

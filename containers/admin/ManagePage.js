@@ -14,7 +14,7 @@ import Offer from '../../components/Offer';
 import OfferList from '../../components/OfferList';
 import Request from '../../components/Request';
 import RequestList from '../../components/RequestList';
-import { calculateCenter, toLeaflet } from '../../helpers/Location';
+import { calculateCenter } from '../../helpers/Location';
 
 import { loadRequests, loadOffers, loadRegion, managePageSelectItem, managePageUnselectItem, createMatching } from '../../actions'
 
@@ -80,7 +80,7 @@ export class ManagePage extends Component {
   }
 
   offerMarker(offer) {
-    return <Marker position={toLeaflet(offer.Location)}
+    return <Marker position={offer.Location}
             icon={ManagePage.greenMarker}
             onClick={this.handleMarkerClick.bind(this, OFFER_TYPE, offer)}
             key={offer.ID} />;
@@ -91,7 +91,7 @@ export class ManagePage extends Component {
   }
 
   requestMarker(request) {
-    return <Marker position={toLeaflet(request.Location)}
+    return <Marker position={request.Location}
                    onClick={this.handleMarkerClick.bind(this, REQUEST_TYPE, request)}
                    key={request.ID} />;
   }
@@ -145,7 +145,7 @@ export class ManagePage extends Component {
         </Paper>
         <SimpleMap center={mapCenter}
                    style={{height: 400, width: hasSelectedItem ? '60%' : '100%'}}>
-          <Polygon positions={toLeaflet(region.Boundaries.Points)} key="region" />
+          <Polygon positions={region.Boundaries.Points} key="region" />
           {markers}
         </SimpleMap>
         <Paper style={hasSelectedItem ? {width: '20%', padding: '1rem'} : {width: 0}}>

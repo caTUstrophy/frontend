@@ -103,7 +103,7 @@ export class App extends Component {
 
     return (
       <div>
-        <Toolbar noGutter={true}>
+        <Toolbar noGutter={true} style={{zIndex: 1100, position: 'fixed', top: 0, left: 0, right: 0}}>
           <ToolbarGroup firstchild={true} >
             {sideMenuButton}
             <ToolbarTitle text="CaTUstrophy" onTouchTap={() => browserHistory.push('/')} style={{cursor: 'pointer'}} />
@@ -111,9 +111,9 @@ export class App extends Component {
           <ToolbarGroup float={'right'} lastchild={true}>
               {<NotificationsMenu />}
               {<UserMenu />}
-              {<SideMenu />}
           </ToolbarGroup>
         </Toolbar>
+        {<SideMenu />}
         <Main>
           {children}
         </Main>

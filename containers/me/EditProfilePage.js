@@ -46,8 +46,7 @@ class EditProfilePage extends Component {
 
     return (
       <Center>
-        <UserForm user={profile} onSubmit={this.handleSubmit}  />
-        <pre>{JSON.stringify(this.props.profile, null, 2)}</pre>
+        <UserForm user={profile} onSubmit={this.handleSubmit} />
       </Center>
     )
   }
