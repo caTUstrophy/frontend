@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
 import { List, ListItem } from 'material-ui/List'
+import Chip from 'material-ui/Chip';
 
 export default class RequestList extends Component {
     render() {
@@ -10,11 +11,16 @@ export default class RequestList extends Component {
                                     primaryText="No requests"
                                     disabled={true}/>
         } else {
-            requestList = this.props.requests.map(request =>
-              <ListItem key={request.ID}
-                        primaryText={`${request.Name}`}
-                        onTouchTap={this.props.onTouchTapItem.bind(this, request)} />
-            );
+            requestList = this.props.requests.map(request => {
+                let description = <div style={{display: 'flex'}}>
+                    <div style={{marginRight: 'auto'}}>{request.Name}</div>
+                    {request.Tags.map(({Name}) => <Chip key={Name} style={{margin: '0 2px'}}>{Name}</Chip>)}
+                </div>;
+                
+                return <ListItem key={request.ID}
+                          primaryText={description}
+                          onTouchTap={this.props.onTouchTapItem.bind(this, request)}/>
+            });
         }
         return (
             <List>
