@@ -45,7 +45,7 @@ function fetchAdminsBase(endpoint, reference) {
 }
 
 function fetchRegionAdmins(regionId) {
-  return fetchAdminsBase(`regions/${ regionId }/admins`, {regionID});
+  return fetchAdminsBase(`regions/${ regionId }/admins`, {regionId});
 }
 
 // Fetches all admins (unless it is cached)
