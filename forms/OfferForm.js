@@ -117,6 +117,7 @@ export class OfferForm extends Component {
           <SimpleMap style={{height: '200px'}}
                      onClick={this.handleMapClick}
                      center={this.props.defaultLocation}
+                     zoom={13}
                      marker={Location.value || null}>
             {this.props.regions && this.props.regions.map(region => <Polygon positions={region.Boundaries.Points} key={region.ID} />)}
           </SimpleMap>
