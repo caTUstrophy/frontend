@@ -11,7 +11,7 @@ import Offer from './Offer'
 export default class OfferCard extends Component {
   static propTypes = {
     offer: OfferPropType.isRequired,
-    editable: PropTypes.boolean,
+    editable: PropTypes.bool,
     navigateToEditOffer: PropTypes.func.isRequired
   };
   
