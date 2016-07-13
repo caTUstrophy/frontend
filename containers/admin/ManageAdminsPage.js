@@ -6,7 +6,7 @@ import { browserHistory } from 'react-router'
 import autobind from 'autobind-decorator'
 
 import { INLINE_EMAIL_FORM_ID } from '../../forms/InlineEmailForm'
-import { REGION_REQUEST, loadRegionAdmins, loadRegion, promoteAdmin } from '../../actions'
+import { REGION_REQUEST, PROMOTE_ADMIN_SUCCESS, loadRegionAdmins, loadRegion, promoteAdmin } from '../../actions'
 import ManageAdminsForm from '../../forms/ManageAdminsForm'
 import Loading from '../misc/Loading'
 
@@ -38,9 +38,12 @@ class ManageAdminsPage extends Component {
   @autobind
   handlePromoteAdmin(adminEmail, regionId) {
     console.log("Promote", adminEmail, regionId);
-    this.props.promoteAdmin(adminEmail, regionId).then(() =>
-      console.log("Successfully promoted admin") // todo: handle success case
-    );
+    this.props.promoteAdmin(adminEmail, regionId)
+      .then(result => {
+        if (result.type == PROMOTE_ADMIN_SUCCESS) {
+          browserHistory.push(`/admin/regions/${regionId}`)
+        }
+      }); // todo: handle error cases
   }
 
   @autobind
