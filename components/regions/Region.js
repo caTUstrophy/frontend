@@ -19,6 +19,7 @@ export default class Region extends Component {
     region: RegionPropType.isRequired,
     onClickRequests: PropTypes.func.isRequired,
     onClickOffers: PropTypes.func.isRequired,
+    onClickMatchings: PropTypes.func.isRequired,
     onClickManageAdmins: PropTypes.func.isRequired,
     onClickEditRegion: PropTypes.func.isRequired
   };
@@ -67,6 +68,7 @@ export default class Region extends Component {
         <CardActions style={{display: 'flex', flexDirection: 'row-reverse'}}>
           <FlatButton label="Requests" onTouchTap={this.props.onClickRequests} />
           <FlatButton label="Offers" onTouchTap={this.props.onClickOffers} />
+          <FlatButton label="Matchings" onTouchTap={this.props.onClickMatchings} />
         </CardActions>
       </Card>
     )
