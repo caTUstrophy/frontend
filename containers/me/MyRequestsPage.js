@@ -57,12 +57,12 @@ MyRequestsPage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  const { myRequests } = state.mappings;
-  let requests = myRequests && myRequests.map(requestId => state.entities.requests[requestId]);
-
+  const myRequestIds = _get(state.mappings, 'my.requests');
+  const requests = myRequestIds && myRequestIds.map(requestId => state.entities.requests[requestId]);
+  
   return {
     requests,
-    loading: loadingHelper(state, requests, REQUESTS_REQUEST)
+    loading : loadingHelper(state, requests, REQUESTS_REQUEST)
   }
 }
 

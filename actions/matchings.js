@@ -91,7 +91,7 @@ export function loadMatchings(requiredFields = []) {
 
 export function loadUserMatchings(requiredFields = []) {
     return (dispatch, getState) => {
-        return dispatch(fetchMatchings(getState().login.jwt, {key : "myMatchings"}))
+        return dispatch(fetchMatchings(getState().login.jwt, { key : "my.matchings" }))
     }
 }
 

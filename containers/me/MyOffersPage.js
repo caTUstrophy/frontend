@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 
 import autobind from 'autobind-decorator'
+import { get as _get } from 'lodash';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
@@ -18,7 +19,7 @@ import Loading from '../misc/Loading'
 
 class MyOffersPage extends Component {
   static propTypes = {
-    offers: PropTypes.arrayOf(OfferPropType).isRequired,
+    offers: PropTypes.arrayOf(OfferPropType),
     loadUserOffers: PropTypes.func.isRequired
   };
   
@@ -58,8 +59,8 @@ class MyOffersPage extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { myOffers } = state.mappings;
-  const offers = myOffers && myOffers.map(offerId => state.entities.offers[offerId])
+  const myOfferIds = _get(state.mappings, 'my.offers');
+  const offers = myOfferIds && myOfferIds.map(offerId => state.entities.offers[offerId]);
   
   return {
     offers,

@@ -3,18 +3,27 @@ import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 
 import autobind from 'autobind-decorator'
+import { get as _get } from 'lodash';
 
-import { OFFERS_REQUEST, loadOffers } from '../../actions/offers'
+import { OFFERS_REQUEST, loadOffers, loadRegion, REGION_REQUEST } from '../../actions'
 import OfferList from '../../components/OfferList'
 
 import Loading from '../misc/Loading'
+import Center from '../layout/Center'
+import loadingHelper from "../helpers/loadingHelper";
+import {RegionPropType} from "../../schemas/RegionSchema";
+import {OfferPropType} from "../../schemas/OfferSchema";
 
 class OffersPage extends Component {
-  constructor(props) {
-    super(props);
-  }
-
+  static propTypes = {
+    offers: PropTypes.arrayOf(OfferPropType),
+    region: RegionPropType,
+    loading: PropTypes.bool.isRequired,
+    loadOffers: PropTypes.func.isRequired
+  };
+  
   componentWillMount() {
+    this.props.loadRegion(this.props.regionId);
     this.props.loadOffers(this.props.regionId);
   }
 
@@ -24,36 +33,34 @@ class OffersPage extends Component {
   }
 
   render() {
-    const { offers , loading} = this.props;
+    const { region, offers, loading} = this.props;
     if (loading) {
       return <Loading resourceName="offers" />;
     }
 
     return (
-      <div>
-        <h1>Offers</h1>
+      <Center>
+        <h1>Offers in {region.Name}</h1>
         <OfferList offers={offers} onTouchTapItem={this.handleTouchTapItem} />
-      </div>
+      </Center>
     )
   }
 }
 
-OffersPage.propTypes = {
-  offers: PropTypes.array.isRequired,
-  loadOffers: PropTypes.func.isRequired
-};
-
 function mapStateToProps(state, ownProps) {
-  const { entities: { offers } } = state;
-  const loading = state.loading;
+  const offerIds = _get(state.mappings, `regions.${ ownProps.params.ID }.offers`);
+  const offers = offerIds && offerIds.map(offerId => state.entities.offers[offerId]);
+  const region = state.entities.regions[ownProps.params.ID];
 
   return {
-    offers: Object.values(offers),
+    offers,
     regionId: ownProps.params.ID,
-    loading: loading.includes(OFFERS_REQUEST)
+    region,
+    loading: loadingHelper(state, [region, offers], [REGION_REQUEST, OFFERS_REQUEST])
   }
 }
 
 export default connect(mapStateToProps, {
-  loadOffers
+  loadOffers,
+  loadRegion
 })(OffersPage)

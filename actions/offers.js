@@ -76,11 +76,11 @@ function fetchOffersBase(endpoint, reference) {
 }
 
 function fetchOffers(regionId) {
-  return fetchOffersBase(`regions/${ regionId }/offers`)
+  return fetchOffersBase(`regions/${ regionId }/offers`, { key : `regions.${ regionId }.offers` })
 }
 
 function fetchUserOffers() {
-  return fetchOffersBase(`me/offers`, {key : "myOffers"})
+  return fetchOffersBase(`me/offers`, { key : "my.offers" })
 }
 
 // Fetches all offers (unless it is cached)
