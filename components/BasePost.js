@@ -32,7 +32,9 @@ export default class BasePost extends Component {
         </div>
   
         {post.Matched
-          ? <div style={BasePost.rowStyle}><MatchedIcon style={BasePost.iconStyle} /> This request has been matched!</div>
+          ? <div style={Object.assign({}, BasePost.rowStyle, { color: 'red'})}>
+              <MatchedIcon style={BasePost.iconStyle} color="red" /> This request has been matched!
+            </div>
           : <div style={BasePost.rowStyle}><UnmatchedIcon style={BasePost.iconStyle} /> <i>Not matched yet</i></div>
         }
         <div style={{display: 'flex', alignItems: 'center', marginBottom: '0.5rem'}}>
