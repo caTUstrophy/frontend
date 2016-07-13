@@ -1,10 +1,15 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import autobind from 'autobind-decorator'
 
-import { MATCHINGS_REQUEST, loadRegionMatchings } from '../../actions/matchings'
+import autobind from 'autobind-decorator'
+import { get as _get } from 'lodash';
+
+import { MATCHINGS_REQUEST, loadRegionMatchings, REGION_REQUEST, loadRegion } from '../../actions'
 import MatchingList from '../../components/MatchingList'
+
+import extractMatching from "../helpers/extractMatching";
+import loadingHelper from "../helpers/loadingHelper";
 
 import Loading from '../misc/Loading'
 import Center from './../layout/Center'
@@ -16,6 +21,7 @@ class MatchingsPage extends Component {
 
     componentWillMount() {
         this.props.loadRegionMatchings(this.props.regionId);
+        this.props.loadRegion(this.props.regionId);
     }
 
     @autobind
@@ -24,7 +30,7 @@ class MatchingsPage extends Component {
     }
 
     render() {
-        const { matchings, loading } = this.props;
+        const { matchings, region, loading } = this.props;
 
         if (loading) {
             return <Loading resourceName="matches" />;
@@ -32,7 +38,7 @@ class MatchingsPage extends Component {
 
         return (
           <Center>
-              <h1>Region matches</h1>
+              <h1>Matches in {region.Name}</h1>
               <MatchingList matchings={matchings} onTouchTapItem={this.handleTouchTapItem} />
           </Center>
         )
@@ -45,13 +51,19 @@ MatchingsPage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
+    const matchingIds = _get(state.mappings, `regions.${ ownProps.params.ID }.matchings`);
+    const matchings = matchingIds && matchingIds.map(matchingId => extractMatching(state, matchingId));
+    const region = state.entities.regions[ownProps.params.ID];
+    
     return {
+        matchings,
         regionId: ownProps.params.ID,
-        matchings: Object.values(state.entities.matchings),
-        loading: state.loading.includes(MATCHINGS_REQUEST)
+        region,
+        loading: loadingHelper(state, [region, matchings], [REGION_REQUEST, MATCHINGS_REQUEST])
     }
 }
 
 export default connect(mapStateToProps, {
-    loadRegionMatchings
+    loadRegionMatchings,
+    loadRegion
 })(MatchingsPage)

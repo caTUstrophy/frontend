@@ -68,41 +68,36 @@ export const MATCHINGS_FAILURE = 'MATCHINGS_FAILURE';
 
 // Fetches all matchings
 // Relies on the custom API middleware defined in ../middleware/api.js.
-function fetchMatchings(authorization, reference) {
+function fetchMatchingsBase(endpoint, reference) {
     return {
         [CALL_API]: {
             types: [ MATCHINGS_REQUEST, MATCHINGS_SUCCESS, MATCHINGS_FAILURE ],
-            endpoint: `me/matchings`,
+            endpoint,
             schema: Schemas.MATCHING_ARRAY,
-            authorization,
             reference
         }
     }
 }
 
-function fetchRegionMatchings(authorization, regionId) {
-    return {
-        [CALL_API]: {
-            types: [ MATCHINGS_REQUEST, MATCHINGS_SUCCESS, MATCHINGS_FAILURE ],
-            endpoint: `regions/${regionId}/matchings`,
-            schema: Schemas.MATCHING_ARRAY,
-            authorization
-        }
-    }
+function fetchRegionMatchings(regionId) {
+    return fetchMatchingsBase(`regions/${regionId}/matchings`, { key: `regions.${regionId}.matchings` })
+}
+function fetchUserMatchings() {
+    return fetchMatchingsBase(`me/matchings`, { key: `my.matchings` })
 }
 
 
 // Fetches all matchings (unless it is cached)
 // Relies on Redux Thunk middleware.
-export function loadMatchings(requiredFields = []) {
+export function loadRegionMatchings(regionId, requiredFields = []) {
     return (dispatch, getState) => {
-        return dispatch(fetchMatchings(getState().login.jwt))
+        return dispatch(authorized(getState().login.jwt)(fetchRegionMatchings(regionId)))
     }
 }
 
 export function loadUserMatchings(requiredFields = []) {
     return (dispatch, getState) => {
-        return dispatch(fetchMatchings(getState().login.jwt, { key : "my.matchings" }))
+        return dispatch(authorized(getState().login.jwt)(fetchUserMatchings()))
     }
 }
 
@@ -129,10 +124,5 @@ function putRejectMatching(matchingID) {
 export function rejectMatching(matchingID) {
     return (dispatch, getState) => {
         return dispatch(authorized(getState().login.jwt)(putRejectMatching(matchingID)))
-    }
-}
-export function loadRegionMatchings(regionId, requiredFields = []) {
-    return (dispatch, getState) => {
-        return dispatch(fetchRegionMatchings(getState().login.jwt, regionId))
     }
 }
