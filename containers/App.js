@@ -37,10 +37,6 @@ export class App extends Component {
     // Injected by muiThemeable
     muiTheme: PropTypes.object.isRequired
   };
-
-  constructor(props) {
-    super(props);
-  }
   
   loadProfile(props = this.props) {
     if (props.login && !props.profile) {
@@ -111,17 +107,17 @@ export class App extends Component {
     }
 
     let sideMenuButton = <IconButton onTouchTap={this.handleToggleSideMenu}>
-      {sideMenuOpen ? <CloseIcon color="white"/> : <MenuIcon color="white"/>}
+      {sideMenuOpen ? <CloseIcon color="white" /> : <MenuIcon color="white" />}
     </IconButton>;
 
     return (
       <div>
         <Toolbar noGutter={true} style={{zIndex: 1100, position: 'fixed', top: 0, left: 0, right: 0}}>
-          <ToolbarGroup firstchild={true} >
+          <ToolbarGroup firstchild={true} style={{alignItems: 'center'}} >
             {sideMenuButton}
             <ToolbarTitle text="CaTUstrophy" onTouchTap={() => browserHistory.push('/')} style={{cursor: 'pointer'}} />
           </ToolbarGroup>
-          <ToolbarGroup float={'right'} lastchild={true}>
+          <ToolbarGroup float={'right'} lastchild={true} style={{alignItems: 'center'}}>
               {<NotificationsMenu />}
               {<UserMenu />}
           </ToolbarGroup>
