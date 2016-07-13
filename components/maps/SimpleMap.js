@@ -18,13 +18,14 @@ class SimpleMap extends Component {
   };
 
   static defaultProps = {
-    showScale: true,
-    zoom: 13
+    showScale: true
   };
 
   render() {
     let style = { height: '200px' };
     Object.assign(style, this.props.style);
+    
+    let mapProps = { style, onClick: this.props.onClick };
 
     let content = [].concat(this.props.children);
     if (this.props.showScale) {
@@ -38,20 +39,33 @@ class SimpleMap extends Component {
     }
 
     // calculate bounds
-    var bounds;
-    if (this.props.area) {
-      bounds = new L.LatLngBounds(this.props.area);
-    }
-    else if(this.props.children) {
+    if (this.props.zoom) {
+      mapProps.zoom = this.props.zoom;
+    } else {
       var points = [];
-      this.props.children.forEach(function(child) {
-        if(child.props) {
-          points = points.concat(child.props.positions);
-        }
-      });
-      if(points.length > 0) bounds = new L.LatLngBounds(points);
+      if (this.props.area) {
+        points = points.concat(this.props.area);
+      }
+      if (this.props.children) {
+        let children = Array.isArray(this.props.children) ? this.props.children : [this.props.children];
+        children.forEach((child) => {
+          if (child.props) {
+            if (child.props.positions) { // areas
+              points = points.concat(child.props.positions);
+            } else if (child.props.position) { // markers
+              points.push(child.props.position)
+            }
+          }
+        });
+      }
+  
+      if (points.length > 0) {
+        mapProps.bounds = new L.LatLngBounds(points);
+      } else {
+        mapProps.zoom = 13; // fallback if properties / children not (yet) available
+      }
     }
-
+    
     let center = this.props.center;
     if (!center) {
       if (this.props.marker) {
@@ -60,28 +74,18 @@ class SimpleMap extends Component {
         center = LocationHelpers.calculateCenter(this.props.area);
       }
     }
-    center = center ||  {
+    mapProps.center = center ||  {
       lat: 0,
       lng: 0
     };
     
-    if(bounds) {
-      return <Map center={center} bounds={bounds} style={style} onClick={this.props.onClick}>
+    return <Map {...mapProps}>
       <TileLayer
         url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-      />
-      {content}
-      </Map>
-    }
-
-    return <Map center={center} zoom={this.props.zoom} style={style} onClick={this.props.onClick}>
-      <TileLayer
-        url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-      />
+        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors' />
       {content}
     </Map>
+    
   }
 }
 
