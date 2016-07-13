@@ -161,27 +161,32 @@ export class ManagePage extends Component {
     const mapHeight = 400;
 
     return (
-      <div style={{display: 'flex'}}>
-        <Paper style={hasSelectedItem ? {width: '20%', padding: '1rem'} : {width: 0}}>
-          <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-            <b>{sidePanelTitle}</b>
-            <IconButton onTouchTap={this.props.unselectItem}><CloseIcon /></IconButton>
-          </div>
-          {sidePanel}
-        </Paper>
-        <div style={{height: mapHeight, width: `${ mapWidth }%`, position: 'relative'}}>
-          <SimpleMap center={mapCenter} style={{height: mapHeight}}>
-            <Polygon positions={region.Boundaries.Points} key="region" />
-            {markers}
-          </SimpleMap>
-          <h1 style={{position: 'absolute', top: 0, left: 50, pointerEvents: 'none'}}>{this.props.region.Name}</h1>
+      <div>
+        <div className="small-only" style={{backgroundColor: 'darkred', color: "white", textAlign: "center", padding: 10}}>
+          <small>The admin interface on mobile devices is currently in experimental state</small>
         </div>
-        <Paper style={hasPossibleMatchings ? {width: '20%', padding: '1rem'} : {width: 0}}>
-          <div>
-            <b>Possible matches</b>
+        <div style={{display: 'flex'}}>
+          <Paper style={hasSelectedItem ? {width: '20%', padding: '1rem'} : {width: 0}}>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+              <b>{sidePanelTitle}</b>
+              <IconButton onTouchTap={this.props.unselectItem}><CloseIcon /></IconButton>
+            </div>
+            {sidePanel}
+          </Paper>
+          <div style={{height: mapHeight, width: `${ mapWidth }%`, position: 'relative'}}>
+            <SimpleMap center={mapCenter} style={{height: mapHeight}}>
+              <Polygon positions={region.Boundaries.Points} key="region" />
+              {markers}
+            </SimpleMap>
+            <h1 style={{position: 'absolute', top: 0, left: 50, pointerEvents: 'none'}}>{this.props.region.Name}</h1>
           </div>
-          {possibleMatchesPanel}
-        </Paper>
+          <Paper style={hasPossibleMatchings ? {width: '20%', padding: '1rem'} : {width: 0}}>
+            <div>
+              <b>Possible matches</b>
+            </div>
+            {possibleMatchesPanel}
+          </Paper>
+        </div>
       </div>
     )
   }
