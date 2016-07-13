@@ -6,7 +6,7 @@ import { UserPropType } from '../schemas/UserSchema';
 
 export default class UserList extends Component {
   static propTypes = {
-    users: UserPropType,
+    users: PropTypes.arrayOf(UserPropType).isRequired,
     onTouchTapItem: PropTypes.func.isRequired
   };
 

@@ -2,6 +2,7 @@ import { PropTypes } from 'react';
 import BaseSchema from './BaseSchema';
 
 import { LocationPropType } from '../helpers/Location'
+import schemaAsPropType from "./helpers/schemaAsPropType";
 
 export const PostBaseSchema = Object.assign({}, BaseSchema, {
   Name: {
@@ -33,4 +34,5 @@ export const PostBaseSchema = Object.assign({}, BaseSchema, {
   }
 });
 
+export const PostBasePropType = schemaAsPropType(PostBaseSchema);
 export default PostBaseSchema

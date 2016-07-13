@@ -18,6 +18,9 @@ import { calculateCenter } from '../../helpers/Location';
 import Loading from '../misc/Loading'
 
 import { loadRequests, loadOffers, loadRegion, managePageSelectItem, managePageUnselectItem, createMatching } from '../../actions'
+import {RegionPropType} from "../../schemas/RegionSchema";
+import {RequestPropType} from "../../schemas/RequestSchema";
+import {OfferPropType} from "../../schemas/OfferSchema";
 
 const OFFER_TYPE = 'offer';
 const REQUEST_TYPE = 'request';
@@ -25,8 +28,9 @@ const REQUEST_TYPE = 'request';
 export class ManagePage extends Component {
   static propTypes = {
     regionId: PropTypes.string.isRequired,
-    requests: PropTypes.array.isRequired,
-    offers: PropTypes.array.isRequired,
+    region: RegionPropType,
+    requests: PropTypes.arrayOf(RequestPropType),
+    offers: PropTypes.arrayOf(OfferPropType),
 
     loadRequests: PropTypes.func.isRequired,
     loadOffers: PropTypes.func.isRequired,
@@ -37,9 +41,13 @@ export class ManagePage extends Component {
     selectItem: PropTypes.func.isRequired,
     unselectItem: PropTypes.func.isRequired
   };
-
+  
   static greenMarker = Leaflet.icon({
     iconUrl: '/images/maps/marker-icon-green.png',
+    shadowUrl: '/images/maps/marker-shadow.png'
+  });
+  static grayMarker = Leaflet.icon({
+    iconUrl: '/images/maps/marker-icon-gray.png',
     shadowUrl: '/images/maps/marker-shadow.png'
   });
 
@@ -82,7 +90,7 @@ export class ManagePage extends Component {
 
   offerMarker(offer) {
     return <Marker position={offer.Location}
-            icon={ManagePage.greenMarker}
+            icon={offer.Matched ? ManagePage.grayMarker : ManagePage.greenMarker}
             onClick={this.handleMarkerClick.bind(this, OFFER_TYPE, offer)}
             key={offer.ID} />;
   }
@@ -93,6 +101,7 @@ export class ManagePage extends Component {
 
   requestMarker(request) {
     return <Marker position={request.Location}
+                   icon={request.Matched ? ManagePage.grayMarker : undefined}
                    onClick={this.handleMarkerClick.bind(this, REQUEST_TYPE, request)}
                    key={request.ID} />;
   }
@@ -109,31 +118,47 @@ export class ManagePage extends Component {
     }
 
     const hasSelectedItem = !!this.props.selectedItem;
+    let hasPossibleMatchings = false;
     let mapCenter = calculateCenter(region.Boundaries.Points);
     let sidePanel = null;
     let sidePanelTitle = null;
     let possibleMatchesPanel = null;
-    let markers;
+    let markers = [];
+    let mapWidth = 100;
     if (hasSelectedItem) {
+      mapWidth -= 20;
       const selectedItem = this.props.selectedItem.item;
       const selectedItemType = this.props.selectedItem.type;
+      hasPossibleMatchings = !selectedItem.Matched;
       mapCenter = selectedItem.Location;
+      if (hasPossibleMatchings) {
+        mapWidth -= 20;
+      }
+      
       if (selectedItemType == OFFER_TYPE) {
-        sidePanel = <Offer offer={selectedItem} />;
+        sidePanel = <Offer offer={selectedItem}/>;
         sidePanelTitle = "Offer";
-        markers = this.generateRequestMarkers();
+        if (hasPossibleMatchings) {
+          markers = this.generateRequestMarkers();
+          possibleMatchesPanel =
+            <RequestList requests={requests} onTouchTapItem={(request) => this.createMatching(selectedItem, request)}/>;
+        }
         markers.push(this.offerMarker(selectedItem));
-        possibleMatchesPanel = <RequestList requests={requests} onTouchTapItem={(request) => this.createMatching(selectedItem, request)} />;
       } else if (selectedItemType == REQUEST_TYPE) {
-        sidePanel = <Request request={selectedItem} />;
+        sidePanel = <Request request={selectedItem}/>;
         sidePanelTitle = "Request";
-        markers = this.generateOfferMarkers();
+        if (hasPossibleMatchings) {
+          markers = this.generateOfferMarkers();
+          possibleMatchesPanel =
+            <OfferList offers={offers} onTouchTapItem={(offer) => this.createMatching(offer, selectedItem)}/>;
+        }
         markers.push(this.requestMarker(selectedItem));
-        possibleMatchesPanel = <OfferList offers={offers} onTouchTapItem={(offer) => this.createMatching(offer, selectedItem)} />;
       }
     } else {
       markers = this.generateOfferMarkers().concat(this.generateRequestMarkers());
     }
+    
+    const mapHeight = 400;
 
     return (
       <div style={{display: 'flex'}}>
@@ -144,12 +169,14 @@ export class ManagePage extends Component {
           </div>
           {sidePanel}
         </Paper>
-        <SimpleMap center={mapCenter}
-                   style={{height: 400, width: hasSelectedItem ? '60%' : '100%'}}>
-          <Polygon positions={region.Boundaries.Points} key="region" />
-          {markers}
-        </SimpleMap>
-        <Paper style={hasSelectedItem ? {width: '20%', padding: '1rem'} : {width: 0}}>
+        <div style={{height: mapHeight, width: `${ mapWidth }%`, position: 'relative'}}>
+          <SimpleMap center={mapCenter} style={{height: mapHeight}}>
+            <Polygon positions={region.Boundaries.Points} key="region" />
+            {markers}
+          </SimpleMap>
+          <h1 style={{position: 'absolute', top: 0, left: 50, pointerEvents: 'none'}}>{this.props.region.Name}</h1>
+        </div>
+        <Paper style={hasPossibleMatchings ? {width: '20%', padding: '1rem'} : {width: 0}}>
           <div>
             <b>Possible matches</b>
           </div>

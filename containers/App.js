@@ -6,12 +6,11 @@ import Moment from 'moment';
 import autobind from 'autobind-decorator';
 
 import muiThemeable from 'material-ui/styles/muiThemeable';
-import AppBar from 'material-ui/AppBar';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
 import IconButton from 'material-ui/IconButton/IconButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar';
 
 import Center from './layout/Center'
 import Main from './Main'
@@ -20,9 +19,7 @@ import UserMenu from './user/UserMenu'
 import SideMenu from './user/SideMenu'
 import NotificationsMenu from './user/NotificationsMenu'
 
-import { toggleSideMenu } from '../actions/userInterface'
-import { tryRestoreLogin, logoutAfterTimeout, refreshLogin } from '../actions/login'
-import { loadNotifications } from '../actions/notifications'
+import { toggleSideMenu, tryRestoreLogin, logoutAfterTimeout, refreshLogin, loadNotifications, loadUserProfile } from '../actions'
 
 export class App extends Component {
   static propTypes = {
@@ -33,6 +30,7 @@ export class App extends Component {
     tryRestoreLogin: PropTypes.func.isRequired,
     logoutAfterTimeout: PropTypes.func.isRequired,
     loadNotifications: PropTypes.func.isRequired,
+    loadUserProfile: PropTypes.func.isRequired,
 
     // Injected by React Router
     children: PropTypes.node,
@@ -43,9 +41,16 @@ export class App extends Component {
   constructor(props) {
     super(props);
   }
+  
+  loadProfile(props = this.props) {
+    if (props.login && !props.profile) {
+      props.loadUserProfile();
+    }
+  }
 
   componentWillMount() {
     this.props.tryRestoreLogin();
+    this.loadProfile();
 
     this.loginRefreshFunction = setInterval(() => {
       const { login, logoutAfterTimeout, refreshLogin } = this.props;
@@ -69,6 +74,12 @@ export class App extends Component {
         this.props.loadNotifications()
       }
     }, 5000);
+  }
+  
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.login && nextProps.login) {
+      this.loadProfile(nextProps);
+    }
   }
 
   componentWillUnmount() {
@@ -125,10 +136,11 @@ export class App extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { login, userInterface: { sideMenuOpen }} = state;
+  const { login, profile, userInterface: { sideMenuOpen }} = state;
   return {
     url: ownProps.location.pathname,
     login,
+    profile,
     sideMenuOpen
   }
 }
@@ -138,5 +150,6 @@ export default muiThemeable()(connect(mapStateToProps, {
   tryRestoreLogin,
   refreshLogin,
   logoutAfterTimeout,
-  loadNotifications
+  loadNotifications,
+  loadUserProfile
 })(App))

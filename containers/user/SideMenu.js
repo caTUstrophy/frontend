@@ -11,6 +11,8 @@ import Subheader from 'material-ui/Subheader';
 import { toggleSideMenu } from '../../actions'
 import { logout } from '../../actions/login'
 
+import { isUserAdminAnywhere, isUserSuperAdmin } from '../../helpers/UserPermissionChecks'
+
 const menuEntries = [
   {
     url: "/me/offers",
@@ -47,9 +49,8 @@ class SideMenu extends Component {
     // Injected by React Redux
     sideMenuOpen: PropTypes.bool,
     toggleSideMenu: PropTypes.func.isRequired,
-    // Injected by React Router
-  
-    login: PropTypes.object
+    login: PropTypes.object,
+    profile: PropTypes.object
   };
 
   @autobind
@@ -68,18 +69,18 @@ class SideMenu extends Component {
   }
 
   render() {
-    const { login, sideMenuOpen } = this.props;
+    const { profile, sideMenuOpen } = this.props;
     let regularEntries = [<Subheader key="regular-subheader">MY ENTRIES</Subheader>]
       .concat(menuEntries.map(this.renderMenuItem));
     
     let adminEntries = null;
-    if (login.token.iss == "admin@example.org") { // todo: hacked admin as a constant
+    if (isUserAdminAnywhere(profile)) {
       adminEntries = [<Subheader key="admin-subheader" style={{marginTop: 30}}>ADMIN</Subheader>]
         .concat(adminMenuEntries.map(this.renderMenuItem));
     }
     
     let systemEntries;
-    if (login.token.iss == "admin@example.org") { // todo: hacked admin as a constant, system level (superadmin)
+    if (isUserSuperAdmin(profile)) {
       systemEntries = [<Subheader key="system-subheader" style={{marginTop: 30}}>SYSTEM</Subheader>]
         .concat(systemMenuEntries.map(this.renderMenuItem));
     }
@@ -104,9 +105,9 @@ class SideMenu extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { login, userInterface: { sideMenuOpen }} = state;
+  const { profile, userInterface: { sideMenuOpen }} = state;
   return {
-    login,
+    profile,
     sideMenuOpen
   }
 }

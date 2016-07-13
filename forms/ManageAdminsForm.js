@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { browserHistory } from 'react-router'
 
 import autobind from 'autobind-decorator';
 
@@ -32,7 +33,7 @@ export default class ManageAdminsForm extends Component {
                        disabled={true}/>;
     } else {
       list = admins.map(admin => <ListItem key={admin.ID} primaryText={`${admin.Name}`}
-                                           secondaryText={admin.Mail} />);
+                                           secondaryText={admin.Mail} onTouchTap={() => browserHistory.push(`/system/users/${admin.ID}`)} />);
     }
     return <List>{list}</List>;
   }
