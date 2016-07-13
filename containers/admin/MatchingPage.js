@@ -6,6 +6,7 @@ import extractMatching from './../helpers/extractMatching'
 
 import Loading from '../misc/Loading'
 import Center from '../layout/Center'
+import loadingHelper from "../helpers/loadingHelper";
 
 class MatchingPage extends Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class MatchingPage extends Component {
 
   componentWillMount() {
     if (!this.props.matching) {
-      this.props.loadMatching();
+      this.props.loadMatching(this.props.ID);
     }
   }
 
@@ -44,11 +45,12 @@ MatchingPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { ID } = ownProps.params;
-
+  const matching = extractMatching(state, ID);
+  
   return {
     ID,
-    matching: extractMatching(state, ID),
-    loading: state.loading.includes(MATCHING_REQUEST)
+    matching,
+    loading: loadingHelper(state, matching, MATCHING_REQUEST)
   }
 }
 

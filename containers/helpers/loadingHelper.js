@@ -1,6 +1,6 @@
 export default function (state, entities, requests) {
   let entityArray = Array.isArray(entities) ? entities : [entities];
-  if (entityArray.some((entity => entity === undefined))) {
+  if (entityArray.some((entity => entity === undefined || entity === null))) {
     return true;
   }
   
