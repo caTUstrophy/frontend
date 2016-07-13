@@ -94,3 +94,29 @@ export function loadUserMatchings(requiredFields = []) {
         return dispatch(fetchMatchings(getState().login.jwt, {key : "myMatchings"}))
     }
 }
+
+export const PUT_REJECT_MATCHING = 'PUT_REJECT_MATCHING';
+export const PUT_REJECT_MATCHING_SUCCESS = 'PUT_REJECT_MATCHING_SUCCESS';
+export const PUT_REJECT_MATCHING_FAILURE = 'PUT_REJECT_MATCHING_FAILURE';
+
+// Fetches user profile
+// Relies on the custom API middleware defined in ../middleware/api.js.
+function putRejectMatching(matchingID) {
+    return {
+        [CALL_API]: {
+            types: [ PUT_REJECT_MATCHING, PUT_REJECT_MATCHING_SUCCESS, PUT_REJECT_MATCHING_FAILURE ],
+            endpoint: `matchings/${matchingID}`,
+            verb: 'PUT',
+            payload: {Invalid: true}
+        }
+    }
+}
+
+// Fetches user profile
+// Relies on Redux Thunk middleware.
+
+export function rejectMatching(matchingID) {
+    return (dispatch, getState) => {
+        return dispatch(authorized(getState().login.jwt)(putRejectMatching(matchingID)))
+    }
+}
