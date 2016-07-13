@@ -4,6 +4,7 @@ import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card'
 import { List, ListItem } from 'material-ui/List'
 import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
+import { browserHistory } from 'react-router'
 
 import FingerprintIcon from 'material-ui/svg-icons/action/fingerprint'
 import CropFreeIcon from 'material-ui/svg-icons/image/crop-free'
@@ -30,7 +31,7 @@ export default class Region extends Component {
                        disabled={true}/>;
     } else {
       list = admins.map(admin => <ListItem key={admin.ID} primaryText={`${admin.Name}`}
-      secondaryText={admin.Mail} />);
+      secondaryText={admin.Mail} onTouchTap={() => browserHistory.push(`/system/users/${admin.ID}`)} />);
     }
     return <List>{list}</List>;
   }
