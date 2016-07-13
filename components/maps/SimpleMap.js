@@ -33,9 +33,23 @@ class SimpleMap extends Component {
     if (this.props.marker) {
       content.push(<Marker position={this.props.marker} key="marker" />);
     }
-
     if (this.props.area) {
       content.push(<Polygon positions={this.props.area} key="area" />);
+    }
+
+    // calculate bounds
+    var bounds;
+    if (this.props.area) {
+      bounds = new L.LatLngBounds(this.props.area);
+    }
+    else if(this.props.children) {
+      var points = [];
+      this.props.children.forEach(function(child) {
+        if(child.props) {
+          points = points.concat(child.props.positions);
+        }
+      });
+      if(points.length > 0) bounds = new L.LatLngBounds(points);
     }
 
     let center = this.props.center;
@@ -50,8 +64,18 @@ class SimpleMap extends Component {
       lat: 0,
       lng: 0
     };
+    
+    if(bounds) {
+      return <Map center={center} bounds={bounds} style={style} onClick={this.props.onClick}>
+      <TileLayer
+        url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      />
+      {content}
+      </Map>
+    }
 
-    return <Map center={center} zoom={this.props.zoom} bounds={new L.LatLngBounds(this.props.area)} style={style} onClick={this.props.onClick}>
+    return <Map center={center} zoom={this.props.zoom} style={style} onClick={this.props.onClick}>
       <TileLayer
         url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
