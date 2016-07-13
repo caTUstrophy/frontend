@@ -3,7 +3,14 @@ import React, { Component, PropTypes } from 'react'
 import { List, ListItem } from 'material-ui/List'
 import Chip from 'material-ui/Chip';
 
+import { RequestPropType } from '../schemas/RequestSchema'
+
 export default class RequestList extends Component {
+    static propTypes = {
+        requests: PropTypes.arrayOf(RequestPropType).isRequired,
+        onTouchTapItem: PropTypes.func.isRequired
+    };
+    
     render() {
         let requestList;
         if (this.props.requests.length === 0) {
@@ -23,6 +30,7 @@ export default class RequestList extends Component {
                           onTouchTap={this.props.onTouchTapItem.bind(this, request)}/>
             });
         }
+        
         return (
             <List>
                 {requestList}
@@ -30,11 +38,3 @@ export default class RequestList extends Component {
         )
     }
 }
-
-RequestList.propTypes = {
-    requests: PropTypes.arrayOf(PropTypes.shape({
-        ID: PropTypes.string.isRequired,
-        Name: PropTypes.string.isRequired
-    })).isRequired,
-    onTouchTapItem: PropTypes.func.isRequired
-};
