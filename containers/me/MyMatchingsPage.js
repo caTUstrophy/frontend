@@ -31,7 +31,7 @@ class MyMatchingsPage extends Component {
 
   render() {
     const { matchings, loading } = this.props;
-    if (loading) {
+    if (!matchings && loading) {
       return <Loading resourceName="your matches" />;
     }
 

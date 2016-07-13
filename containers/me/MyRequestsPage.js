@@ -29,7 +29,7 @@ class MyRequestsPage extends Component {
 
   render() {
     const { requests, loading } = this.props;
-    if (loading) {
+    if (!requests && loading) {
       return <Loading resourceName="your requests" />;
     }
 

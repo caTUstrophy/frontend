@@ -36,7 +36,7 @@ class MyOffersPage extends Component {
   render() {
     const { offers, loading } = this.props;
 
-    if (loading) {
+    if (!offers && loading) {
       return <Loading resourceName="your offers" />;
     }
 
