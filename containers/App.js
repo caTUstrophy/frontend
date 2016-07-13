@@ -65,7 +65,9 @@ export class App extends Component {
     }, 1000);
 
     this.loadNotificationsFunction = setInterval(() => {
-      this.props.loadNotifications()
+      if (this.props.login) {
+        this.props.loadNotifications()
+      }
     }, 5000);
   }
 
