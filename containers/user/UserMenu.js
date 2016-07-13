@@ -30,7 +30,7 @@ class UserMenu extends Component {
 
   render() {
     const { userMenuOpen, login } = this.props;
-    const isAdmin = login.token.iss == "admin@example.org";
+    const isAdmin = login.token.iss == "admin@example.org"; // todo: hacked admin as a constant
 
     return (
       <IconMenu

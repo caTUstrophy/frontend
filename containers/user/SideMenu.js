@@ -33,15 +33,7 @@ const adminMenuEntries = [,
   {
     url: "/admin/regions",
     text: "Regions"
-  },
-  // {
-  //   url: "/admin/offers",
-  //   text: "All Offers"
-  // },
-  // {
-  //   url: "/admin/requests",
-  //   text: "All Requests"
-  // }
+  }
 ];
 const systemMenuEntries = [,
   {
@@ -50,10 +42,15 @@ const systemMenuEntries = [,
   }
 ];
 
-class UserMenu extends Component {
-  constructor(props) {
-    super(props);
-  }
+class SideMenu extends Component {
+  static propTypes = {
+    // Injected by React Redux
+    sideMenuOpen: PropTypes.bool,
+    toggleSideMenu: PropTypes.func.isRequired,
+    // Injected by React Router
+  
+    login: PropTypes.object
+  };
 
   @autobind
   handleRequestToggle() {
@@ -74,13 +71,15 @@ class UserMenu extends Component {
     const { login, sideMenuOpen } = this.props;
     let regularEntries = [<Subheader key="regular-subheader">MY ENTRIES</Subheader>]
       .concat(menuEntries.map(this.renderMenuItem));
+    
     let adminEntries = null;
     if (login.token.iss == "admin@example.org") { // todo: hacked admin as a constant
       adminEntries = [<Subheader key="admin-subheader" style={{marginTop: 30}}>ADMIN</Subheader>]
         .concat(adminMenuEntries.map(this.renderMenuItem));
     }
+    
     let systemEntries;
-    if (login.token.iss == "admin@example.org") { // todo: hacked admin as a constant
+    if (login.token.iss == "admin@example.org") { // todo: hacked admin as a constant, system level (superadmin)
       systemEntries = [<Subheader key="system-subheader" style={{marginTop: 30}}>SYSTEM</Subheader>]
         .concat(systemMenuEntries.map(this.renderMenuItem));
     }
@@ -104,15 +103,6 @@ class UserMenu extends Component {
   }
 }
 
-UserMenu.propTypes = {
-  // Injected by React Redux
-  sideMenuOpen: PropTypes.bool,
-  toggleSideMenu: PropTypes.func.isRequired,
-  // Injected by React Router
-
-  login: PropTypes.object
-};
-
 function mapStateToProps(state, ownProps) {
   const { login, userInterface: { sideMenuOpen }} = state;
   return {
@@ -124,4 +114,4 @@ function mapStateToProps(state, ownProps) {
 export default connect(mapStateToProps, {
   toggleSideMenu,
   logout
-})(UserMenu)
+})(SideMenu)
