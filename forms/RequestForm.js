@@ -116,7 +116,7 @@ export class RequestForm extends Component {
             <div>
               <TextField {...Radius}
                 ref="Radius"
-                type="text"
+                type="number"
                 floatingLabelText="How far can you travel? (km)"
                 errorText={Radius.touched && Radius.error}
                 onChange={(event, value) => Radius.onChange(parseFloat(value))} />
