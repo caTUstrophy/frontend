@@ -37,7 +37,7 @@ export class AdminHomePage extends Component {
 
     return (
       <div>
-        <div className="small-only" style={{backgroundColor: 'darkred', color: "white", textAlign: "center", padding: 10}}>
+        <div className="show-for-small-only" style={{backgroundColor: 'darkred', color: "white", textAlign: "center", padding: 10}}>
           <small>The admin interface on mobile devices is currently in experimental state</small>
         </div>
         <div style={{display: 'flex'}}>
