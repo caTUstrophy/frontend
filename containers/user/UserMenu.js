@@ -12,6 +12,8 @@ import IconButton from 'material-ui/IconButton/IconButton';
 import { toggleUserMenu } from '../../actions'
 import { logout } from '../../actions/login'
 
+import { isUserAdminAnywhere } from '../../helpers/UserPermissionChecks'
+
 class UserMenu extends Component {
   constructor(props) {
     super(props);
@@ -29,8 +31,7 @@ class UserMenu extends Component {
   }
 
   render() {
-    const { userMenuOpen, login } = this.props;
-    const isAdmin = login.token.iss == "admin@example.org"; // todo: hacked admin as a constant
+    const { userMenuOpen, profile } = this.props;
 
     return (
       <IconMenu
@@ -40,7 +41,7 @@ class UserMenu extends Component {
         anchorOrigin={{horizontal: 'right', vertical: 'top'}}
         targetOrigin={{horizontal: 'right', vertical: 'top'}}>
         {/* <MenuItem value="username" primaryText="Username"/> */}
-        {isAdmin ? <MenuItem value="admin-area" primaryText="Admin area" onTouchTap={() => browserHistory.push('/admin')}/> : null}
+        {isUserAdminAnywhere(profile) ? <MenuItem value="admin-area" primaryText="Admin area" onTouchTap={() => browserHistory.push('/admin')}/> : null}
         <MenuItem value="profile" onTouchTap={() => browserHistory.push('/me')} primaryText="Your Profile" />
         <MenuItem value="logout" primaryText="Logout" onTouchTap={this.handleLogoutTap} />
       </IconMenu>
@@ -54,13 +55,13 @@ UserMenu.propTypes = {
   toggleUserMenu: PropTypes.func.isRequired,
   // Injected by React Router
 
-  login: PropTypes.object
+  profile: PropTypes.object
 };
 
 function mapStateToProps(state, ownProps) {
-  const { login, userInterface: { userMenuOpen }} = state;
+  const { profile, userInterface: { userMenuOpen }} = state;
   return {
-    login,
+    profile,
     userMenuOpen
   }
 }
