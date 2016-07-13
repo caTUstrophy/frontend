@@ -10,6 +10,8 @@ import { createOffer, CREATE_OFFERS_SUCCESS } from '../actions/offers'
 import { LocationPropType } from '../helpers/Location'
 import {loadTags} from "../actions/tags";
 
+import Center from './layout/Center'
+
 class AddOfferPage extends Component {
   static propTypes = {
     offer: PropTypes.object,
@@ -42,12 +44,12 @@ class AddOfferPage extends Component {
 
   render() {
     return (
-      <div style={{width: '40rem', margin: '0 auto'}}>
+      <Center>
         <OfferForm onSubmit={this.handleSubmit}
                    defaultLocation={this.props.location}
                    regions={this.props.regions}
                    allowedTags={this.props.tags}  />
-      </div>
+      </Center>
     )
   }
 }

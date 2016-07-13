@@ -10,6 +10,8 @@ import { loadTags } from '../actions/tags.js'
 import RequestForm from '../forms/RequestForm'
 import { LocationPropType } from '../helpers/Location'
 
+import Center from './layout/Center'
+
 class AddRequestPage extends Component {
   constructor(props) {
     super(props);
@@ -37,12 +39,12 @@ class AddRequestPage extends Component {
 
   render() {
     return (
-      <div style={{width: '40rem', margin: '0 auto'}}>
+      <Center>
         <RequestForm onSubmit={this.handleSubmit}
                      defaultLocation={this.props.location}
                      regions={this.props.regions}
                      allowedTags={this.props.tags} />
-      </div>
+      </Center>
     )
   }
 }

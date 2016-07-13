@@ -13,6 +13,8 @@ import Loading from '../misc/Loading'
 import { RegionPropType, UserPropType } from "../../schemas"
 import extractRegionWithAdmins from "../helpers/extractRegionWithAdmins";
 
+import Center from '../layout/Center'
+
 
 class ManageAdminsPage extends Component {
   static propTypes = {
@@ -53,12 +55,12 @@ class ManageAdminsPage extends Component {
     }
 
     return (
-      <div style={{width: '40rem', margin: '0 auto'}}>
+      <Center>
         <ManageAdminsForm region={region}
                           onPromoteAdmin={this.handlePromoteAdmin}
                           resetInlineEmailForm={this.props.resetInlineEmailForm}
                           navigateToRegion={this.navigateToRegion} />
-      </div>
+      </Center>
     )
   }
 }

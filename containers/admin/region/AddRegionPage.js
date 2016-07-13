@@ -8,6 +8,8 @@ import RegionForm from '../../../forms/RegionForm'
 import { createRegion, CREATE_REGION_SUCCESS } from '../../../actions/regions'
 import { getLocation } from '../../../actions/location'
 
+import Center from '../../layout/Center'
+
 class AddRegionPage extends Component {
   static propTypes = {
     region: PropTypes.object
@@ -35,10 +37,10 @@ class AddRegionPage extends Component {
 
   render() {
     return (
-      <div style={{width: '40rem', margin: '0 auto'}}>
+      <Center>
         <RegionForm onSubmit={this.handleSubmit}
                     defaultLocation={this.props.location} />
-      </div>
+      </Center>
     )
   }
 }

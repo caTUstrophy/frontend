@@ -5,6 +5,7 @@ import MatchingCard from '../../components/MatchingCard'
 import extractMatching from './../helpers/extractMatching'
 
 import Loading from '../misc/Loading'
+import Center from '../layout/Center'
 
 class MatchingPage extends Component {
   constructor(props) {
@@ -28,9 +29,9 @@ class MatchingPage extends Component {
     const request = this.props.matching.Request;
     
     return (
-      <div style={{width: '40rem', margin: '0 auto'}}>
+      <Center>
         <MatchingCard matching={matching} offer={offer} request={request} />
-      </div>
+      </Center>
     )
   }
 }
