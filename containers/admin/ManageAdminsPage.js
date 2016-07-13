@@ -67,12 +67,11 @@ class ManageAdminsPage extends Component {
 
 function mapStateToProps(state, ownProps) {
   let regionId = ownProps.params.ID;
-  const { loading } = state.loading;
 
   return {
     region: extractRegionWithAdmins(state, regionId),
     regionId,
-    loading: loading.includes(REGION_REQUEST)
+    loading: state.loading.includes(REGION_REQUEST)
   }
 }
 

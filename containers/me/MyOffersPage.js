@@ -34,8 +34,7 @@ class MyOffersPage extends Component {
   }
 
   render() {
-    const { offers } = this.props;
-    const { loading } = this.props;
+    const { offers, loading } = this.props;
 
     if (loading) {
       return <Loading resourceName="your offers" />;

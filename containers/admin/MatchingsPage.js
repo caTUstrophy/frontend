@@ -36,12 +36,10 @@ MatchingsPage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-    const { entities: { matchings } } = state;
-    const { loading } = state.loading;
 
     return {
-        matchings: Object.values(matchings),
-        loading: loading.includes(MATCHINGS_REQUEST)
+        matchings: Object.values(state.entities.matchings),
+        loading: state.loading.includes(MATCHINGS_REQUEST)
     }
 }
 

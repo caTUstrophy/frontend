@@ -62,12 +62,11 @@ RegionPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { ID } = ownProps.params;
-  const { loading } = state.loading;
 
   return {
     ID,
     region: extractRegionWithAdmins(state, ID),
-    loading : loading.includes(REGION_REQUEST)
+    loading : state.loading.includes(REGION_REQUEST)
   }
 }
 

@@ -53,8 +53,7 @@ RegionsPage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  const { entities: { regions } } = state;
-  const { loading} = state.loading;
+  const { entities: { regions }, loading } = state;
 
   return {
     regions: Object.values(regions),

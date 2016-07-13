@@ -44,13 +44,11 @@ MatchingPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { ID } = ownProps.params;
-  const { entities: { matchings } } = state;
-  const { loading} = state.loading;
 
   return {
     ID,
     matching: extractMatching(state, ID),
-    loading: loading.includes(MATCHING_REQUEST)
+    loading: state.loading.includes(MATCHING_REQUEST)
   }
 }
 
