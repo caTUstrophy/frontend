@@ -8,6 +8,8 @@ import { MATCHINGS_REQUEST, loadUserMatchings } from '../../actions/matchings'
 import MatchingList from '../../components/MatchingList'
 import extractMatching from './../helpers/extractMatching'
 
+import loadingHelper from '../helpers/loadingHelper'
+
 import Center from '../layout/Center';
 import Loading from '../misc/Loading';
 
@@ -31,7 +33,7 @@ class MyMatchingsPage extends Component {
 
   render() {
     const { matchings, loading } = this.props;
-    if (!matchings && loading) {
+    if (loading) {
       return <Loading resourceName="your matches" />;
     }
 
@@ -53,12 +55,13 @@ MyMatchingsPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { myMatchings } = state.mappings;
-
+  const matchings = myMatchings && myMatchings.map(
+    matchingId => extractMatching(state, matchingId)
+  );
+  
   return {
-    matchings: myMatchings && myMatchings.map(
-      matchingId => extractMatching(state, matchingId)
-    ),
-    loading: state.loading.includes(MATCHINGS_REQUEST)
+    matchings,
+    loading: loadingHelper(state, matchings, MATCHINGS_REQUEST)
   }
 }
 

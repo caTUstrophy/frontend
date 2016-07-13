@@ -10,6 +10,8 @@ import ContentAdd from 'material-ui/svg-icons/content/add'
 import { loadUserRequests, REQUESTS_REQUEST } from '../../actions/requests'
 import RequestList from '../../components/RequestList'
 
+import loadingHelper from '../helpers/loadingHelper'
+
 import Center from '../layout/Center'
 import Loading from '../misc/Loading'
 
@@ -29,10 +31,11 @@ class MyRequestsPage extends Component {
 
   render() {
     const { requests, loading } = this.props;
-    if (!requests && loading) {
+    
+    if (loading) {
       return <Loading resourceName="your requests" />;
     }
-
+    
     return (
       <Center>
         <h1>Your Requests</h1>
@@ -54,12 +57,12 @@ MyRequestsPage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  const { entities: { requests } } = state;
   const { myRequests } = state.mappings;
+  let requests = myRequests && myRequests.map(requestId => state.entities.requests[requestId]);
 
   return {
-    requests: myRequests && myRequests.map(requestId => requests[requestId]),
-    loading: state.loading.includes(REQUESTS_REQUEST)
+    requests,
+    loading: loadingHelper(state, requests, REQUESTS_REQUEST)
   }
 }
 

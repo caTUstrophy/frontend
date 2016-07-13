@@ -11,6 +11,8 @@ import { loadUserOffers, OFFERS_REQUEST } from '../../actions/offers'
 import OfferList from '../../components/OfferList'
 import {OfferPropType} from "../../schemas/OfferSchema";
 
+import loadingHelper from '../helpers/loadingHelper'
+
 import Center from '../layout/Center'
 import Loading from '../misc/Loading'
 
@@ -36,7 +38,7 @@ class MyOffersPage extends Component {
   render() {
     const { offers, loading } = this.props;
 
-    if (!offers && loading) {
+    if (loading) {
       return <Loading resourceName="your offers" />;
     }
 
@@ -56,12 +58,12 @@ class MyOffersPage extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { entities: { offers }, loading } = state;
   const { myOffers } = state.mappings;
+  const offers = myOffers && myOffers.map(offerId => state.entities.offers[offerId])
   
   return {
-    offers: myOffers && myOffers.map(offerId => offers[offerId]),
-    loading : loading.includes(OFFERS_REQUEST)
+    offers,
+    loading : loadingHelper(state, offers, OFFERS_REQUEST)
   }
 }
 
