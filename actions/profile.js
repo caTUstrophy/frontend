@@ -21,6 +21,13 @@ function fetchUserProfile() {
 
 export function loadUserProfile(requiredFields = []) {
   return (dispatch, getState) => {
+    if (__USE_FRONTEND_CACHES__) {
+      const profile = getState().profile;
+      if (profile && requiredFields && requiredFields.every(key => profile.hasOwnProperty(key))) {
+        return null;
+      }
+    }
+  
     return dispatch(authorized(getState().login.jwt)(fetchUserProfile()))
   }
 }
