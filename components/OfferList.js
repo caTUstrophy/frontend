@@ -6,7 +6,7 @@ import Chip from 'material-ui/Chip'
 export default class OfferList extends Component {
   render() {
     let offerList;
-    if (this.props.offers.length === 0) {
+    if (this.props.offers && this.props.offers.length === 0) {
       offerList = <ListItem key="empty"
                               primaryText="No offers"
                               disabled={true}/>
