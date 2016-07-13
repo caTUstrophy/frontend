@@ -8,6 +8,7 @@ import { REQUESTS_REQUEST, loadRequests } from '../../actions/requests'
 import RequestList from '../../components/RequestList'
 
 import Loading from '../misc/Loading'
+import Center from './../layout/Center'
 
 class RequestsPage extends Component {
     static propTypes = {
@@ -36,10 +37,10 @@ class RequestsPage extends Component {
         }
 
         return (
-          <div>
+          <Center>
             <h1>Requests</h1>
             <RequestList requests={requests} onTouchTapItem={this.handleTouchTapItem} />
-          </div>
+          </Center>
         )
     }
 }

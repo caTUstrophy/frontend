@@ -80,6 +80,17 @@ function fetchMatchings(authorization, reference) {
     }
 }
 
+function fetchRegionMatchings(authorization, regionId) {
+    return {
+        [CALL_API]: {
+            types: [ MATCHINGS_REQUEST, MATCHINGS_SUCCESS, MATCHINGS_FAILURE ],
+            endpoint: `regions/${regionId}/matchings`,
+            schema: Schemas.MATCHING_ARRAY,
+            authorization
+        }
+    }
+}
+
 
 // Fetches all matchings (unless it is cached)
 // Relies on Redux Thunk middleware.
@@ -92,5 +103,10 @@ export function loadMatchings(requiredFields = []) {
 export function loadUserMatchings(requiredFields = []) {
     return (dispatch, getState) => {
         return dispatch(fetchMatchings(getState().login.jwt, {key : "myMatchings"}))
+    }
+}
+export function loadRegionMatchings(regionId, requiredFields = []) {
+    return (dispatch, getState) => {
+        return dispatch(fetchRegionMatchings(getState().login.jwt, regionId))
     }
 }

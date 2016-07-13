@@ -6,6 +6,7 @@ import autobind from 'autobind-decorator'
 
 import { OFFERS_REQUEST, loadOffers } from '../../actions/offers'
 import OfferList from '../../components/OfferList'
+import Center from './../layout/Center'
 
 import Loading from '../misc/Loading'
 
@@ -30,10 +31,10 @@ class OffersPage extends Component {
     }
 
     return (
-      <div>
+      <Center>
         <h1>Offers</h1>
         <OfferList offers={offers} onTouchTapItem={this.handleTouchTapItem} />
-      </div>
+      </Center>
     )
   }
 }

@@ -12,6 +12,7 @@ import AdminHomePage from './containers/admin/AdminHomePage'
 import ManagePage from './containers/admin/ManagePage'
 import ManageAdminsPage from './containers/admin/ManageAdminsPage'
 import OffersPage from './containers/admin/OffersPage'
+import MatchingsPage from './containers/admin/MatchingsPage'
 import MatchingPage from './containers/admin/MatchingPage'
 import RequestsPage from './containers/admin/RequestsPage'
 import AddRegionPage from './containers/admin/region/AddRegionPage'
@@ -63,6 +64,9 @@ export default [
       <Route path="requests">
         <Route path=":ID" component={RequestPage} />
       </Route>
+      <Route path="matchings">
+        <Route path=":ID" component={MatchingPage} />
+      </Route>
       <Route path="regions">
         <IndexRoute component={RegionsPage} />
         <Route path="create"
@@ -71,6 +75,7 @@ export default [
           <IndexRoute component={RegionPage} />
           <Route path="requests" component={RequestsPage} />
           <Route path="offers" component={OffersPage} />
+          <Route path="matchings" component={MatchingsPage} />
           <Route path="admins" component={ManageAdminsPage} />
           <Route path="edit" component={EditRegionPage} />
         </Route>
