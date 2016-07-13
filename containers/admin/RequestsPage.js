@@ -3,25 +3,30 @@ import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 
 import autobind from 'autobind-decorator'
+import { get as _get } from 'lodash';
 
 import { REQUESTS_REQUEST, loadRequests } from '../../actions/requests'
 import RequestList from '../../components/RequestList'
 
 import Loading from '../misc/Loading'
-import Center from './../layout/Center'
+import {REGION_REQUEST} from "../../actions/regions";
+import loadingHelper from "../helpers/loadingHelper";
+import {loadRegion} from "../../actions/regions";
+import {RegionPropType} from "../../schemas/RegionSchema";
+import {RequestPropType} from "../../schemas/RequestSchema";
+
+import Center from '../layout/Center'
 
 class RequestsPage extends Component {
     static propTypes = {
-        regionId: PropTypes.string.isRequired,
-        requests: PropTypes.array.isRequired,
+        requests: PropTypes.arrayOf(RequestPropType),
+        region: RegionPropType,
+        loading: PropTypes.bool.isRequired,
         loadRequests: PropTypes.func.isRequired
     };
 
-    constructor(props) {
-        super(props);
-    }
-
     componentWillMount() {
+        this.props.loadRegion(this.props.regionId);
         this.props.loadRequests(this.props.regionId);
     }
     
@@ -31,14 +36,14 @@ class RequestsPage extends Component {
     }
 
     render() {
-        const { requests, loading } = this.props;
+        const { requests, region, loading } = this.props;
         if (loading) {
             return <Loading resourceName="requests" />;
         }
 
         return (
           <Center>
-            <h1>Requests</h1>
+            <h1>Requests in {region.Name}</h1>
             <RequestList requests={requests} onTouchTapItem={this.handleTouchTapItem} />
           </Center>
         )
@@ -46,16 +51,19 @@ class RequestsPage extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-    const { entities: { requests } } = state;
-    const loading = state.loading;
-
+    const requestIds = _get(state.mappings, `regions.${ ownProps.params.ID }.requests`);
+    const requests = requestIds && requestIds.map(requestId => state.entities.requests[requestId]);
+    const region = state.entities.regions[ownProps.params.ID];
+    
     return {
-        requests: Object.values(requests),
+        requests,
         regionId: ownProps.params.ID,
-        loading: loading.includes(REQUESTS_REQUEST)
+        region,
+        loading: loadingHelper(state, [region, requests], [REGION_REQUEST, REQUESTS_REQUEST])
     }
 }
 
 export default connect(mapStateToProps, {
-    loadRequests
+    loadRequests,
+    loadRegion
 })(RequestsPage)

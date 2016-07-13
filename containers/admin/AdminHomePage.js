@@ -36,14 +36,19 @@ export class AdminHomePage extends Component {
     }
 
     return (
-      <div style={{display: 'flex'}}>
-        <Paper style={{width: '20%'}}>
-          <RegionList regions={regions} onTouchTapItem={this.handleFocusRegion.bind(this)} />
-        </Paper>
-        <SimpleMap center={calculateCenter(regions.map((region) => calculateCenter(region.Boundaries.Points)))}
-                   style={{width: '80%', height: 400}}>
-          {regions.map(region => <Polygon positions={region.Boundaries.Points} onClick={this.handleFocusRegion.bind(this, region)} key={region.ID} />) /* todo: style */}
-        </SimpleMap>
+      <div>
+        <div className="show-for-small-only" style={{backgroundColor: 'darkred', color: "white", textAlign: "center", padding: 10}}>
+          <small>The admin interface on mobile devices is currently in experimental state</small>
+        </div>
+        <div style={{display: 'flex'}}>
+          <Paper style={{width: '20%'}}>
+            <RegionList regions={regions} onTouchTapItem={this.handleFocusRegion.bind(this)} />
+          </Paper>
+          <SimpleMap center={calculateCenter(regions.map((region) => calculateCenter(region.Boundaries.Points)))}
+                     style={{width: '80%', height: 400}}>
+            {regions.map(region => <Polygon positions={region.Boundaries.Points} onClick={this.handleFocusRegion.bind(this, region)} key={region.ID} />) /* todo: style */}
+          </SimpleMap>
+        </div>
       </div>
     )
   }

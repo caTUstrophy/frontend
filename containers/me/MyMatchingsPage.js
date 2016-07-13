@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 
 import autobind from 'autobind-decorator'
+import { get as _get } from 'lodash';
 
 import { MATCHINGS_REQUEST, loadUserMatchings } from '../../actions/matchings'
 import MatchingList from '../../components/MatchingList'
@@ -12,15 +13,18 @@ import loadingHelper from '../helpers/loadingHelper'
 
 import Center from '../layout/Center';
 import Loading from '../misc/Loading';
+import {MatchingPropType} from "../../schemas/MatchingSchema";
 
 function loadData(props) {
   props.loadUserMatchings();
 }
 
 class MyMatchingsPage extends Component {
-  constructor(props) {
-    super(props);
-  }
+  static propTypes = {
+    matchings: PropTypes.arrayOf(MatchingPropType),
+    loading: PropTypes.bool.isRequired,
+    loadUserMatchings: PropTypes.func.isRequired
+  };
 
   componentWillMount() {
     loadData(this.props)
@@ -46,22 +50,13 @@ class MyMatchingsPage extends Component {
   }
 }
 
-MyMatchingsPage.propTypes = {
-  matchings: PropTypes.arrayOf(PropTypes.shape({
-    ID: PropTypes.string.isRequired
-  })).isRequired,
-  loadUserMatchings: PropTypes.func.isRequired
-};
-
 function mapStateToProps(state, ownProps) {
-  const { myMatchings } = state.mappings;
-  const matchings = myMatchings && myMatchings.map(
-    matchingId => extractMatching(state, matchingId)
-  );
+  const myMatchingIds = _get(state.mappings, 'my.matchings');
+  const matchings = myMatchingIds && myMatchingIds.map(matchingId => extractMatching(state, matchingId));
   
   return {
     matchings,
-    loading: loadingHelper(state, matchings, MATCHINGS_REQUEST)
+    loading : loadingHelper(state, matchings, MATCHINGS_REQUEST)
   }
 }
 

@@ -14,7 +14,6 @@ import SimpleMap from '../components/maps/SimpleMap';
 import Loading from '../containers/misc/Loading'
 
 import Matching from './Matching'
-
 import { loadUserProfile } from './../actions/profile'
 
 function loadData(props) {
@@ -59,7 +58,7 @@ export default class MatchingCard extends Component {
                   onClick={function () {}} />
         </SimpleMap>
         <CardText>
-          <Matching offer={offer} request={request} profile={profile} />
+          <Matching matching={matching} offer={offer} request={request} profile={profile} />
         </CardText>
       </Card>
     )

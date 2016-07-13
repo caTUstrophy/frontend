@@ -77,11 +77,11 @@ function fetchRequestsBase(endpoint, reference) {
 }
 
 function fetchRequests(regionId) {
-  return fetchRequestsBase(`regions/${ regionId }/requests`)
+  return fetchRequestsBase(`regions/${ regionId }/requests`, { key : `regions.${ regionId }.requests` });
 }
 
 function fetchUserRequests() {
-  return fetchRequestsBase(`me/requests`, {key:"myRequests"})
+  return fetchRequestsBase(`me/requests`, { key: "my.requests" });
 }
 
 // Fetches all requests (unless it is cached)

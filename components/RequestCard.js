@@ -11,7 +11,7 @@ import Request from '../components/Request';
 export default class RequestCard extends Component {
   static propTypes = {
     request: RequestPropType.isRequired,
-    editable: PropTypes.boolean,
+    editable: PropTypes.bool,
     navigateToEditRequest: PropTypes.func.isRequired
   };
 
