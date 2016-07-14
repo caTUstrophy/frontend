@@ -9,7 +9,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 
 import { loadUserOffers, OFFERS_REQUEST } from '../../actions/offers'
-import OfferList from '../../components/OfferList'
+import OfferList from '../../components/posts/OfferList'
 import {OfferPropType} from "../../schemas/OfferSchema";
 
 import loadingHelper from '../helpers/loadingHelper'

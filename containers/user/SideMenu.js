@@ -74,7 +74,7 @@ class SideMenu extends Component {
       .concat(menuEntries.map(this.renderMenuItem));
     
     let adminEntries = null;
-    if (isUserAdminAnywhere(profile)) {
+    if (isUserAdminAnywhere(profile) || isUserSuperAdmin(profile)) {
       adminEntries = [<Subheader key="admin-subheader" style={{marginTop: 30}}>ADMIN</Subheader>]
         .concat(adminMenuEntries.map(this.renderMenuItem));
     }

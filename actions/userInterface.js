@@ -46,7 +46,7 @@ export function managePageSelectItem(itemType, item) {
 
 export const MANAGE_PAGE_UNSELECT_ITEM = 'MANAGE_PAGE_UNSELECT_ITEM';
 
-export function managePageUnselectItem(itemType, item) {
+export function managePageUnselectItem() {
   return {
     type: MANAGE_PAGE_UNSELECT_ITEM
   }

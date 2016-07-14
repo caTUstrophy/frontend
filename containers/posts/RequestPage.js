@@ -5,28 +5,30 @@ import { browserHistory } from 'react-router'
 import autobind from 'autobind-decorator'
 
 import { loadRequest, REQUEST_REQUEST } from '../../actions'
-import RequestCard from '../../components/RequestCard'
+import RequestCard from '../../components/posts/RequestCard'
 
 import Center from '../layout/Center';
 import Loading from '../misc/Loading';
-
-function loadData(props) {
-  const { loadRequest, ID } = props;
-  loadRequest(ID);
-}
+import {RequestPropType} from "../../schemas/RequestSchema";
 
 class RequestPage extends Component {
-  constructor(props) {
-    super(props);
+  static propTypes = {
+    ID: PropTypes.string.isRequired,
+    request: RequestPropType,
+    loadRequest: PropTypes.func.isRequired
+  };
+  
+  loadData() {
+    this.props.loadRequest(this.props.ID, ['User']);
   }
 
   componentWillMount() {
-    loadData(this.props)
+    this.loadData(this.props)
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.ID !== this.props.ID) {
-      loadData(nextProps)
+      this.loadData(nextProps)
     }
   }
   
@@ -49,11 +51,6 @@ class RequestPage extends Component {
   }
 }
 
-RequestPage.propTypes = {
-  ID: PropTypes.string.isRequired,
-  request: PropTypes.object,
-  loadRequest: PropTypes.func.isRequired
-};
 
 function mapStateToProps(state, ownProps) {
   const { ID } = ownProps.params;

@@ -9,6 +9,7 @@ import Loading from '../../misc/Loading'
 
 import { RegionPropType } from '../../../schemas/RegionSchema'
 import extractRegionWithAdmins from "../../helpers/extractRegionWithAdmins";
+import loadingHelper from "../../helpers/loadingHelper";
 
 class RegionPage extends Component {
   constructor(props) {
@@ -64,10 +65,12 @@ RegionPage.propTypes = {
 function mapStateToProps(state, ownProps) {
   const { ID } = ownProps.params;
 
+  const region = extractRegionWithAdmins(state, ID);
+  
   return {
     ID,
-    region: extractRegionWithAdmins(state, ID),
-    loading : state.loading.includes(REGION_REQUEST)
+    region,
+    loading: loadingHelper(state, region, REGION_REQUEST)
   }
 }
 
