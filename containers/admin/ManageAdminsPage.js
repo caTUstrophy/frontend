@@ -41,7 +41,7 @@ class ManageAdminsPage extends Component {
     this.props.promoteAdmin(adminEmail, regionId)
       .then(result => {
         if (result.type == PROMOTE_ADMIN_SUCCESS) {
-          browserHistory.push(`/admin/regions/${regionId}`)
+          this.props.loadRegionAdmins(this.props.regionId);
         }
       }); // todo: handle error cases
   }
@@ -53,7 +53,7 @@ class ManageAdminsPage extends Component {
 
   render() {
     const { region, loading } = this.props;
-    if (loading) { // todo: check if last action was "request" and note "success"
+    if (loading) {
       return <Loading resourceName="region" />;
     }
 
