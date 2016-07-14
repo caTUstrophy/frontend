@@ -15,13 +15,13 @@ export default function (state = [], action) {
     // on request add action.type to loading
     if (typeSuffix == SUFFIX_REQUEST) {
         if (!state.includes(action.type)) {
-            return state.concat([ action.type ]);
+            return state.concat([ typePrefix ]);
         }
     }
 
     // on responses remove action.type from loading
     if ((typeSuffix == SUFFIX_SUCCESS || typeSuffix == SUFFIX_FAIL) && action.response) {
-        return state.splice(state.indexOf(typePrefix + "_" + SUFFIX_REQUEST), 1);
+        return state.splice(state.indexOf(typePrefix), 1);
     }
 
     return state;
