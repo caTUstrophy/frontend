@@ -7,6 +7,7 @@ import extractNotification from './helpers/extractNotification'
 
 import Center from './layout/Center'
 import Loading from './misc/Loading'
+import loadingHelper from "./helpers/loadingHelper";
 
 class NotificationPage extends Component {
   constructor(props) {
@@ -41,11 +42,12 @@ NotificationPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { ID } = ownProps.params;
+  const notification = extractNotification(state, ID);
 
   return {
     ID,
-    notification: extractNotification(state, ID),
-    loading: state.loading.includes(NOTIFICATION_REQUEST)
+    notification,
+    loading: loadingHelper(state, notification, NOTIFICATION_REQUEST)
   }
 }
 

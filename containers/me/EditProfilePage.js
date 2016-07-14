@@ -12,6 +12,7 @@ import UserForm from '../../forms/UserForm';
 
 import Center from '../layout/Center';
 import Loading from '../misc/Loading'
+import loadingHelper from "../helpers/loadingHelper";
 
 const cleanUserBeforeSubmit = cleanBeforeSubmit(UserFields)
 
@@ -55,9 +56,11 @@ class EditProfilePage extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
+  const profile = state.profile;
+  
   return {
-    profile: state.profile,
-    loading: state.loading.includes(PROFILE_REQUEST)
+    profile,
+    loading: loadingHelper(state, profile, PROFILE_REQUEST)
   }
 }
 

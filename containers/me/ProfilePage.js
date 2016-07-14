@@ -8,6 +8,7 @@ import { PROFILE_REQUEST, loadUserProfile } from '../../actions/profile'
 import Profile from '../../components/Profile'
 import Center from '../layout/Center';
 import Loading from '../misc/Loading';
+import loadingHelper from "../helpers/loadingHelper";
 
 class ProfilePage extends Component {
   constructor(props) {
@@ -43,9 +44,11 @@ ProfilePage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
+  const profile = state.profile;
+  
   return {
-    profile: state.profile,
-    loading: state.loading.includes(PROFILE_REQUEST)
+    profile,
+    loading: loadingHelper(state, profile, PROFILE_REQUEST)
   }
 }
 

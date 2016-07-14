@@ -9,6 +9,7 @@ import UserList from '../../components/UserList'
 
 import Center from '../layout/Center';
 import Loading from '../misc/Loading';
+import loadingHelper from "../helpers/loadingHelper";
 
 function loadData(props) {
   props.loadUsers();
@@ -49,11 +50,11 @@ UsersPage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  const { entities: { users } } = state;
+  const users = Object.values(state.entities.users);
 
   return {
-    users: Object.values(users),
-    loading: state.loading.includes(USERS_REQUEST)
+    users,
+    loading: loadingHelper(state, users, USERS_REQUEST)
   }
 }
 

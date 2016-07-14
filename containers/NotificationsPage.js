@@ -4,12 +4,13 @@ import { browserHistory } from 'react-router'
 
 import autobind from 'autobind-decorator'
 
-import { loadNotifications } from '.././actions/notifications'
+import { loadNotifications, NOTIFICATIONS_REQUEST } from '.././actions/notifications'
 import NotificationList from '.././components/NotificationList'
 import extractNotification from './helpers/extractNotification'
 
 import Center from './layout/Center'
 import Loading from './misc/Loading'
+import loadingHelper from "./helpers/loadingHelper";
 
 class NotificationsPage extends Component {
   constructor(props) {
@@ -42,11 +43,11 @@ NotificationsPage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  const { entities: { notifications } } = state;
+  const notifications = Object.keys(state.entities.notifications).map(extractNotification.bind(this, state));
 
   return {
-    notifications: Object.keys(notifications).map(extractNotification.bind(this, state)),
-    loading: state.loading.includes(NotificationList)
+    notifications,
+    loading: loadingHelper(state, notifications, NOTIFICATIONS_REQUEST)
   }
 }
 

@@ -9,6 +9,7 @@ import OfferCard from '../../components/posts/OfferCard'
 
 import Center from '../layout/Center';
 import Loading from '../misc/Loading';
+import loadingHelper from "../helpers/loadingHelper";
 
 class OfferPage extends Component {
   constructor(props) {
@@ -57,13 +58,12 @@ OfferPage.propTypes = {
 function mapStateToProps(state, ownProps) {
   const { ID } = ownProps.params;
   const offer = state.entities.offers[ID];
-  const loading = state.loading;
   
   return {
     ID,
     isOwnOffer: offer && offer.User && offer.User.Mail == state.login.token.iss,
     offer,
-    loading: loading.includes(OFFER_REQUEST)
+    loading: loadingHelper(state, offer, OFFER_REQUEST)
   }
 }
 

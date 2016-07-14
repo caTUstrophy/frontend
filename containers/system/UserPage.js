@@ -9,6 +9,7 @@ import PermissionsForm from '../../forms/PermissionsForm'
 
 import Center from '../layout/Center';
 import Loading from '../misc/Loading';
+import loadingHelper from "../helpers/loadingHelper";
 
 function loadData(props) {
   const { ID } = props;
@@ -64,12 +65,12 @@ UserPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { ID } = ownProps.params;
-  const users = state.entities.users;
+  const user = state.entities.users[ID];
 
   return {
     ID,
-    user: users[ID],
-    loading: state.loading.includes(USER_REQUEST)
+    user,
+    loading: loadingHelper(state, user, USER_REQUEST)
   }
 }
 
