@@ -69,7 +69,7 @@ export class App extends Component {
       if (this.props.login) {
         this.props.loadNotifications()
       }
-    }, 5000);
+    }, 15000);
   }
   
   componentWillReceiveProps(nextProps) {
