@@ -14,6 +14,7 @@ import { RegionPropType, UserPropType } from "../../schemas"
 import extractRegionWithAdmins from "../helpers/extractRegionWithAdmins";
 
 import Center from '../layout/Center'
+import loadingHelper from "../helpers/loadingHelper";
 
 
 class ManageAdminsPage extends Component {
@@ -70,11 +71,12 @@ class ManageAdminsPage extends Component {
 
 function mapStateToProps(state, ownProps) {
   let regionId = ownProps.params.ID;
+  const region = extractRegionWithAdmins(state, regionId);
 
   return {
-    region: extractRegionWithAdmins(state, regionId),
+    region,
     regionId,
-    loading: state.loading.includes(REGION_REQUEST)
+    loading: loadingHelper(state, region, REGION_REQUEST)
   }
 }
 

@@ -3,12 +3,13 @@ import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 
 import autobind from 'autobind-decorator'
+import { get as _get } from 'lodash';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 
 import { loadUserRequests, REQUESTS_REQUEST } from '../../actions/requests'
-import RequestList from '../../components/RequestList'
+import RequestList from '../../components/posts/RequestList'
 
 import loadingHelper from '../helpers/loadingHelper'
 
@@ -16,9 +17,10 @@ import Center from '../layout/Center'
 import Loading from '../misc/Loading'
 
 class MyRequestsPage extends Component {
-  constructor(props) {
-    super(props);
-  }
+  static propTypes = {
+    requests: PropTypes.array,
+    loadUserRequests: PropTypes.func.isRequired
+  };
 
   componentWillMount() {
     this.props.loadUserRequests()
@@ -50,11 +52,6 @@ class MyRequestsPage extends Component {
     )
   }
 }
-
-MyRequestsPage.propTypes = {
-  requests: PropTypes.array.isRequired,
-  loadUserRequests: PropTypes.func.isRequired
-};
 
 function mapStateToProps(state, ownProps) {
   const myRequestIds = _get(state.mappings, 'my.requests');

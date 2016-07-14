@@ -3,10 +3,10 @@ import React, { Component, PropTypes } from 'react'
 import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
 
-import { RequestPropType } from '../schemas/RequestSchema'
-import SimpleMap from '../components/maps/SimpleMap';
+import { RequestPropType } from '../../schemas/RequestSchema'
+import SimpleMap from '../maps/SimpleMap';
 
-import Request from '../components/Request';
+import Request from './Request';
 
 export default class RequestCard extends Component {
   static propTypes = {

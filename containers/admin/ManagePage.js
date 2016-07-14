@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { browserHistory } from 'react-router'
 
 import Paper from 'material-ui/Paper';
 import IconButton from 'material-ui/IconButton/IconButton';
@@ -10,15 +9,15 @@ import Leaflet from 'leaflet';
 import { Marker, Polygon } from 'react-leaflet';
 
 import SimpleMap from '../../components/maps/SimpleMap';
-import Offer from '../../components/Offer';
-import OfferList from '../../components/OfferList';
-import Request from '../../components/Request';
-import RequestList from '../../components/RequestList';
+import Offer from '../../components/posts/Offer';
+import OfferList from '../../components/posts/OfferList';
+import Request from '../../components/posts/Request';
+import RequestList from '../../components/posts/RequestList';
 import { calculateCenter } from '../../helpers/Location';
 import Loading from '../misc/Loading'
 
-import { loadRequests, loadOffers, loadRegion, managePageSelectItem, managePageUnselectItem,
-  createMatching, notificationMessage } from '../../actions'
+import { loadRequests, loadOffers, loadRegion, managePageSelectItem, managePageUnselectItem, createMatching,
+  loadRecommendationsForOffer, loadRecommendationsForRequest, notificationMessage } from '../../actions'
 import {RegionPropType} from "../../schemas/RegionSchema";
 import {RequestPropType} from "../../schemas/RequestSchema";
 import {OfferPropType} from "../../schemas/OfferSchema";
@@ -36,6 +35,8 @@ export class ManagePage extends Component {
     loadRequests: PropTypes.func.isRequired,
     loadOffers: PropTypes.func.isRequired,
     loadRegion: PropTypes.func.isRequired,
+    loadRecommendationsForOffer: PropTypes.func.isRequired,
+    loadRecommendationsForRequest: PropTypes.func.isRequired,
 
     createMatching: PropTypes.func.isRequired,
     notificationMessage: PropTypes.func.isRequired,
@@ -62,6 +63,10 @@ export class ManagePage extends Component {
     this.props.loadOffers(this.props.regionId);
     this.props.loadRegion(this.props.regionId);
   }
+  
+  componentWillUnmount() {
+    this.props.unselectItem();
+  }
 
   handleMarkerClick(markerType, item) {
     if (this.props.selectedItem) {
@@ -72,11 +77,16 @@ export class ManagePage extends Component {
       }
     } else {
       this.props.selectItem(markerType, item);
+      
+      if (markerType == OFFER_TYPE) {
+        this.props.loadRecommendationsForOffer(this.props.regionId, item.ID);
+      } else {
+        this.props.loadRecommendationsForRequest(this.props.regionId, item.ID);
+      }
     }
   }
 
   createMatching(offer, request) {
-    console.log("Match", this.props.regionId, request.ID, offer.ID);
     this.props.createMatching(this.props.regionId, request.ID, offer.ID)
       .then(result => {
         if (result.type == 'CREATE_MATCHING_SUCCESS') {
@@ -94,23 +104,27 @@ export class ManagePage extends Component {
             key={offer.ID} />;
   }
 
-  generateOfferMarkers() {
-    return this.props.offers.map(this.offerMarker.bind(this));
+  generateOfferMarkers(offers = this.props.offers) {
+    return offers.map(this.offerMarker.bind(this));
   }
 
   requestMarker(request) {
+    let markerProps = {};
+    if (request.Matched) {
+      markerProps.icon = ManagePage.grayMarker;
+    }
     return <Marker position={request.Location}
-                   icon={request.Matched ? ManagePage.grayMarker : undefined}
                    onClick={this.handleMarkerClick.bind(this, REQUEST_TYPE, request)}
-                   key={request.ID} />;
+                   key={request.ID}
+                   {...markerProps} />;
   }
 
-  generateRequestMarkers() {
-    return this.props.requests.map(this.requestMarker.bind(this));
+  generateRequestMarkers(requests = this.props.requests) {
+    return requests.map(this.requestMarker.bind(this));
   }
 
   render() {
-    const { requests, offers, region } = this.props;
+    const { recommendations, region } = this.props;
   
     if (!region) {
       return <Loading resourceName="region" />;
@@ -124,6 +138,7 @@ export class ManagePage extends Component {
     let possibleMatchesPanel = null;
     let markers = [];
     let mapWidth = 100;
+    
     if (hasSelectedItem) {
       mapWidth -= 20;
       const selectedItem = this.props.selectedItem.item;
@@ -137,21 +152,24 @@ export class ManagePage extends Component {
       if (selectedItemType == OFFER_TYPE) {
         sidePanel = <Offer offer={selectedItem}/>;
         sidePanelTitle = "Offer";
-        if (hasPossibleMatchings) {
-          markers = this.generateRequestMarkers();
-          possibleMatchesPanel =
-            <RequestList requests={requests} onTouchTapItem={(request) => this.createMatching(selectedItem, request)}/>;
-        }
         markers.push(this.offerMarker(selectedItem));
       } else if (selectedItemType == REQUEST_TYPE) {
         sidePanel = <Request request={selectedItem}/>;
         sidePanelTitle = "Request";
-        if (hasPossibleMatchings) {
-          markers = this.generateOfferMarkers();
-          possibleMatchesPanel =
-            <OfferList offers={offers} onTouchTapItem={(offer) => this.createMatching(offer, selectedItem)}/>;
-        }
         markers.push(this.requestMarker(selectedItem));
+      }
+      
+      if (hasPossibleMatchings) {
+        if (selectedItemType == OFFER_TYPE) {
+          markers = markers.concat(this.generateRequestMarkers(recommendations));
+          possibleMatchesPanel =
+            <RequestList requests={recommendations}
+                         onTouchTapItem={(request) => this.createMatching(selectedItem, request)}/>;
+        } else if (selectedItemType == REQUEST_TYPE) {
+          markers = markers.concat(this.generateOfferMarkers(recommendations));
+          possibleMatchesPanel =
+            <OfferList offers={recommendations} onTouchTapItem={(offer) => this.createMatching(offer, selectedItem)}/>;
+        }
       }
     } else {
       markers = this.generateOfferMarkers().concat(this.generateRequestMarkers());
@@ -192,11 +210,12 @@ export class ManagePage extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { entities: { requests, offers, regions } } = state;
+  const { entities: { requests, offers, regions }, recommendations } = state;
   
   return {
-    requests: Object.values(requests),
-    offers: Object.values(offers),
+    requests: Object.values(requests), // todo: possibly filter these down to region
+    offers: Object.values(offers), // todo: possibly filter these down to region
+    recommendations,
     region: regions[ownProps.params.ID],
     regionId: ownProps.params.ID,
     selectedItem: state.userInterface.managePage.selectedItem
@@ -207,6 +226,8 @@ export default connect(mapStateToProps, {
   loadRequests,
   loadOffers,
   loadRegion,
+  loadRecommendationsForOffer,
+  loadRecommendationsForRequest,
 
   createMatching,
   notificationMessage,

@@ -18,8 +18,8 @@ import Card from 'material-ui/Card';
 import failOnConsoleError from '../../helpers/failOnConsoleError';
 
 import { AdminHomePage } from '../../../containers/admin/AdminHomePage';
-import RequestList from '../../../components/RequestList'
-import OfferList from '../../../components/OfferList'
+import RequestList from '../../../components/posts/RequestList'
+import OfferList from '../../../components/posts/OfferList'
 
 function setup(customProps) {
   let props = {
