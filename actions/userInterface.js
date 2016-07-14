@@ -7,7 +7,16 @@ export function resetErrorMessage() {
   }
 }
 
+export const NOTIFICATION_MESSAGE = 'NOTIFICATION_MESSAGE';
 export const RESET_NOTIFICATION_MESSAGE = 'RESET_NOTIFICATION_MESSAGE';
+
+// Resets the currently visible notification message.
+export function notificationMessage(message) {
+  return {
+    type: NOTIFICATION_MESSAGE,
+    notification: message
+  }
+}
 
 // Resets the currently visible notification message.
 export function resetNotificationMessage() {

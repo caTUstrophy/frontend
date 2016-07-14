@@ -17,7 +17,8 @@ import RequestList from '../../components/RequestList';
 import { calculateCenter } from '../../helpers/Location';
 import Loading from '../misc/Loading'
 
-import { loadRequests, loadOffers, loadRegion, managePageSelectItem, managePageUnselectItem, createMatching } from '../../actions'
+import { loadRequests, loadOffers, loadRegion, managePageSelectItem, managePageUnselectItem,
+  createMatching, notificationMessage } from '../../actions'
 import {RegionPropType} from "../../schemas/RegionSchema";
 import {RequestPropType} from "../../schemas/RequestSchema";
 import {OfferPropType} from "../../schemas/OfferSchema";
@@ -37,6 +38,7 @@ export class ManagePage extends Component {
     loadRegion: PropTypes.func.isRequired,
 
     createMatching: PropTypes.func.isRequired,
+    notificationMessage: PropTypes.func.isRequired,
 
     selectItem: PropTypes.func.isRequired,
     unselectItem: PropTypes.func.isRequired
@@ -77,12 +79,9 @@ export class ManagePage extends Component {
     console.log("Match", this.props.regionId, request.ID, offer.ID);
     this.props.createMatching(this.props.regionId, request.ID, offer.ID)
       .then(result => {
-        console.log(result);
         if (result.type == 'CREATE_MATCHING_SUCCESS') {
-          alert("Matching created. Success!");
+          this.props.notificationMessage("Matching created.");
           this.props.unselectItem();
-        } else {
-          alert("Matching failed. :(");
         }
       })
       .catch(result => alert("Matching failed. :("));
@@ -210,6 +209,7 @@ export default connect(mapStateToProps, {
   loadRegion,
 
   createMatching,
+  notificationMessage,
 
   selectItem: managePageSelectItem,
   unselectItem: managePageUnselectItem

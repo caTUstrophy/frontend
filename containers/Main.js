@@ -6,27 +6,33 @@ import autobind from 'autobind-decorator';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import Snackbar from 'material-ui/Snackbar';
 
-import { resetErrorMessage } from '../actions/userInterface'
+import { resetErrorMessage, resetNotificationMessage } from '../actions/userInterface'
 
 export class Main extends Component {
   static propTypes = {
     // Injected by React Redux
     errorMessage: PropTypes.string,
     resetErrorMessage: PropTypes.func.isRequired,
+    resetNotificationMessage: PropTypes.func.isRequired,
 
     // Injected by React Router
     children: PropTypes.node,
     // Injected by muiThemeable
     muiTheme: PropTypes.object.isRequired
   };
-
+  
   @autobind
-  handleRequestClose() {
+  handleRequestCloseErrorMessage() {
     this.props.resetErrorMessage();
+  }
+  
+  @autobind
+  handleRequestCloseNotificationMessage() {
+    this.props.resetNotificationMessage();
   }
 
   render() {
-    const { errorMessage, children } = this.props;
+    const { errorMessage, notificationMessage, children } = this.props;
 
     // todo: render notifications too. another snackbar but different color? same, but change color as needed?
 
@@ -34,8 +40,13 @@ export class Main extends Component {
       <Snackbar
         open={!!errorMessage}
         message={errorMessage || " " }
-        onRequestClose={this.handleRequestClose}
+        onRequestClose={this.handleRequestCloseErrorMessage}
         bodyStyle={{backgroundColor: 'darkred', fontFamily: this.props.muiTheme.fontFamily}} />
+      <Snackbar
+        open={!!notificationMessage}
+        message={notificationMessage || " " }
+        onRequestClose={this.handleRequestCloseNotificationMessage}
+        bodyStyle={{backgroundColor: 'darkgreen', fontFamily: this.props.muiTheme.fontFamily}} />
       {children}
     </main>;
   }
@@ -43,10 +54,12 @@ export class Main extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    errorMessage: state.userInterface.errorMessage
+    errorMessage: state.userInterface.errorMessage,
+    notificationMessage: state.userInterface.notificationMessage
   }
 }
  
 export default muiThemeable()(connect(mapStateToProps, {
-  resetErrorMessage
+  resetErrorMessage,
+  resetNotificationMessage
 })(Main))
