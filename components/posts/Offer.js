@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
 import BasePost from './BasePost'
-import { OfferPropType } from '../schemas/OfferSchema'
+import { OfferPropType } from '../../schemas/OfferSchema'
 
 export default class Offer extends Component {
   static propTypes = {

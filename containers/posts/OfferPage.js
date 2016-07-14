@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router'
 import autobind from 'autobind-decorator';
 
 import { loadOffer, OFFER_REQUEST } from '../../actions'
-import OfferCard from '../../components/OfferCard'
+import OfferCard from '../../components/posts/OfferCard'
 
 import Center from '../layout/Center';
 import Loading from '../misc/Loading';
@@ -16,7 +16,7 @@ class OfferPage extends Component {
   }
 
   loadData() {
-    this.props.loadOffer(this.props.ID);
+    this.props.loadOffer(this.props.ID, ['User']);
   }
   
   componentWillMount() {

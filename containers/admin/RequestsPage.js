@@ -6,7 +6,7 @@ import autobind from 'autobind-decorator'
 import { get as _get } from 'lodash';
 
 import { REQUESTS_REQUEST, loadRequests } from '../../actions/requests'
-import RequestList from '../../components/RequestList'
+import RequestList from '../../components/posts/RequestList'
 
 import Loading from '../misc/Loading'
 import {REGION_REQUEST} from "../../actions/regions";

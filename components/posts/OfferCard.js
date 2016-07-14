@@ -3,8 +3,8 @@ import React, { Component, PropTypes } from 'react'
 import { Card, CardHeader, CardText, CardActions } from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
 
-import { OfferPropType } from '../schemas/OfferSchema'
-import SimpleMap from '../components/maps/SimpleMap';
+import { OfferPropType } from '../../schemas/OfferSchema'
+import SimpleMap from '../maps/SimpleMap';
 
 import Offer from './Offer'
 

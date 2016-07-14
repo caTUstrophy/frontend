@@ -6,7 +6,7 @@ import autobind from 'autobind-decorator'
 import { get as _get } from 'lodash';
 
 import { OFFERS_REQUEST, loadOffers, loadRegion, REGION_REQUEST } from '../../actions'
-import OfferList from '../../components/OfferList'
+import OfferList from '../../components/posts/OfferList'
 
 import Loading from '../misc/Loading'
 import Center from '../layout/Center'

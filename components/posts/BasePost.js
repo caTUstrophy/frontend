@@ -10,8 +10,8 @@ import MatchedIcon from 'material-ui/svg-icons/social/people'
 
 import Chip from 'material-ui/Chip';
 
-import { PostBasePropType } from '../schemas/PostBaseSchema'
-import { toString } from "../helpers/Location"
+import { PostBasePropType } from '../../schemas/PostBaseSchema'
+import { toString } from "../../helpers/Location"
 
 export default class BasePost extends Component {
   static propTypes = {
